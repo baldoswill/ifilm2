@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %} Movie Details {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="row movie-details-wrapper">
+                <div class="image-wrapper col-md-5 col-sm-12">
+                    <img src="/uploads/{{movie.picture}}" alt="{{movie.title}}">
+                </div>
+                <div class="movie-details col-md-7 col-sm-12">
+                    <div class="movie-title mb-5">
+                        <h2>{{movie.title}}</h2>
+                        <h5 class="category-text font-weight-bold">{{movie.category}}</h5>
+                    </div>
+                    <div class="other-info">
+                        <strong class="font-weight-bold">Release Year:</strong>
+                        <span>{{movie.releaseYear}}</span>
+                    </div>
+                    <div class="other-info">
+                        <strong class="font-weight-bold">Major Cast:</strong>
+                        <span>{{movie.cast}}</span>
+                    </div>
+                    <div class="other-info">
+                        <strong class="mb-2 font-weight-bold">Story Line:</strong>
+                        <p>{{movie.storyLine}}</p>
+                    </div>
+                    <a href="/" class="link-to-home"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

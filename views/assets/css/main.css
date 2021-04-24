@@ -1,0 +1,41 @@
+
+.search-wrapper{
+    margin: auto;
+    text-align: center;
+}
+
+.search-wrapper form{
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+}
+
+.search-wrapper form input{
+    display: block !important;
+    width: 100% !important;
+}
+
+#main-content .rating-wrapper{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+
+#main-content .rating-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    font-weight: 800;
+}
+
+#main-content .rating-wrapper .rating{
+    padding: .8rem;
+    background-color: #2C2C2C;
+    color: #FCF11D;
+    font-weight: bolder !important;
+}
+
+#main-content .movie-list{
+    padding: 0 !important;
+    background-color: red;
+}

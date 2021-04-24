@@ -1,0 +1,166 @@
+.search-wrapper {
+    margin    : auto;
+    text-align: center;
+}
+
+.search-wrapper form {
+    display              : grid;
+    grid-template-columns: 5fr 1fr;
+}
+
+.search-wrapper form input {
+    display: block !important;
+    width  : 100% !important;
+}
+
+#main-content {
+    margin-top   : 3rem;
+    margin-bottom: 3rem;
+}
+
+#main-content .rating-wrapper {
+    display        : flex;
+    justify-content: space-between;
+    margin-top     : 1.5rem;
+}
+
+#main-content .rating-wrapper {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    margin-top     : 1.5rem;
+    font-weight    : 800;
+}
+
+#main-content form input,
+#main-content form textarea,
+#main-content form select {
+    background-color: #F2F2F4 !important;
+}
+
+#main-content .rating-wrapper .rating {
+    padding         : .8rem;
+    background-color: #2C2C2C;
+    color           : #FCF11D;
+    font-weight     : bolder !important;
+}
+
+#main-content .movie-list {
+    padding: 0 !important;
+}
+
+#main-content .movie-list .card {
+    margin-bottom: 2rem !important;
+    border       : none !important;
+}
+
+#main-content .error-input {
+    color     : #FF0D18;
+    font-size : .7rem;
+    margin-top: .8rem;
+}
+
+#main-content .movie-list .movie-image {
+    width     : 100%;
+    object-fit: cover;
+    height    : 300px;
+    /* only if you want fixed height */
+}
+
+#main-content .movie-list .image-wrapper {
+    width  : 100% !important;
+    display: block;
+}
+
+#main-content .movie-list .movie-link {
+    text-decoration: none !important;
+    color          : #fff !important;
+    transition     : .3s all ease-in-out;
+}
+
+#main-content .movie-list .movie-link:hover {
+    color: #9F9F9F !important;
+}
+
+/*#main-content .movie-details-wrapper{*/
+/*    display: grid;*/
+/*    grid-template-columns: 1fr 2fr;*/
+/*    gap: 2rem;*/
+/*}*/
+
+#main-content .movie-details-wrapper .image-wrapper img {
+    width       : 100%;
+    object-fit  : fill;
+    height      : 600px;
+    /* only if you want fixed height */
+    display     : block;
+    margin-left : auto;
+    margin-right: auto;
+
+
+}
+
+#main-content .movie-details-wrapper .movie-details-label:last-child {
+    margin-bottom: 1rem;
+}
+
+#main-content .movie-details-wrapper .category-text {
+    color      : #444444 !important;
+    font-weight: bold !important;
+}
+
+#main-content .movie-details-wrapper .other-info {
+    margin-bottom: 1rem;
+}
+
+#main-content .movie-details {
+    position: relative;
+}
+
+#main-content .movie-details .link-to-home {
+    position       : absolute;
+    bottom         : 80px;
+    right          : 50px;
+    font-size      : .8rem;
+    font-weight    : 900;
+    text-decoration: none;
+    color          : #666666;
+}
+
+#main-content .movie-details .link-to-home:hover {
+    opacity: .7;
+}
+
+
+
+#main-content .user-notice {
+    margin-left    : auto;
+    margin-right   : auto;
+    text-align     : center;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    height         : 60vh;
+}
+
+
+
+@media(max-width: 768px) {
+    #main-content .movie-list .movie-image {
+        height: 600px;
+        /* only if you want fixed height */
+    }
+
+    #main-content .movie-details .movie-title {
+        margin-top: 2rem;
+    }
+
+    #main-content .movie-details .link-to-home {
+        bottom       : -140px;
+        margin-bottom: 2rem;
+    }
+
+    #main-content .movie-details {
+        margin-bottom: 7rem;
+    }
+}

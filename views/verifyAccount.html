@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %} Verify Account {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            {% if isVerified %}
+            <div class="user-notice">
+                <h3>Your account has been successfully verified</h4>
+            </div>
+            {% else %}
+            <h3 class="mb-4">SEND VERIFICATION TO EMAIL</h3>
+            <form>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input class="form-control mr-sm-2 w-100" type="email" id="email" name="email">
+                    <div class='email error-input'></div>
+                </div>
+                <button class="btn btn-primary mt-4 float-right" type="button" id='btn-verify-account'>SUBMIT</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
