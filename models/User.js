@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 var validator = require('validator');
 const crypto = require('crypto');
 
-// TODO: Guard Routes by authentication and authorization
+
 const userSchema = mongoose.Schema({
     firstName: {
         type: String,        
@@ -68,6 +68,9 @@ const userSchema = mongoose.Schema({
         type: String,
         enum: ['admin','user'],
         default: 'user'
+    },
+    passwordChangedAt: {
+        type: Date
     }
 },{
     toObject: {
@@ -76,6 +79,13 @@ const userSchema = mongoose.Schema({
     toJSON: {
         virtuals: true
     }
+});
+
+userSchema.pre('save', async function(next){
+    if(!this.isModified('password') || this.isNew) return next();    
+    this.passwordChangedAt = Date.now() + 1000;
+
+    next();
 });
 
 userSchema.pre('save', async function(next){
@@ -118,6 +128,16 @@ userSchema.statics.createToken = async function(randomString){
 userSchema.statics.createExpirationDateTime = async function(){
     return Date.now() + 10 * 60 * 1000;    
     
+}
+
+userSchema.methods.recentlyChangedPassword = function(jwtTimeStamp){
+    if(this.passwordChangedAt){                
+        let changedPasswortTimeStamp = parseInt(this.passwordChangedAt / 1000, 10);
+        console.log(jwtTimeStamp, changedPasswortTimeStamp);
+        return jwtTimeStamp < changedPasswortTimeStamp;
+    }
+
+    return false;
 }
 
 const userModel = mongoose.model('User', userSchema);

@@ -28,10 +28,6 @@ $(document).ready(function () {
                 url: 'http://localhost:8000/api/v1/categories',
                 method: 'POST',
                 data: formData,
-                beforeSend: function () {
-                    // $('#msg').html('Loading......');
-                    console.log('loading')
-                },
                 success: function (data) {
                     $('form :input').val('');
                     $('.error-input').text('');

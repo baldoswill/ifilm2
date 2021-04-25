@@ -10,6 +10,9 @@ router.route('/sendVerificationEmail').post(UserController.sendVerificationEmail
 router.route('/forgotPassword').post(UserController.postForgotPassword);
 router.route('/resetPassword/:passwordToken').patch(UserController.postResetPassword);
 
+router.use(UserController.protect);
+router.route('/postUpdatePassword/').patch(UserController.postUpdatePassword);
+
 
 module.exports = router;
 

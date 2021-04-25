@@ -5,9 +5,6 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const emailer = require('../utils/emailer');
 
-// TODO: Roles
-// TODO: Recently Password Changed at
-
 // --------------------------------- Create Jwt Token -------------------------------------//
 
 const signToken = (id) => {
@@ -32,6 +29,8 @@ const createSendToken = (user, statusCode, resp) => {
 
     user.password = undefined;
     user.confirmPassword = undefined;
+    user.passwordResetToken = undefined;
+    user.passwordResetTokenExpirationTimeStamp = undefined;
 
     return resp.status(statusCode).json({
         status: 'success',
@@ -41,33 +40,40 @@ const createSendToken = (user, statusCode, resp) => {
 
 }
 
-exports.protect = catchAsync(async (req, resp, next) => {
+exports.protect = catchAsync(async (req, resp, next) => {    
+    let token;    
 
-    let token;
-
-    if(!req.headers.authorization){
+    if(!req.headers.authorization && !req.cookies['userToken']){
         return next(new AppError('Please login to your account', 401));
     }
 
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
-        token = req.headers.authorization.split(' ')[1];
-    }
-
+        token = req.headers.authorization.split(' ')[2] || req.headers.authorization.split(' ')[1];          
+    }else if(req.cookies['userToken'] && req.cookies['userToken'] !== ''){
+        token = req.cookies['userToken'];
+    }    
+        
     if(!token || token === ''){
         return next(new AppError('Please login to your account', 401));
     }
 
-     const promisifiedTokenVerify = promisify(token.verify);
-
-     const decodedToken = await promisifiedTokenVerify(token, process.env.JWT_SECRET.trim());
-
+     const decodedToken = await promisify(jwt.verify)(token, process.env.JWT_SECRET.trim());
      const user = await User.findById(decodedToken.id);
 
      if(!user){
         return next(new AppError('Please login to your account', 401));
     }
 
+    if(user.recentlyChangedPassword(decodedToken.iat)){
+        resp.cookie('userToken', '', {
+            maxAge: 0
+        });
+        return next(new AppError('Recently changed password. Please login back to your account', 401));
+    }
+
+    
     req.user = user;
+    resp.locals = user;
 
     next();
 
@@ -312,7 +318,6 @@ exports.postResetPassword = catchAsync(async (req, resp, next) => {
 
 
 exports.postUpdatePassword = catchAsync(async (req, resp, next) => {
-
     if(!req.user){
         return next(new AppError('You must be login to do this action', 401));
     }
@@ -341,11 +346,14 @@ exports.postUpdatePassword = catchAsync(async (req, resp, next) => {
     createSendToken(user, 200, resp);
 });
 
-// --------------------------------- RESET PASSWORD -------------------------------------//
+// --------------------------------- Roles -------------------------------------//
 
-exports.restrictTo = (...roles) => {
+exports.restrictTo = (...roles) => {    
     return (req, resp,next) => {
-        if(!roles.includes(req.user.role)){
+        if(!req.user){
+            return next(new AppError('You are not allowed to do this action', 403));
+        }
+        else if(!roles.includes(req.user.roles)){
             return next(new AppError('You are not allowed to do this action', 403));
         }
 
