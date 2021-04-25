@@ -1,17 +1,21 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-
+var validator = require('validator');
 const crypto = require('crypto');
 
-// TODO: Schema Validation
-// TODO: Roles
 // TODO: Guard Routes by authentication and authorization
 const userSchema = mongoose.Schema({
     firstName: {
-        type: String
+        type: String,        
+        required: [true, 'First Name is required'],
+        maxLength: [30, 'First Name should not be greater than 30 characters`;'],
+        minLength: [3, 'First Name should not be lesser than 3 characters`;'],
     },
     lastName: {
-        type: String,
+        type: String,        
+        required: [true, 'Last Name is required'],
+        maxLength: [30, 'Last Name should not be greater than 30 characters`;'],
+        minLength: [3, 'Last Name should not be lesser than 3 characters`;'],
     },
     dob: {
         type: Date
@@ -22,13 +26,30 @@ const userSchema = mongoose.Schema({
         required: [true, 'Email is required'],
         maxLength: [30, 'Email should not be greater than 30 characters`;'],
         minLength: [3, 'Email should not be lesser than 3 characters`;'],
+        validate:[validator.isEmail, 'Email must be in the correct format. (eg: test@gmail.com)']
     },
+    // TODO: regex for password
     password: {
         type: String,
-        select: false
+        select: false,        
+        required: [true, 'Password is required'],
+        maxLength: [50, 'Password should not be greater than 50 characters`;'],
+        minLength: [8, 'Password should not be lesser than 8 characters`;'],
+        match: [/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$/, 'Password must have at least one number. Uppercase and special characters are optional']
+
     },
     confirmPassword:{
-        type: String
+        type: String,
+        required: [true, 'Confirm Password is required'],
+        maxLength: [50, 'Confirm Password should not be greater than 50 characters`;'],
+        minLength: [8, 'Confirm Password should not be lesser than 8 characters`;'],
+        validate: {            
+            validator: function(value){
+                return value === this.password;
+            },
+            message: 'Password and Confirm Password should match.'
+        },
+        match: [/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$/, 'Confirm Password must have at least one number. Uppercase and special characters are optional']
     },
     validationToken: {
         type: String
@@ -45,7 +66,8 @@ const userSchema = mongoose.Schema({
     },
     roles: {
         type: String,
-        enum: ['admin','user']
+        enum: ['admin','user'],
+        default: 'user'
     }
 },{
     toObject: {
@@ -59,6 +81,7 @@ const userSchema = mongoose.Schema({
 userSchema.pre('save', async function(next){
     if(!this.isModified('password')) return next();
     this.password = await bcrypt.hash(this.password, 12);
+    this.confirmPassword = undefined;
 
     next();
 });
@@ -69,12 +92,27 @@ userSchema.methods.comparePassword = async function(userInputtedPassword, dbPass
 }
 
 userSchema.statics.createRandomString = async function(){
-    return crypto.randomBytes(32).toString('hex');
+
+    return new Promise((resolve, reject) => {
+        try{
+            resolve(crypto.randomBytes(32).toString('hex'));
+        }catch(error){
+            reject(error);
+        }
+    });
+
+    
 }
 
-userSchema.statics.createToken = async function(randomString){
-    return crypto.createHash('sha256').update(randomString).digest('hex').trim();
-    
+userSchema.statics.createToken = async function(randomString){    
+    return new Promise((resolve, reject) => {
+        try{
+            resolve(crypto.createHash('sha256').update(randomString).digest('hex').trim());
+        }catch(error){
+            reject(error);
+        }
+    });
+
 }
 
 userSchema.statics.createExpirationDateTime = async function(){

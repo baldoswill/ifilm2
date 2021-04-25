@@ -1,5 +1,5 @@
 const AppError = require('./AppError');
-const { response } = require('express');
+
 
 const handleCastErrorDB = err => {
     const message = `Invalid ${err.path}: ${err.value}.`;
@@ -73,10 +73,6 @@ module.exports = (err, req, res, next) => {
     err.status = err.status || 'error';
 
     let trimmedENV = process.env.NODE_ENV.trim();
-
-    console.log(err.name)
-    console.log(err.code)
-    console.log(err);
 
     if (trimmedENV === 'development') {
         sendErrorDev(err, req, res);

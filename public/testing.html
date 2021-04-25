@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <form>
+            <div class="form-group">
+                <label class="sr-only" for="email">Email:</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="remember"> Remember me</label>
+            </div>
+            <button type="button" class="btn btn-default btn-test">Submit</button>
+        </form>
+    </div>
+    <button type="button" class="btn btn-default btn-remove">Remove</button>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery-loading.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.btn-test').click(function(e){
+                e.preventDefault();
+                $('form').loading({
+                    message:'Saving data'
+                });
+            })
+
+            $('.btn-remove').click(function(e){
+                e.preventDefault();
+                $('form').loading('stop');
+            })
+        })
+    </script>
+</body>
+
+</html>

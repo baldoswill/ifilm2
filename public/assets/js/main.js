@@ -138,11 +138,18 @@ $(document).ready(function () {
                 cache: false,
                 processData: false,
                 beforeSend: function () {
-                    // $('#msg').html('Loading......');
-                    console.log('loading')
+                    $('form').loading({
+                        message:'Saving data. Please wait...'
+                    });
+                    $('#btn-add-movie').attr("disabled", true);
+
                 },
                 success: function (data) {
                     $('form :input').val('');
+
+                    $('form').loading('stop');
+                    $('#btn-add-movie').attr("disabled", false);
+
                     Object.keys(validation.errors).forEach(key => {
                         let errorInput = $(`.${key}.error-input`);
                         errorInput.text('');
@@ -155,6 +162,9 @@ $(document).ready(function () {
                     })
                 },
                 error: function (xhr, status, error) {
+                    $('form').loading('stop');
+                    $('#btn-add-movie').attr("disabled", false);
+
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -185,6 +195,8 @@ $(document).ready(function () {
 
     $('#btn-signup').click(e => {
         e.preventDefault();
+
+        let btnSignUp = $(this);
 
         let firstName = $('#firstName').val();
         let lastName = $('#lastName').val();
@@ -245,13 +257,17 @@ $(document).ready(function () {
                 method: 'POST',
                 data: { firstName, lastName, dob, password, confirmPassword, email },
                 beforeSend: function () {
-                    $('.main-content form').loading('toggle');
+                    $('form').loading({
+                        message:'Saving data. Please wait...'
+                    });
+                    $('#btn-signup').attr("disabled", true);
+
                 },
-                success: function (data) {
-                    
+                success: function (data) {                    
                     $('form :input').val('');
                     $('.error-input').text('');
-                    $('.main-content form').loading('toggle');
+                    $('form').loading('stop');
+                    $('#btn-signup').attr("disabled", false);
 
                     Object.keys(validation.errors).forEach(key => {
                         let errorInput = $(`.${key}.error-input`);
@@ -266,7 +282,8 @@ $(document).ready(function () {
                     })
                 },
                 error: function (xhr, status, error) {
-                    $('.main-content form').loading('toggle');
+                    $('form').loading('stop');
+                    $('#btn-signup').attr("disabled", false);
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -332,7 +349,7 @@ $(document).ready(function () {
                 method: 'POST',
                 data: { password, email },
                 success: function (data) {
-                    console.log(data);
+                    
                     $('form :input').val('');
                     Object.keys(validation.errors).forEach(key => {
                         let errorInput = $(`.${key}.error-input`);
@@ -345,7 +362,8 @@ $(document).ready(function () {
                         timer: 2500
                     })
                 },
-                error: function (xhr, status, error) {                    
+                error: function (xhr, status, error) {              
+                          
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -402,9 +420,19 @@ $(document).ready(function () {
                 url: 'http://localhost:8000/api/v1/users/sendVerificationEmail',
                 method: 'POST',
                 data: { email },
+                beforeSend: function () {
+                    $('form').loading({
+                        message:'Sending verification link to your email. Please wait...'
+                    });
+                    $('#btn-verify-account').attr("disabled", true);
+
+                },
                 success: function (data) {
-                    console.log(data);
+                    
+                    $('form').loading('stop');
+                    $('#btn-verify-account').attr("disabled", false);
                     $('form :input').val('');
+
                     Object.keys(validation.errors).forEach(key => {
                         let errorInput = $(`.${key}.error-input`);
                         errorInput.text('');
@@ -417,6 +445,8 @@ $(document).ready(function () {
                     })
                 },
                 error: function (xhr, status, error) {
+                    $('form').loading('stop');
+                    $('#btn-verify-account').attr("disabled", false);
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -468,9 +498,18 @@ $(document).ready(function () {
                 url: 'http://localhost:8000/api/v1/users/forgotPassword',
                 method: 'POST',
                 data: {email },
+                beforeSend: function () {
+                    $('form').loading({
+                        message:'Sending password reset link to your email. Please wait...'
+                    });
+                    $('#btn-forgot-password').attr("disabled", true);
+                },
                 success: function (data) {
                     
                     $('form :input').val('');
+                    $('form').loading('stop');
+                    $('#btn-forgot-password').attr("disabled", false);
+
                     Object.keys(validation.errors).forEach(key => {
                         let errorInput = $(`.${key}.error-input`);
                         errorInput.text('');
@@ -483,6 +522,8 @@ $(document).ready(function () {
                     })
                 },
                 error: function (xhr, status, error) {
+                    $('form').loading('stop');
+                    $('#btn-forgot-password').attr("disabled", false);
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -543,8 +584,17 @@ $(document).ready(function () {
             $.ajax({
                 url: `http://localhost:8000/api/v1/users/resetPassword/${passwordToken}`,
                 method: 'PATCH',
-                data: {password, confirmPassword},
+                data: {password, confirmPassword},                
+                beforeSend: function () {
+                    $('form').loading({
+                        message:'Updating your password. Please wait...'
+                    });
+                    $('#btn-reset-password').attr("disabled", true);
+                },
                 success: function (data) {
+
+                    $('form').loading('stop');
+                    $('#btn-reset-password').attr("disabled", false);
                     
                     $('form :input').val('');
                     Object.keys(validation.errors).forEach(key => {
@@ -559,6 +609,8 @@ $(document).ready(function () {
                     });                    
                 },
                 error: function (xhr, status, error) {
+                    $('form').loading('stop');
+                    $('#btn-reset-password').attr("disabled", false);
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',

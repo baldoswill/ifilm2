@@ -1,12 +1,77 @@
+const {promisify} = require('util')
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const emailer = require('../utils/emailer');
 
-// TODO: jwt and Cookie
 // TODO: Roles
 // TODO: Recently Password Changed at
 
+// --------------------------------- Create Jwt Token -------------------------------------//
+
+const signToken = (id) => {
+    return jwt.sign({id}, process.env.JWT_SECRET.trim(), {expiresIn: process.env.JWT_EXPIRATION.trim()});
+}
+
+// --------------------------------- Create Status Codes -------------------------------------//
+
+const createSendToken = (user, statusCode, resp) => {
+    const token = signToken(user.id);    
+
+    const cookieOption = {
+        maxAge: process.env.JWT_EXPIRATION.trim() * 24 * 60 * 1000,
+        httpOnly: true
+    }
+
+    if(process.env.NODE_ENV.trim() === 'production'){
+        cookieOption.secure = true;
+    }
+
+    resp.cookie('userToken', token, cookieOption);
+
+    user.password = undefined;
+    user.confirmPassword = undefined;
+
+    return resp.status(statusCode).json({
+        status: 'success',
+        token,
+        data: user
+    });
+
+}
+
+exports.protect = catchAsync(async (req, resp, next) => {
+
+    let token;
+
+    if(!req.headers.authorization){
+        return next(new AppError('Please login to your account', 401));
+    }
+
+    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+        token = req.headers.authorization.split(' ')[1];
+    }
+
+    if(!token || token === ''){
+        return next(new AppError('Please login to your account', 401));
+    }
+
+     const promisifiedTokenVerify = promisify(token.verify);
+
+     const decodedToken = await promisifiedTokenVerify(token, process.env.JWT_SECRET.trim());
+
+     const user = await User.findById(decodedToken.id);
+
+     if(!user){
+        return next(new AppError('Please login to your account', 401));
+    }
+
+    req.user = user;
+
+    next();
+
+});
 
 // --------------------------------- SIGN UP -------------------------------------//
 
@@ -15,11 +80,11 @@ exports.getSignUp = catchAsync(async (req, resp, next) => {
 });
 
 exports.postSignUp = catchAsync(async (req, resp, next) => {
-    const { firstName, lastName, email, dob, password } = req.body;
+    const { firstName, lastName, email, dob, password, confirmPassword } = req.body;
 
     const randomString = await User.createRandomString();
     const validationToken = await User.createToken(randomString);
-    const user = await User.create({ firstName, lastName, email, dob, password, validationToken });
+    const user = await User.create({ firstName, lastName, email, dob, password, validationToken, confirmPassword });
 
     if (!user) {
         return next(new AppError('Registration unsuccessful. Please try again'));
@@ -28,20 +93,19 @@ exports.postSignUp = catchAsync(async (req, resp, next) => {
     try {
         const verifyUrl = `${req.protocol}://${req.get('host')}/auth/verifyAccount/${randomString}`
         let message = `Please verify your account by clicking on this link ${verifyUrl}`;
+    
         await emailer({
-            subject: 'Validate Your Account',
+            subject: 'Verify Your Email',
             message,
             email
         });
+
     } catch (error) {
         // TODO: Logger is needed
         console.log(error);
     }
 
-    return resp.status(201).json({
-        status: 'success',
-        message: 'Successfully Created'
-    });
+    createSendToken(user, 201, resp);
 });
 
 
@@ -79,11 +143,7 @@ exports.postLogin = catchAsync(async (req, resp, next) => {
         return next(new AppError('Your account still haven\'t been verified. Please check your email for the verification link', 401));
     }
 
-    return resp.status(200).json({
-        status: 'success',
-        message: 'Successfully Logged In',
-        data: user
-    })
+    createSendToken(user, 200, resp);
 });
 
 
@@ -91,16 +151,19 @@ exports.postLogin = catchAsync(async (req, resp, next) => {
 
 exports.verifyAccount = catchAsync(async (req, resp, next) => {
     let verifyToken = req.params.verifyToken;
+    
     let validationToken = await User.createToken(verifyToken);
+    
 
     const user = await User.findOne({ validationToken });
+    
     let isVerified = false;
 
     if (user) {        
         if(!user.isActive){
             user.isActive = true;
             user.validationToken = undefined;
-            await user.save({ validateBeforeSave: true });            
+            await user.save({ validateBeforeSave: false });            
         }
         isVerified = true;    
     }
@@ -244,13 +307,51 @@ exports.postResetPassword = catchAsync(async (req, resp, next) => {
 
     user.save({validateBeforeSave: false});
 
-    return resp.status(200).json({
-        status: 'success',
-        message: 'You successfully updated your password'
-    });
+    createSendToken(user, 200, resp);
 });
 
 
+exports.postUpdatePassword = catchAsync(async (req, resp, next) => {
+
+    if(!req.user){
+        return next(new AppError('You must be login to do this action', 401));
+    }
+
+    const user = await User.findById(req.user.id);
+
+    if(!user){
+        return next(new AppError('You must be login to do this action', 401));
+    }
+
+    if(typeof(req.body.password) === "undefined" || req.body.password === ''){
+        return next(new AppError('Password is required', 400));
+    }
+
+    if(typeof(req.body.confirmPassword) === "undefined" || req.body.confirmPassword === ''){
+        return next(new AppError('Confirm Password is required', 400));
+    }
+
+    const {password, confirmPassword} = req.body;
+    
+    user.password = password;
+    user.confirmPassword = confirmPassword;
+
+    await user.save();
+
+    createSendToken(user, 200, resp);
+});
+
+// --------------------------------- RESET PASSWORD -------------------------------------//
+
+exports.restrictTo = (...roles) => {
+    return (req, resp,next) => {
+        if(!roles.includes(req.user.role)){
+            return next(new AppError('You are not allowed to do this action', 403));
+        }
+
+        next();
+    }
+};
 
 
 
