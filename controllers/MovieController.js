@@ -25,14 +25,21 @@ exports.getCreateMovie = catchAsync(async(req, resp,next) => {
 });
 
 exports.getAllMovies = catchAsync(async(req, resp,next) => {
+
+    req.query.limit = 5;
+    const currentPage = req.query.page * 1 || 1
+
     const features = new ApiFeatures(Movie.find(), req.query)
         .filter()
         .sort()
         .limitFields()
         .paginate()
 
+    const totalRows = await Movie.count();    
+    const numberOfPages = Math.ceil(totalRows / req.query.limit);
     const movies = await features.query
-    return resp.render('main.html', {movies});
+
+    return resp.render('main.html', {movies, numberOfPages, currentPage});
 });
 
 exports.getMovieBySlug = catchAsync(async(req, resp,next) => {

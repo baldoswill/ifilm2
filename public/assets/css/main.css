@@ -131,7 +131,12 @@
     opacity: .7;
 }
 
-
+#main-content .main-paging{
+    display: flex;
+    text-align: center;
+    margin: auto;
+    justify-content: center;
+}
 
 #main-content .user-notice {
     margin-left    : auto;
