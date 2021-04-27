@@ -12,6 +12,7 @@ router.route('/resetPassword/:passwordToken').patch(UserController.postResetPass
 
 router.use(UserController.protect);
 router.route('/postUpdatePassword/').patch(UserController.postUpdatePassword);
+router.route('/').get(UserController.getAllUsers);
 
 
 module.exports = router;

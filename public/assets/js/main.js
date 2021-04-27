@@ -573,10 +573,10 @@ $(document).ready(function () {
 
         let validation = checkValidity(values)
         let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
-        const passwordToken = location.pathname.split('/')[3];
+        
 
         if (!haveError) {
-
+            const passwordToken = location.pathname.split('/')[3];
             $.ajax({
                 url: `http://localhost:8000/api/v1/users/resetPassword/${passwordToken}`,
                 method: 'PATCH',
@@ -607,6 +607,84 @@ $(document).ready(function () {
                 error: function (xhr, status, error) {
                     $('form').loading('stop');
                     $('#btn-reset-password').attr("disabled", false);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: xhr.responseJSON.message,                       
+                      });
+                }
+            });
+
+        } else {
+            Object.keys(validation.errors).forEach(key => {
+                let errorInput = $(`.${key}.error-input`);
+                errorInput.text(validation.errors[key]);
+            });
+
+            setTimeout(function () {
+                Object.keys(validation.errors).forEach(key => {
+                    let errorInput = $(`.${key}.error-input`);
+                    errorInput.text('');
+                });
+            }, 7000)
+        }
+    });
+
+    // ------------------------------ Add Comment----------------------------------------------
+
+    $('#btn-add-comment').click(e => {
+        e.preventDefault();
+
+        let email = $('#comment').val();
+
+        let values = {
+            email: {
+                val: email,
+                valueName: 'Email',
+                max: 50,
+                min: 4,
+                pattern: {customPattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 
+                customMessage: ''}
+            },
+        }
+
+
+        let validation = checkValidity(values)
+        let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
+      
+        if (true) {
+            const movieId = location.pathname.split('/')[3];
+
+            $.ajax({
+                url: `http://localhost:8000/api/v1/movies/${movieId}/comments`,
+                method: 'POST',
+                data: {email },
+                beforeSend: function () {
+                    $('form').loading({
+                        message:'Sending password reset link to your email. Please wait...'
+                    });
+                    $('#btn-forgot-password').attr("disabled", true);
+                },
+                success: function (data) {
+                    
+                    $('form :input').val('');
+                    $('form').loading('stop');
+                    $('#btn-forgot-password').attr("disabled", false);
+
+                    Object.keys(validation.errors).forEach(key => {
+                        let errorInput = $(`.${key}.error-input`);
+                        errorInput.text('');
+                    });
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Successfully sent the reset password link to your email.',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                },
+                error: function (xhr, status, error) {
+                    $('form').loading('stop');
+                    $('#btn-forgot-password').attr("disabled", false);
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',

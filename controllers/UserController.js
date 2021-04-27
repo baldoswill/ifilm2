@@ -362,6 +362,20 @@ exports.restrictTo = (...roles) => {
 };
 
 
+// ---------------------------- Get all Users ----------------------
+ 
 
+exports.getAllUsers = catchAsync(async (req, resp, next) => {
+    if(!req.user){
+        return next(new AppError('You must be login to do this action', 401));
+    }
+
+    const users = await User.find();
+
+    resp.status(200).json({
+        status: 'success',
+        data: users
+    })
+});
 
 
