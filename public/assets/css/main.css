@@ -82,11 +82,12 @@
     color: #9F9F9F !important;
 }
 
-/*#main-content .movie-details-wrapper{*/
-/*    display: grid;*/
-/*    grid-template-columns: 1fr 2fr;*/
-/*    gap: 2rem;*/
-/*}*/
+#main-content .movie-details-wrapper{
+    margin-bottom: 4rem;
+}
+
+
+
 
 #main-content .movie-details-wrapper .image-wrapper img {
     width       : 100%;
@@ -148,6 +149,50 @@
     justify-content: center;
     height         : 60vh;
 }
+
+
+/* Show Comments */
+ 
+#main-content .comments-wrapper{
+    margin-top: 5rem !important;
+}
+
+#main-content .comments{
+    margin-top: 3rem !important;
+}
+
+#main-content .comments .card{
+    margin-bottom: 1.5rem !important;
+}
+
+#main-content .comments .card .card-title{
+    font-weight: 1 !important;
+
+}
+
+#main-content .comments .card .card-text{
+    margin-top: 1rem;
+
+}
+
+#main-content .comments .card .card-title-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#main-content .comments .card .card-title-wrapper .comment-rating i.rated{
+    color: #FCF11D;
+}
+
+#main-content .comments .card .card-title-wrapper .comment-rating span{
+    font-size: .8rem !important;
+}
+
+#main-content .comments .card .comment-name{
+    font-weight: 800 !important;
+}
+
 
 
 

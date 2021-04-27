@@ -44,6 +44,11 @@ exports.getAllMovies = catchAsync(async(req, resp,next) => {
 
 exports.getMovieBySlug = catchAsync(async(req, resp,next) => {
     const movie = await Movie.findOne({titleSlug: req.params.titleSlug});
+
+    if(!movie){
+        return resp.render('error.html');
+    }
+
     return resp.render('movie-details.html', {movie});
 });
 
