@@ -157,6 +157,11 @@
     margin-top: 5rem !important;
 }
 
+#main-content .comments-wrapper .comments-title{
+    float:left !important;
+    text-align: left !important;
+}
+
 #main-content .comments{
     margin-top: 3rem !important;
 }

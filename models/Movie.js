@@ -40,16 +40,18 @@ const movieSchema = mongoose.Schema({
     titleSlug: {
         type: String
     }
-}, {
-    toObject: {
-        virtuals: true
-    },
-    toJSON: {
-        virtuals: true
-    }
 });
 
-// movieSchema.plugin(uniqueValidator, { message: 'Error, expected {PATH} to be unique.' });
+
+movieSchema.set('toObject', { virtuals: true });
+movieSchema.set('toJSON', { virtuals: true });
+
+movieSchema.virtual('comments', {
+    ref: 'Comment',
+    foreignField: 'movie',
+    localField: '_id',
+    options: { sort: { createdDate: -1 }}
+});
 
 movieSchema.pre('save', function(next){
     this.titleSlug = slug(this.title);

@@ -1,4 +1,5 @@
 const path = require('path');
+const nunjucksDate = require("nunjucks-date");
 
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -24,8 +25,11 @@ const errorHandler = require('./utils/errorHandler');
 app.use(helmet());
 
 if (process.env.NODE_ENV.trim() === 'development') {
-    app.use(morgan('dev'));
+    // app.use(morgan('dev'));
 }
+
+nunjucksDate.setDefaultFormat("MMMM Do YYYY, h:mm:ss a");
+var env = new nunjucks.Environment();
 
 app.use(cors());
 app.use(cookieParser());

@@ -635,41 +635,65 @@ $(document).ready(function () {
     $('#btn-add-comment').click(e => {
         e.preventDefault();
 
-        let email = $('#comment').val();
+        let commentBody = $('#commentBody').val();
+        let movieId = $('#movieId').val();
+        console.log('MOvie');
+        console.log(movieId);
+       
 
         let values = {
-            email: {
-                val: email,
-                valueName: 'Email',
-                max: 50,
-                min: 4,
-                pattern: {customPattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 
-                customMessage: ''}
+            commentBody: {
+                val: commentBody,
+                valueName: 'Comment Body',
+                max: 1000,
+                min: 5,
+                pattern: {customPattern: '^[a-zA-Z0-9\\s.,!:\'-]*$', customMessage: ''}
             },
         }
 
-
         let validation = checkValidity(values)
-        let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
+        let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');        
       
-        if (true) {
-            const movieId = location.pathname.split('/')[3];
-
+        if (!haveError) {
+           
             $.ajax({
                 url: `http://localhost:8000/api/v1/movies/${movieId}/comments`,
                 method: 'POST',
-                data: {email },
+                data: {commentBody},
                 beforeSend: function () {
                     $('form').loading({
-                        message:'Sending password reset link to your email. Please wait...'
+                        message:'Saving your comment. Please wait...'
                     });
-                    $('#btn-forgot-password').attr("disabled", true);
+                    $('#btn-add-comment').attr("disabled", true);
                 },
-                success: function (data) {
+                success: function (response) {
                     
                     $('form :input').val('');
                     $('form').loading('stop');
-                    $('#btn-forgot-password').attr("disabled", false);
+                    $('#btn-add-comment').attr("disabled", false);
+                    
+                    let data = response.data;
+
+                    let card = `<div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">    
+                            <div class="card-title-wrapper">
+                                <h6 class="card-title">
+                                    <span class="comment-name">${data.userFirstName} </span>
+                                    <span>says: </span>
+                                </h6>
+                                <div class="comment-rating">
+                                    <i class="fas fa-star rated"></i> 
+                                    <span>8</span><span class="text-muted">/10</span>
+                                </div>
+                            </div>                                                                            
+                            <h6 class="card-subtitle mb-2 text-muted">${data.createdDate}</h6>
+                            <p class="card-text">${data.commentBody}</p>                                       
+                        </div>
+                    </div>
+                </div> `
+
+                    $('#main-content .comments .row').prepend(card);
 
                     Object.keys(validation.errors).forEach(key => {
                         let errorInput = $(`.${key}.error-input`);
@@ -677,14 +701,14 @@ $(document).ready(function () {
                     });
                     Swal.fire({
                         icon: 'success',
-                        title: 'Successfully sent the reset password link to your email.',
+                        title: 'Successfully added your comment',
                         showConfirmButton: false,
                         timer: 2500
                     })
                 },
                 error: function (xhr, status, error) {
                     $('form').loading('stop');
-                    $('#btn-forgot-password').attr("disabled", false);
+                    $('#btn-add-comment').attr("disabled", false);
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',

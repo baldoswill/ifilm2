@@ -132,8 +132,7 @@ userSchema.statics.createExpirationDateTime = async function(){
 
 userSchema.methods.recentlyChangedPassword = function(jwtTimeStamp){
     if(this.passwordChangedAt){                
-        let changedPasswortTimeStamp = parseInt(this.passwordChangedAt / 1000, 10);
-        console.log(jwtTimeStamp, changedPasswortTimeStamp);
+        let changedPasswortTimeStamp = parseInt(this.passwordChangedAt / 1000, 10);        
         return jwtTimeStamp < changedPasswortTimeStamp;
     }
 

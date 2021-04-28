@@ -23,8 +23,7 @@ const checkCharacterLength = (fieldName, value, valueName, max, min) => {
 }
 
 const checkIfPatternIsCorrect = (fieldName, value, valueName, pattern) => {
-    if(typeof(pattern) !== 'undefined'){
-        console.log(pattern);
+    if(typeof(pattern) !== 'undefined'){        
         let regEx = RegExp(pattern.customPattern, 'gi');
         if (!regEx.test(value) && errors[fieldName] === '') {
             errors[fieldName] = pattern.customMessage !== '' ? pattern.customMessage : `${valueName} is not in the correct format`;
