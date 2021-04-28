@@ -4,6 +4,43 @@ import { checkValidity } from "./inputValidation.js";
 // ------------------------------ ADD CATEGORY ----------------------------------------------
 
 $(document).ready(function () {
+
+
+
+    $(function () {        
+         
+        $(".comment-box").slice(2).hide()        
+
+        $("#btn-load-more").on('click', function (e) {
+            e.preventDefault();
+            
+            $(".comment-box:hidden").slice(0, 2).slideDown();
+            if ($(".comment-box:hidden").length == 0) {
+                $("#btn-load-more").fadeOut('slow');
+            }
+            $('html,body').animate({
+                scrollTop: $(this).offset().top
+            }, 1500);
+        });
+
+    });
+
+    $('#top').click(function () {
+        $('body,html').animate({
+            scrollTop: 0
+        }, 600);
+        return false;
+    });
+
+    $(window).scroll(function () {
+        if ($(".comment-box:hidden").length == 0) {
+            $('.totop a').fadeIn();
+        } else {
+            $('.totop a').fadeOut();
+        }
+    });
+ 
+
     $("#btn-add-category").click(function (e) {
 
         let name = $('#name').val();
@@ -16,7 +53,7 @@ $(document).ready(function () {
         values['name'].valueName = 'Category Name';
         values['name'].max = 30;
         values['name'].min = 3;
-        values['name'].pattern = {customPattern: '^[a-zA-Z0-9 ]+$', customMessage: ''};
+        values['name'].pattern = { customPattern: '^[a-zA-Z0-9 ]+$', customMessage: '' };
 
         let validation = checkValidity(values)
 
@@ -38,13 +75,13 @@ $(document).ready(function () {
                         showConfirmButton: false,
                         timer: 2500
                     });
-                },                
+                },
                 error: function (xhr, status, error) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: xhr.responseJSON.message,                       
-                      });
+                        text: xhr.responseJSON.message,
+                    });
                 }
             });
         } else {
@@ -58,7 +95,7 @@ $(document).ready(function () {
     });
 
 
-// ------------------------------------- ADD MOVIE -------------------------------------------
+    // ------------------------------------- ADD MOVIE -------------------------------------------
 
     $("#btn-add-movie").click(function (e) {
         let title = $('#title').val();
@@ -74,35 +111,35 @@ $(document).ready(function () {
                 valueName: 'Title',
                 max: 30,
                 min: 3,
-                pattern:  {customPattern: '^[a-zA-Z0-9\\s.,\'-]*$', customMessage: ''}
+                pattern: { customPattern: '^[a-zA-Z0-9\\s.,\'-]*$', customMessage: '' }
             },
             'releaseYear': {
                 val: releaseYear === '' || typeof (releaseYear) === 'undefined' ? '' : parseInt(releaseYear, 10),
                 valueName: 'Release Year',
                 max: 2030,
                 min: 1910,
-                pattern:  {customPattern: '^[0-9]+$', customMessage: ''}
+                pattern: { customPattern: '^[0-9]+$', customMessage: '' }
             },
             'cast': {
                 val: cast,
                 valueName: 'Major Cast',
                 max: 500,
                 min: 5,
-                pattern:  {customPattern: '^[a-zA-Z0-9\\s.,\'-]*$', customMessage: ''}
+                pattern: { customPattern: '^[a-zA-Z0-9\\s.,\'-]*$', customMessage: '' }
             },
             'storyLine': {
                 val: storyLine,
                 valueName: 'Story Line',
                 max: 1000,
                 min: 3,
-                pattern:  {customPattern: '^[a-zA-Z0-9\\s.,!:?\'-]*$', customMessage: ''}
+                pattern: { customPattern: '^[a-zA-Z0-9\\s.,!:?\'-]*$', customMessage: '' }
             },
             'category': {
                 val: category,
                 valueName: 'Category',
                 max: 30,
                 min: 3,
-                pattern:  {customPattern: '^[a-zA-Z0-9\\s.,\'-]*$', customMessage: ''}
+                pattern: { customPattern: '^[a-zA-Z0-9\\s.,\'-]*$', customMessage: '' }
             },
             'picture': {
                 val: picture,
@@ -112,7 +149,7 @@ $(document).ready(function () {
 
 
         let validation = checkValidity(values)
-        
+
 
         let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
 
@@ -135,7 +172,7 @@ $(document).ready(function () {
                 processData: false,
                 beforeSend: function () {
                     $('form').loading({
-                        message:'Saving data. Please wait...'
+                        message: 'Saving data. Please wait...'
                     });
                     $('#btn-add-movie').attr("disabled", true);
 
@@ -164,8 +201,8 @@ $(document).ready(function () {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: xhr.responseJSON.message,                       
-                      });
+                        text: xhr.responseJSON.message,
+                    });
                 }
             });
         } else {
@@ -187,7 +224,7 @@ $(document).ready(function () {
     });
 
 
-// ------------------------------------- SIGN UP -------------------------------------------
+    // ------------------------------------- SIGN UP -------------------------------------------
 
     $('#btn-signup').click(e => {
         e.preventDefault();
@@ -199,7 +236,7 @@ $(document).ready(function () {
         let dob = $('#dob').val();
         let password = $('#password').val();
         let confirmPassword = $('#confirmPassword').val();
-        let email = $('#email').val();        
+        let email = $('#email').val();
 
         let values = {
             firstName: {
@@ -207,43 +244,49 @@ $(document).ready(function () {
                 valueName: 'First Name',
                 max: 30,
                 min: 3,
-                pattern:  {customPattern: '^[a-zA-Z ]*$', customMessage: ''}
+                pattern: { customPattern: '^[a-zA-Z ]*$', customMessage: '' }
             },
             lastName: {
                 val: lastName,
                 valueName: 'Last Name',
                 max: 30,
                 min: 3,
-                pattern:   {customPattern: '^[a-zA-Z ]*$', customMessage: ''}
+                pattern: { customPattern: '^[a-zA-Z ]*$', customMessage: '' }
             },
             password: {
                 val: password,
                 valueName: 'Password',
                 max: 50,
                 min: 8,
-                pattern:   {customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
-                , customMessage: 'Password must have at least one number. Uppercase and special characters are optional'}
+                pattern: {
+                    customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
+                    , customMessage: 'Password must have at least one number. Uppercase and special characters are optional'
+                }
             },
             confirmPassword: {
                 val: confirmPassword,
                 valueName: 'Confirm Password',
                 max: 50,
                 min: 8,
-                pattern:  {customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
-                , customMessage: 'Confirm Password must have at least one number. Uppercase and special characters are optional'}
+                pattern: {
+                    customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
+                    , customMessage: 'Confirm Password must have at least one number. Uppercase and special characters are optional'
+                }
             },
             email: {
                 val: email,
                 valueName: 'Email',
                 max: 50,
                 min: 4,
-                pattern: {customPattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 
-                customMessage: ''}
+                pattern: {
+                    customPattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    customMessage: ''
+                }
             },
 
         }
-        
-        let validation = checkValidity(values)        
+
+        let validation = checkValidity(values)
         let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
 
         if (!haveError) {
@@ -254,12 +297,12 @@ $(document).ready(function () {
                 data: { firstName, lastName, dob, password, confirmPassword, email },
                 beforeSend: function () {
                     $('form').loading({
-                        message:'Saving data. Please wait...'
+                        message: 'Saving data. Please wait...'
                     });
                     $('#btn-signup').attr("disabled", true);
 
                 },
-                success: function (data) {                    
+                success: function (data) {
                     $('form :input').val('');
                     $('.error-input').text('');
                     $('form').loading('stop');
@@ -269,7 +312,7 @@ $(document).ready(function () {
                         let errorInput = $(`.${key}.error-input`);
                         errorInput.text('');
                     });
-                    
+
                     Swal.fire({
                         icon: 'success',
                         title: 'Successfully Signed Up',
@@ -283,9 +326,9 @@ $(document).ready(function () {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: xhr.responseJSON.message,                       
-                      });
-                      
+                        text: xhr.responseJSON.message,
+                    });
+
                 }
             });
 
@@ -306,13 +349,13 @@ $(document).ready(function () {
     });
 
 
-// ------------------------------------- LOGIN  -------------------------------------------
+    // ------------------------------------- LOGIN  -------------------------------------------
 
     $('#btn-login').click(e => {
         e.preventDefault();
 
         let email = $('#email').val();
-        let password = $('#password').val();        
+        let password = $('#password').val();
 
         let values = {
             password: {
@@ -320,16 +363,20 @@ $(document).ready(function () {
                 valueName: 'Password',
                 max: 50,
                 min: 8,
-                pattern: {customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
-                , customMessage: 'Password must have at least one number. Uppercase and special characters are optional'}
+                pattern: {
+                    customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
+                    , customMessage: 'Password must have at least one number. Uppercase and special characters are optional'
+                }
             },
             email: {
                 val: email,
                 valueName: 'Email',
                 max: 50,
                 min: 4,
-                pattern: {customPattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 
-                customMessage: ''}
+                pattern: {
+                    customPattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    customMessage: ''
+                }
             },
         }
 
@@ -345,7 +392,7 @@ $(document).ready(function () {
                 method: 'POST',
                 data: { password, email },
                 success: function (data) {
-                    
+
                     $('form :input').val('');
                     Object.keys(validation.errors).forEach(key => {
                         let errorInput = $(`.${key}.error-input`);
@@ -358,13 +405,13 @@ $(document).ready(function () {
                         timer: 2500
                     })
                 },
-                error: function (xhr, status, error) {              
-                          
+                error: function (xhr, status, error) {
+
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: xhr.responseJSON.message,                       
-                      });
+                        text: xhr.responseJSON.message,
+                    });
                 }
             });
 
@@ -401,16 +448,18 @@ $(document).ready(function () {
                 val: email,
                 valueName: 'Email',
                 max: 50,
-                min: 4,                
-                pattern: {customPattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 
-                customMessage: ''}
+                min: 4,
+                pattern: {
+                    customPattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    customMessage: ''
+                }
             },
         }
 
 
         let validation = checkValidity(values)
         let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
- 
+
         if (!haveError) {
             $.ajax({
                 url: 'http://localhost:8000/api/v1/users/sendVerificationEmail',
@@ -418,13 +467,13 @@ $(document).ready(function () {
                 data: { email },
                 beforeSend: function () {
                     $('form').loading({
-                        message:'Sending verification link to your email. Please wait...'
+                        message: 'Sending verification link to your email. Please wait...'
                     });
                     $('#btn-verify-account').attr("disabled", true);
 
                 },
                 success: function (data) {
-                    
+
                     $('form').loading('stop');
                     $('#btn-verify-account').attr("disabled", false);
                     $('form :input').val('');
@@ -446,8 +495,8 @@ $(document).ready(function () {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: xhr.responseJSON.message,                       
-                      });
+                        text: xhr.responseJSON.message,
+                    });
                 }
             });
 
@@ -479,29 +528,31 @@ $(document).ready(function () {
                 valueName: 'Email',
                 max: 50,
                 min: 4,
-                pattern: {customPattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 
-                customMessage: ''}
+                pattern: {
+                    customPattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    customMessage: ''
+                }
             },
         }
 
 
         let validation = checkValidity(values)
         let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
-      
+
         if (!haveError) {
 
             $.ajax({
                 url: 'http://localhost:8000/api/v1/users/forgotPassword',
                 method: 'POST',
-                data: {email },
+                data: { email },
                 beforeSend: function () {
                     $('form').loading({
-                        message:'Sending password reset link to your email. Please wait...'
+                        message: 'Sending password reset link to your email. Please wait...'
                     });
                     $('#btn-forgot-password').attr("disabled", true);
                 },
                 success: function (data) {
-                    
+
                     $('form :input').val('');
                     $('form').loading('stop');
                     $('#btn-forgot-password').attr("disabled", false);
@@ -523,8 +574,8 @@ $(document).ready(function () {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: xhr.responseJSON.message,                       
-                      });
+                        text: xhr.responseJSON.message,
+                    });
                 }
             });
 
@@ -558,32 +609,36 @@ $(document).ready(function () {
                 valueName: 'Password',
                 max: 50,
                 min: 8,
-                pattern: {customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
-                , customMessage: 'Password must have at least one number. Uppercase and special characters are optional'}
+                pattern: {
+                    customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
+                    , customMessage: 'Password must have at least one number. Uppercase and special characters are optional'
+                }
             },
             confirmPassword: {
                 val: confirmPassword,
                 valueName: 'Confirm Password',
                 max: 50,
                 min: 8,
-                pattern: {customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
-                , customMessage: 'Confirm Password must have at least one number. Uppercase and special characters are optional'}
+                pattern: {
+                    customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
+                    , customMessage: 'Confirm Password must have at least one number. Uppercase and special characters are optional'
+                }
             },
         }
 
         let validation = checkValidity(values)
         let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
-        
+
 
         if (!haveError) {
             const passwordToken = location.pathname.split('/')[3];
             $.ajax({
                 url: `http://localhost:8000/api/v1/users/resetPassword/${passwordToken}`,
                 method: 'PATCH',
-                data: {password, confirmPassword},                
+                data: { password, confirmPassword },
                 beforeSend: function () {
                     $('form').loading({
-                        message:'Updating your password. Please wait...'
+                        message: 'Updating your password. Please wait...'
                     });
                     $('#btn-reset-password').attr("disabled", true);
                 },
@@ -591,7 +646,7 @@ $(document).ready(function () {
 
                     $('form').loading('stop');
                     $('#btn-reset-password').attr("disabled", false);
-                    
+
                     $('form :input').val('');
                     Object.keys(validation.errors).forEach(key => {
                         let errorInput = $(`.${key}.error-input`);
@@ -602,7 +657,7 @@ $(document).ready(function () {
                         title: 'You successfully updated your password',
                         showConfirmButton: false,
                         timer: 2500
-                    });                    
+                    });
                 },
                 error: function (xhr, status, error) {
                     $('form').loading('stop');
@@ -610,8 +665,8 @@ $(document).ready(function () {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: xhr.responseJSON.message,                       
-                      });
+                        text: xhr.responseJSON.message,
+                    });
                 }
             });
 
@@ -639,7 +694,7 @@ $(document).ready(function () {
         let movieId = $('#movieId').val();
         console.log('MOvie');
         console.log(movieId);
-       
+
 
         let values = {
             commentBody: {
@@ -647,31 +702,31 @@ $(document).ready(function () {
                 valueName: 'Comment Body',
                 max: 1000,
                 min: 5,
-                pattern: {customPattern: '^[a-zA-Z0-9\\s.,!:?\'-]*$', customMessage: ''}
+                pattern: { customPattern: '^[a-zA-Z0-9\\s.,!:?\'-]*$', customMessage: '' }
             },
         }
 
         let validation = checkValidity(values)
-        let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');        
-      
+        let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
+
         if (!haveError) {
-           
+
             $.ajax({
                 url: `http://localhost:8000/api/v1/movies/${movieId}/comments`,
                 method: 'POST',
-                data: {commentBody},
+                data: { commentBody },
                 beforeSend: function () {
                     $('form').loading({
-                        message:'Saving your comment. Please wait...'
+                        message: 'Saving your comment. Please wait...'
                     });
                     $('#btn-add-comment').attr("disabled", true);
                 },
                 success: function (response) {
-                    
+
                     $('form :input').val('');
                     $('form').loading('stop');
                     $('#btn-add-comment').attr("disabled", false);
-                    
+
                     let data = response.data;
 
                     let card = `<div class="col-md-12">
@@ -712,8 +767,8 @@ $(document).ready(function () {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: xhr.responseJSON.message,                       
-                      });
+                        text: xhr.responseJSON.message,
+                    });
                 }
             });
 
@@ -732,4 +787,11 @@ $(document).ready(function () {
         }
     });
 
+    // ---------------------------- Load More Comment -------------------------------------------
+
+   
+
 });
+
+
+
