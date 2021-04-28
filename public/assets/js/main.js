@@ -12,8 +12,7 @@ $(document).ready(function () {
         $(".comment-box").slice(2).hide()        
 
         $("#btn-load-more").on('click', function (e) {
-            e.preventDefault();
-            
+            e.preventDefault();            
             $(".comment-box:hidden").slice(0, 2).slideDown();
             if ($(".comment-box:hidden").length == 0) {
                 $("#btn-load-more").fadeOut('slow');
@@ -34,9 +33,10 @@ $(document).ready(function () {
 
     $(window).scroll(function () {
         if ($(".comment-box:hidden").length == 0) {
-            $('.totop a').fadeIn();
+            $("#btn-load-more").fadeOut('fast');
+            $('.totop a').fadeIn('slow');
         } else {
-            $('.totop a').fadeOut();
+            $('.totop a').fadeOut('slow');
         }
     });
  

@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-12" id = "#top">
+        <div class="col-12" id="#top">
             <div class="row movie-details-wrapper">
                 <div class="image-wrapper col-md-5 col-sm-12">
                     <img src="/uploads/{{movie.picture}}" alt="{{movie.title}}">
@@ -35,58 +35,60 @@
             <div class="row">
                 <div class="col-md-12 ">
                     <h4 class="float-right mb-4">Enter Your Comment</h2>
-                    <div class="comment-wrapper">
-                        <form>
-                            <div class="form-group">
-                                <textarea name="commentBody" id="commentBody" cols="30" rows="10"
-                                    class="form-control"></textarea>
-                                <div class='commentBody error-input'></div>
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-primary float-right" type='button' id='btn-add-comment'>
-                                    Save Comment
-                                </button>
-                            </div>
-                        </form>
-                        <input type="hidden" id='movieId' value="{{movie._id}}" name="movieId">
-                    </div>
+                        <div class="comment-wrapper">
+                            <form>
+                                <div class="form-group">
+                                    <textarea name="commentBody" id="commentBody" cols="30" rows="10"
+                                        class="form-control"></textarea>
+                                    <div class='commentBody error-input'></div>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary float-right" type='button' id='btn-add-comment'>
+                                        Save Comment
+                                    </button>
+                                </div>
+                            </form>
+                            <input type="hidden" id='movieId' value="{{movie._id}}" name="movieId">
+                        </div>
                 </div>
-            </div>
-            <div class="row comments-wrapper">
-                <div class="col-md-12 ">
-                    <h4 class="float-right mb-4 comments-title">Comments</h2>
-                    <div class="comments">
-                        <div class="row">
-                            {% for comment in movie.comments%}
-                            <div class="col-md-12 comment-box">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="card-title-wrapper">
-                                            <h6 class="card-title">
-                                                <span class="comment-name">{{comment.userFirstName}} </span>
-                                                <span>says: </span>
-                                            </h6>
-                                            <div class="comment-rating">
-                                                <i class="fas fa-star rated"></i>
-                                                <span>8</span><span class="text-muted">/10</span>
+            </div>   
+                {% if movie.comments|length > 0 %}         
+                <div class="row comments-wrapper">
+                    <div class="col-md-12 ">
+                        <h4 class="float-right mb-4 comments-title">Comments</h2>
+                        <div class="comments">
+                            <div class="row">                               
+                                {% for comment in movie.comments%}
+                                    <div class="col-md-12 comment-box">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="card-title-wrapper">
+                                                    <h6 class="card-title">
+                                                        <span class="comment-name">{{comment.userFirstName}} </span>
+                                                        <span>says: </span>
+                                                    </h6>
+                                                    <div class="comment-rating">
+                                                        <i class="fas fa-star rated"></i>
+                                                        <span>8</span><span class="text-muted">/10</span>
+                                                    </div>
+                                                </div>
+                                                <h6 class="card-subtitle mb-2 text-muted">{{comment.createdDate}}</h6>
+                                                <p class="card-text">{{comment.commentBody}}</p>
                                             </div>
                                         </div>
-                                        <h6 class="card-subtitle mb-2 text-muted">{{comment.createdDate}}</h6>
-                                        <p class="card-text">{{comment.commentBody}}</p>
                                     </div>
-                                </div>
+                                {% endfor %}                                                                                               
                             </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <button class="btn btn-info " id = "btn-load-more" >Load More Comments</button>
-                        <p class="totop"> 
-                            <a href="#top" class="btn btn-link">Back to top</a> 
-                        </p>
+                        </div>                       
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-info " id="btn-load-more">Load More Comments</button>
+                            <p class="totop">
+                                <a href="#top" class="btn btn-link">Back to top</a>
+                            </p>
+                        </div>                       
                     </div>
                 </div>
-            </div>
+                {% endif %}
         </div>
     </div>
 </div>
