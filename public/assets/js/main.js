@@ -5,14 +5,14 @@ import { checkValidity } from "./inputValidation.js";
 
 $(document).ready(function () {
 
+    // ---------------------------- Load More Comment -------------------------------------------
 
+    $(function () {
 
-    $(function () {        
-         
-        $(".comment-box").slice(2).hide()        
+        $(".comment-box").slice(2).hide()
 
         $("#btn-load-more").on('click', function (e) {
-            e.preventDefault();            
+            e.preventDefault();
             $(".comment-box:hidden").slice(0, 2).slideDown();
             if ($(".comment-box:hidden").length == 0) {
                 $("#btn-load-more").fadeOut('slow');
@@ -39,7 +39,7 @@ $(document).ready(function () {
             $('.totop a').fadeOut('slow');
         }
     });
- 
+
 
     $("#btn-add-category").click(function (e) {
 
@@ -787,11 +787,51 @@ $(document).ready(function () {
         }
     });
 
-    // ---------------------------- Load More Comment -------------------------------------------
+    // ------------------------ User Rating ------------------------------------------
 
-   
+    // $('.movie-ratings-wrapper i').filter(function (e){
+    //     let idx = $(this).index();
+    //     return idx>=0 && idx<ratingNumber;
+    //   }).addClass('active');
 
+    //  document.querySelector('.movie-ratings-wrapper').addEventListener('click', function (e) {
+    //     let action = 'add';
+    //     for (const span of this.children) {
+    //         span.classList[action]('active');
+    //         if (span === e.target) action = 'remove';
+    //     }
+    // });
+
+
+    $('.movie-ratings-wrapper').click(function (e) {
+        const rate = $('.movie-ratings-wrapper i').index(e.target) + 1;   
+
+        let action = 'add';
+        let x = 0;
+        for (const i of $(this).children()) {
+            i.classList[action]('active');
+            if (i === e.target) action = 'remove';
+
+        }
+
+        $.ajax({
+            url: `http://localhost:8000/api/v1/movies/6088d6def3b9a325dc5bbb64/ratings`,
+            method: 'POST',
+            data: { rate },
+            error: function (xhr, status, error) {
+                $('form').loading('stop');
+                $('#btn-add-comment').attr("disabled", false);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: xhr.responseJSON.message,
+                });
+            }
+        });
+
+    });
 });
+
 
 
 

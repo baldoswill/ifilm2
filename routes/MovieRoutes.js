@@ -5,11 +5,15 @@ const uploader = require('../middleware/uploader');
 const imageValidation = require('../middleware/imageValidation');
 const UserController = require('../controllers/UserController');
 const CommentRoute = require('./CommentRoute');
+const RatingRoutes = require('./RatingRoutes');
 
-
-router.use(UserController.protect, UserController.restrictTo('admin'));
+router.use(UserController.protect);
 
 router.use('/:movieId/comments', CommentRoute);
+router.use('/:movieId/ratings', RatingRoutes);
+
+router.use(UserController.restrictTo('admin'));
+ 
 router.route('/').post(uploader.single('picture'), imageValidation, MovieController.createMovie);
 
 

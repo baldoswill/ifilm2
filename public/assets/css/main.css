@@ -48,6 +48,10 @@ html{
 
 }
 
+#main-content .movie-list .movie-box{
+    margin-bottom: 4rem;
+}
+
 #main-content .movie-list .movie-box,
 #main-content .movie-list .movie-box .card {
     border: 0 !important;
@@ -157,6 +161,31 @@ html{
     opacity: .7;
 }
 
+#main-content .movie-details .movie-ratings-wrapper i.rated{
+    color: #E2BC0A;
+}
+
+#main-content .movie-details .movie-ratings-wrapper i{
+    transition: .4s ease-in-out all;
+}
+
+#main-content .movie-details .movie-ratings-wrapper i:hover{
+    cursor: pointer;
+    opacity: .7;
+}
+
+#main-content .movie-details .movie-ratings-wrapper .movie-ratings-rating,
+#main-content .movie-details .movie-ratings-wrapper .movie-ratings-rating-total{
+    font-weight: 600 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 1.6rem;
+}
+ 
+#main-content .movie-details .movie-ratings-wrapper i { font-size: 30px; }
+#main-content .movie-details .movie-ratings-wrapper i::before { content: "☆"; }
+#main-content .movie-details .movie-ratings-wrapper i.active::before {content: "★"; color: #E2BC0A;  }
+#main-content .movie-details .movie-ratings-wrapper i:hover { cursor: pointer; }
+  
 /* Paging */
 
 #main-content .main-paging {
@@ -244,5 +273,7 @@ html{
     #main-content .movie-details {
         margin-bottom: 7rem;
     }
+
+   
 }
  
