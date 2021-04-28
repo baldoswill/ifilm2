@@ -95,7 +95,7 @@ $(document).ready(function () {
                 valueName: 'Story Line',
                 max: 1000,
                 min: 3,
-                pattern:  {customPattern: '^[a-zA-Z0-9\\s.,!:\'-]*$', customMessage: ''}
+                pattern:  {customPattern: '^[a-zA-Z0-9\\s.,!:?\'-]*$', customMessage: ''}
             },
             'category': {
                 val: category,
@@ -647,7 +647,7 @@ $(document).ready(function () {
                 valueName: 'Comment Body',
                 max: 1000,
                 min: 5,
-                pattern: {customPattern: '^[a-zA-Z0-9\\s.,!:\'-]*$', customMessage: ''}
+                pattern: {customPattern: '^[a-zA-Z0-9\\s.,!:?\'-]*$', customMessage: ''}
             },
         }
 

@@ -29,27 +29,27 @@
                     </div>
                     <a href="/" class="link-to-home"><i class="fa fa-arrow-left" aria-hidden="true"></i>
                         Back to Home</a>
-                   
+
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 ">
                     <h4 class="float-right mb-4">Enter Your Comment</h2>
-                        <div class="comment-wrapper">
-                            <form>
-                                <div class="form-group">
-                                    <textarea name="commentBody" id="commentBody" cols="30" rows="10"
-                                       class="form-control"></textarea>
-                                        <div class='commentBody error-input'></div>
-                                </div>
-                                <div class="form-group">
-                                    <button class="btn btn-primary float-right" type = 'button' id = 'btn-add-comment'>
-                                        Save Comment
-                                    </button>
-                                </div>                                
-                            </form>
-                            <input type="hidden" id = 'movieId' value = "{{movie._id}}" name = "movieId">
-                        </div>
+                    <div class="comment-wrapper">
+                        <form>
+                            <div class="form-group">
+                                <textarea name="commentBody" id="commentBody" cols="30" rows="10"
+                                    class="form-control"></textarea>
+                                <div class='commentBody error-input'></div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary float-right" type='button' id='btn-add-comment'>
+                                    Save Comment
+                                </button>
+                            </div>
+                        </form>
+                        <input type="hidden" id='movieId' value="{{movie._id}}" name="movieId">
+                    </div>
                 </div>
             </div>
             <div class="row comments-wrapper">
@@ -60,23 +60,23 @@
                             {% for comment in movie.comments%}
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-body">    
+                                    <div class="card-body">
                                         <div class="card-title-wrapper">
                                             <h6 class="card-title">
                                                 <span class="comment-name">{{comment.userFirstName}} </span>
                                                 <span>says: </span>
                                             </h6>
                                             <div class="comment-rating">
-                                                <i class="fas fa-star rated"></i> 
+                                                <i class="fas fa-star rated"></i>
                                                 <span>8</span><span class="text-muted">/10</span>
                                             </div>
-                                        </div>                                                                            
+                                        </div>
                                         <h6 class="card-subtitle mb-2 text-muted">{{comment.createdDate}}</h6>
-                                        <p class="card-text">{{comment.commentBody}}</p>                                       
+                                        <p class="card-text">{{comment.commentBody}}</p>
                                     </div>
                                 </div>
-                            </div> 
-                            {% endfor %}                           
+                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="d-flex justify-content-center">

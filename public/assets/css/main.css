@@ -1,3 +1,9 @@
+#main-content .error-input {
+    color     : #FF0D18;
+    font-size : .7rem;
+    margin-top: .8rem;
+}
+
 .search-wrapper {
     margin    : auto;
     text-align: center;
@@ -18,58 +24,63 @@
     margin-bottom: 3rem;
 }
 
-#main-content .rating-wrapper {
-    display        : flex;
-    justify-content: space-between;
-    margin-top     : 1.5rem;
-}
-
-#main-content .rating-wrapper {
-    display        : flex;
-    justify-content: space-between;
-    align-items    : center;
-    margin-top     : 1.5rem;
-    font-weight    : 800;
-}
-
 #main-content form input,
 #main-content form textarea,
 #main-content form select {
     background-color: #F2F2F4 !important;
 }
 
-#main-content .rating-wrapper .rating {
-    padding         : .8rem;
-    background-color: #2C2C2C;
-    color           : #FCF11D;
-    font-weight     : bolder !important;
+#main-content .movie-list {
+    padding: 0 !important;
+
 }
 
-#main-content .movie-list {
+#main-content .movie-list .movie-box,
+#main-content .movie-list .movie-box .card {
+    border: 0 !important;
+}
+
+#main-content .movie-list .movie-box .card {
     padding: 0 !important;
 }
 
-#main-content .movie-list .card {
-    margin-bottom: 2rem !important;
-    border       : none !important;
-}
-
-#main-content .error-input {
-    color     : #FF0D18;
-    font-size : .7rem;
-    margin-top: .8rem;
+#main-content .movie-list .movie-box .card .card-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0 0 0 !important;
 }
 
 #main-content .movie-list .movie-image {
     width     : 100%;
     object-fit: cover;
     height    : 300px;
-    /* only if you want fixed height */
 }
 
 #main-content .movie-list .image-wrapper {
-    width  : 100% !important;
-    display: block;
+    width   : 100% !important;
+    display : block;
+    position: relative;
+}
+
+#main-content .rating-wrapper {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    font-weight    : 800;
+    position       : absolute;
+    top            : 20px;
+    right          : 20px;
+    
+    
+}
+
+#main-content .rating-wrapper .rating {
+    padding         : .8rem;
+    background:rgba(37,37,37,0.8);
+    color           : #FCF11D;
+    font-weight     : bolder !important;
+    display: flex;
 }
 
 #main-content .movie-list .movie-link {
@@ -82,7 +93,10 @@
     color: #9F9F9F !important;
 }
 
-#main-content .movie-details-wrapper{
+
+/* Movie Details */
+
+#main-content .movie-details-wrapper {
     margin-bottom: 4rem;
 }
 
@@ -97,8 +111,6 @@
     display     : block;
     margin-left : auto;
     margin-right: auto;
-
-
 }
 
 #main-content .movie-details-wrapper .movie-details-label:last-child {
@@ -132,10 +144,12 @@
     opacity: .7;
 }
 
-#main-content .main-paging{
-    display: flex;
-    text-align: center;
-    margin: auto;
+/* Paging */
+
+#main-content .main-paging {
+    display        : flex;
+    text-align     : center;
+    margin         : auto;
     justify-content: center;
 }
 
@@ -144,7 +158,7 @@
     margin-right   : auto;
     text-align     : center;
     display        : flex;
-    flex-direction: column;
+    flex-direction : column;
     align-items    : center;
     justify-content: center;
     height         : 60vh;
@@ -152,49 +166,49 @@
 
 
 /* Show Comments */
- 
-#main-content .comments-wrapper{
+
+#main-content .comments-wrapper {
     margin-top: 5rem !important;
 }
 
-#main-content .comments-wrapper .comments-title{
-    float:left !important;
+#main-content .comments-wrapper .comments-title {
+    float     : left !important;
     text-align: left !important;
 }
 
-#main-content .comments{
+#main-content .comments {
     margin-top: 3rem !important;
 }
 
-#main-content .comments .card{
+#main-content .comments .card {
     margin-bottom: 1.5rem !important;
 }
 
-#main-content .comments .card .card-title{
+#main-content .comments .card .card-title {
     font-weight: 1 !important;
 
 }
 
-#main-content .comments .card .card-text{
+#main-content .comments .card .card-text {
     margin-top: 1rem;
 
 }
 
-#main-content .comments .card .card-title-wrapper{
-    display: flex;
+#main-content .comments .card .card-title-wrapper {
+    display        : flex;
     justify-content: space-between;
-    align-items: center;
+    align-items    : center;
 }
 
-#main-content .comments .card .card-title-wrapper .comment-rating i.rated{
+#main-content .comments .card .card-title-wrapper .comment-rating i.rated {
     color: #FCF11D;
 }
 
-#main-content .comments .card .card-title-wrapper .comment-rating span{
+#main-content .comments .card .card-title-wrapper .comment-rating span {
     font-size: .8rem !important;
 }
 
-#main-content .comments .card .comment-name{
+#main-content .comments .card .comment-name {
     font-weight: 800 !important;
 }
 

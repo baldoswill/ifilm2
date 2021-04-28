@@ -15,34 +15,33 @@
             </div>
         </div>
     </div>
-    <div class="row my-5 movie-list">
+    <div class="my-5 row row-eq-height movie-list">
         {% if movies|length > 0 %}
-            {% for item in movies%}
-                <div class="col-sm-12 col-md-6 col-lg-3">
-                    <div class="card text-white bg-primary mb-3">
-                        <div class="card-header">{{item.category}}</div>
-                        <div class="image-wrapper">
-                            <img src='/uploads/{{item.picture}}' alt="{{item.title}}" class="movie-image">
-                        </div>
-                        <div class="card-body">
-                            <a href="/movies/{{item.titleSlug}}" class="movie-link">
-                                <h5 class="card-title text-center">
-                                    {{item.title}}
-                                </h5>
-                            </a>
-                            <div class="rating-wrapper">
-                                <p class="label-rating">Rating</p>
-                                <p class="rating">5.3</p>
-                            </div>
-                        </div>
+        {% for item in movies%}
+        <div class="movie-box col-sm-12 col-md-6 col-lg-3">
+            <div class="card text-white bg-primary mb-3 h-100">
+                <div class="card-header">{{item.category}}</div>
+                <div class="image-wrapper">
+                    <img src='/uploads/{{item.picture}}' alt="{{item.title}}" class="movie-image">
+                    <div class="rating-wrapper">                       
+                        <p class="rating">5.3</p>
                     </div>
                 </div>
-            {% endfor %}
-        {% else %}
-            <div class="user-notice">
-                <h3>Oh Oh! There are no movies...</h4>
-                <a href="/" class="d-block btn btn-link mt-1">Go Back</a>
+                <div class="card-body">
+                    <a href="/movies/{{item.titleSlug}}" class="movie-link">
+                        <h5 class="card-title text-center">
+                            {{item.title}}
+                        </h5>
+                    </a>                    
+                </div>
             </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="user-notice">
+            <h3>Oh Oh! There are no movies...</h4>
+                <a href="/" class="d-block btn btn-link mt-1">Go Back</a>
+        </div>
         {% endif %}
     </div>
     <div class="row">
@@ -50,20 +49,20 @@
             <div class="main-paging">
                 <ul class="pagination">
                     {% if numberOfPages > 1%}
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#">&laquo;</a>
-                        </li>                   
-                        
-                            {% for item in range(0, numberOfPages) %}                              
-                                <li class="page-item {{ ' active' if (item + 1) == currentPage else ' ' }}">     
-                                    <a class='page-link' href="/?page={{item+1}}">{{item + 1}}</a>    
-                                </li>                            
-                            {% endfor %}
-                                        
-                        <li class="page-item"> 
-                            <a class="page-link" href="/?page={{item+1}}">&raquo;</a>
-                        </li>
-                    {% endif %}  
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">&laquo;</a>
+                    </li>
+
+                    {% for item in range(0, numberOfPages) %}
+                    <li class="page-item {{ ' active' if (item + 1) == currentPage else ' ' }}">
+                        <a class='page-link' href="/?page={{item+1}}">{{item + 1}}</a>
+                    </li>
+                    {% endfor %}
+
+                    <li class="page-item">
+                        <a class="page-link" href="/?page={{item+1}}">&raquo;</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
