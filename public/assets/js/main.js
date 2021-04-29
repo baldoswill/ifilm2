@@ -1,6 +1,7 @@
 import { checkValidity } from "./inputValidation.js";
 
 
+
 // ------------------------------ ADD CATEGORY ----------------------------------------------
 
 $(document).ready(function () {
@@ -692,8 +693,6 @@ $(document).ready(function () {
 
         let commentBody = $('#commentBody').val();
         let movieId = $('#movieId').val();
-        console.log('MOvie');
-        console.log(movieId);
 
 
         let values = {
@@ -739,7 +738,7 @@ $(document).ready(function () {
                                 </h6>
                                 <div class="comment-rating">
                                     <i class="fas fa-star rated"></i> 
-                                    <span>8</span><span class="text-muted">/10</span>
+                                    <span data-commentid = ${data._id}>${data.rating} </span><span class="text-muted"> / 5</span>
                                 </div>
                             </div>                                                                            
                             <h6 class="card-subtitle mb-2 text-muted">${data.createdDate}</h6>
@@ -803,21 +802,21 @@ $(document).ready(function () {
     // });
 
 
-    $('.movie-ratings-wrapper').click(function (e) {
-        const rate = $('.movie-ratings-wrapper i').index(e.target) + 1;   
+    $('.movie-ratings-wrapper .rate').click(function (e) {
+        const rating = $('.movie-ratings-wrapper .rate').index(e.target) + 1;
+        let movieId = $('#movieId').val();
 
         let action = 'add';
         let x = 0;
-        for (const i of $(this).children()) {
+        for (const i of $('.movie-ratings-wrapper').children()) {
             i.classList[action]('active');
             if (i === e.target) action = 'remove';
-
         }
 
         $.ajax({
-            url: `http://localhost:8000/api/v1/movies/6088d6def3b9a325dc5bbb64/ratings`,
-            method: 'POST',
-            data: { rate },
+            url: `http://localhost:8000/api/v1/movies/${movieId}/comments/rating`,
+            method: 'PATCH',
+            data: { rating },
             error: function (xhr, status, error) {
                 $('form').loading('stop');
                 $('#btn-add-comment').attr("disabled", false);
@@ -826,10 +825,23 @@ $(document).ready(function () {
                     title: 'Oops...',
                     text: xhr.responseJSON.message,
                 });
+            },
+            success: function (response) {
+                $.ajax({
+                    url: `http://localhost:8000/api/v1/movies/${movieId}`,
+                    method: 'GET',
+                    success: function (resp) {
+                        let totalRating = resp.data.totalRating;
+                        $('.totalRating').text(totalRating);
+                        $(`[data-commentid="${response.data._id}"]`).text(totalRating);
+                    }
+                });
             }
         });
 
     });
+
+
 });
 
 

@@ -8,6 +8,7 @@ router.route('/').get(CommentController.getComments);
 
 router.use(UserController.protect);
 router.route('/').post(CommentController.createComment);
+router.route('/rating').patch(CommentController.createRating);
 
 module.exports = router;
 

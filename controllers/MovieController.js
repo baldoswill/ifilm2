@@ -3,6 +3,7 @@ const Category = require('../models/Category');
 const catchAsync = require('../utils/catchAsync');
 const ApiFeatures = require('../utils/ApiFeatures');
 const moment = require('moment');
+const AppError = require('../utils/AppError');
 
 
 exports.createMovie = catchAsync(async (req, resp, next) => {
@@ -57,4 +58,24 @@ exports.getMovieBySlug = catchAsync(async (req, resp, next) => {
 
     return resp.render('movie-details.html', { movie });
 });
+
+exports.getMovieById= catchAsync(async (req, resp, next) => {
+
+    const movie = await Movie.findById(req.params.id).populate('comments').lean();
+    
+    movie.comments.forEach(comment => {
+        comment.createdDate = moment(comment.createdDate).format('lll');
+    });
+
+    if (!movie) {
+        return next(new AppError('Movie doesnt exists', 404));
+    }
+
+    return resp.status(200).json({
+        status: 200,
+        data:movie
+    });
+
+});
+
 

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const slug = require('slug');
-var uniqueValidator = require('mongoose-unique-validator');
+ 
 
 
 
@@ -39,6 +39,10 @@ const movieSchema = mongoose.Schema({
     },
     titleSlug: {
         type: String
+    },
+    totalRating: {
+        type: Number,
+        default: 0
     }
 });
 

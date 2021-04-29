@@ -5,7 +5,8 @@
   "scripts": {
     "start:dev": "SET NODE_ENV=development & nodemon server.js",
     "start:prod": "SET NODE_ENV=production & nodemon server.js",
-    "start:build": "babel server.js — out-file server-compiled.js"
+    "start:build": "babel server.js — out-file server-compiled.js",
+    "start:babel": "babel-node ./public/assets/js/main.js --presets es2015"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

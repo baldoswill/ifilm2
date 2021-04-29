@@ -15,12 +15,18 @@
                         <h2>{{movie.title}}</h2>
                         <h5 class="category-text font-weight-bold">{{movie.category}}</h5>
                         <div class="movie-ratings-wrapper">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>                              
-                            <span class="movie-ratings-rating">4</span>
+                            <i class="fas fa-star rate"></i>
+                            <i class="fas fa-star rate"></i>
+                            <i class="fas fa-star rate"></i>
+                            <i class="fas fa-star rate"></i>
+                            <i class="fas fa-star rate"></i>                              
+                            <span class="ratings-divider">
+                                |
+                            </span>
+                            <span class="movie-ratings-rating">
+                                <i class="fas fa-star active"></i>
+                                <span class = "totalRating">{{movie.totalRating}}</span>
+                            </span>
                             <span class="text-muted movie-ratings-rating-total">/5</span>                                                                            
                         </div>
                     </div>
@@ -68,24 +74,26 @@
                         <div class="comments">
                             <div class="row">                               
                                 {% for comment in movie.comments%}
-                                    <div class="col-md-12 comment-box">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="card-title-wrapper">
-                                                    <h6 class="card-title">
-                                                        <span class="comment-name">{{comment.userFirstName}} </span>
-                                                        <span>says: </span>
-                                                    </h6>
-                                                    <div class="comment-rating">
-                                                        <i class="fas fa-star rated"></i>
-                                                        <span>8</span><span class="text-muted">/10</span>
+                                    {% if comment.commentBody %}
+                                        <div class="col-md-12 comment-box">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="card-title-wrapper">
+                                                        <h6 class="card-title">
+                                                            <span class="comment-name">{{comment.userFirstName}} </span>
+                                                            <span>says: </span>
+                                                        </h6>
+                                                        <div class="comment-rating">
+                                                            <i class="fas fa-star rated"></i>
+                                                            <span data-commentid = {{comment._id}}>{{comment.rating}} </span><span class="text-muted"> / 5</span>
+                                                        </div>
                                                     </div>
+                                                    <h6 class="card-subtitle mb-2 text-muted">{{comment.createdDate}}</h6>
+                                                    <p class="card-text">{{comment.commentBody}}</p>
                                                 </div>
-                                                <h6 class="card-subtitle mb-2 text-muted">{{comment.createdDate}}</h6>
-                                                <p class="card-text">{{comment.commentBody}}</p>
                                             </div>
                                         </div>
-                                    </div>
+                                    {% endif %}
                                 {% endfor %}                                                                                               
                             </div>
                         </div>                       

@@ -161,6 +161,13 @@ html{
     opacity: .7;
 }
 
+#main-content .movie-details .movie-ratings-wrapper {
+   display: flex;
+   align-items: center;
+    
+}
+
+
 #main-content .movie-details .movie-ratings-wrapper i.rated{
     color: #E2BC0A;
 }
@@ -174,8 +181,17 @@ html{
     opacity: .7;
 }
 
+
+#main-content .movie-details .movie-ratings-wrapper .ratings-divider{
+    margin-right: .5rem;
+    margin-left: .5rem;
+    font-size: 1.6rem;
+}
+
 #main-content .movie-details .movie-ratings-wrapper .movie-ratings-rating,
-#main-content .movie-details .movie-ratings-wrapper .movie-ratings-rating-total{
+#main-content .movie-details .movie-ratings-wrapper .movie-ratings-rating-total
+{
+    padding-top: 5px;
     font-weight: 600 !important;
     font-family: 'Nunito', sans-serif !important;
     font-size: 1.6rem;

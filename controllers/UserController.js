@@ -378,4 +378,22 @@ exports.getAllUsers = catchAsync(async (req, resp, next) => {
     })
 });
 
+exports.logout = catchAsync(async (req, resp, next) => {
+    
+    resp.cookie('userToken', '', {
+        maxAge: 0
+    });
+
+    req.user = undefined;
+    req.locals.user = undefined;
+    req.headers.authorization = undefined;
+
+    resp.status(200).json({
+        status: 'success'       
+    })
+});
+
+
+
+
 

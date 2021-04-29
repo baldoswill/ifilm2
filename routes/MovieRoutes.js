@@ -11,11 +11,11 @@ router.use(UserController.protect);
 
 router.use('/:movieId/comments', CommentRoute);
 router.use('/:movieId/ratings', RatingRoutes);
+router.route('/:id').get(MovieController.getMovieById);
 
 router.use(UserController.restrictTo('admin'));
  
 router.route('/').post(uploader.single('picture'), imageValidation, MovieController.createMovie);
-
 
 module.exports = router;
 
