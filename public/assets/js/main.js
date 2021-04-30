@@ -727,6 +727,9 @@ $(document).ready(function () {
                     $('#btn-add-comment').attr("disabled", false);
 
                     let data = response.data;
+                    const commentsElementCount = $('.comments').length;
+
+                    
 
                     let card = `<div class="col-md-12">
                     <div class="card">
@@ -747,7 +750,31 @@ $(document).ready(function () {
                     </div>
                 </div> `
 
+                let insertHtml;
+
+
+                if(commentsElementCount > 0){
                     $('#main-content .comments .row').prepend(card);
+                }else{
+                    let commentsHtml = ` 
+                                    <div class="col-md-12 ">
+                                        <h4 class="float-right mb-4 comments-title">Comments</h2>
+                                        <div class="comments">
+                                            <div class="row">                                                                              
+                                                ${card}                                                                                                                                                                                           
+                                            </div>
+                                        </div>                       
+                                        <div class="d-flex justify-content-center">
+                                            <button class="btn btn-info " id="btn-load-more">Load More Comments</button>
+                                            <p class="totop">
+                                                <a href="#top" class="btn btn-link">Back to top</a>
+                                            </p>
+                                        </div>                       
+                                    </div>
+                               `
+
+                    $('#main-content .comments-wrapper').prepend(commentsHtml);    
+                }                    
 
                     Object.keys(validation.errors).forEach(key => {
                         let errorInput = $(`.${key}.error-input`);
@@ -833,7 +860,8 @@ $(document).ready(function () {
                     success: function (resp) {
                         let totalRating = resp.data.totalRating;
                         $('.totalRating').text(totalRating);
-                        $(`[data-commentid="${response.data._id}"]`).text(totalRating);
+                        console.log(rating)
+                        $(`[data-commentid="${response.data._id}"]`).text(rating);
                     }
                 });
             }

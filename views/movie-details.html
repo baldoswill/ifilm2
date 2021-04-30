@@ -67,8 +67,9 @@
                         </div>
                 </div>
             </div>   
-                {% if movie.comments|length > 0 %}         
+                      
                 <div class="row comments-wrapper">
+                    {% if movie.comments|length > 0 %}   
                     <div class="col-md-12 ">
                         <h4 class="float-right mb-4 comments-title">Comments</h2>
                         <div class="comments">
@@ -104,8 +105,9 @@
                             </p>
                         </div>                       
                     </div>
-                </div>
                 {% endif %}
+                </div>
+                
         </div>
     </div>
 </div>
