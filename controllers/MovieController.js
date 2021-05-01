@@ -41,13 +41,11 @@ exports.getAllMovies = catchAsync(async (req, resp, next) => {
     const totalRows = await Movie.count();
     const numberOfPages = Math.ceil(totalRows / req.query.limit);
     const movies = await features.query;
-
-
+ 
     if (req.user && req.user.roles === 'admin') {
-        redirectPage = '../dashboard/movie-list.html';
+        redirectPage = 'movie-list.html';
     }
  
-
     return resp.render(redirectPage, { movies, numberOfPages, currentPage });
 });
 

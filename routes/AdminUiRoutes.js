@@ -3,7 +3,7 @@ const router = express.Router();
 const MovieController = require('../controllers/MovieController');
 const UserController = require('../controllers/UserController');
 
-router.use(UserController.protect);
+router.use(UserController.protect, UserController.restrictTo('admin'));
 
 router.route('/').get(MovieController.getAllMovies);
 router.route('/movies').get(MovieController.getAllMovies);

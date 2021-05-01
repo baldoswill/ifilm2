@@ -363,7 +363,7 @@ exports.postUpdatePassword = catchAsync(async (req, resp, next) => {
 
 exports.restrictTo = (...roles) => {    
 
-    console.log('-----------------------------------------RESTRICTING');
+   
     return (req, resp,next) => {
 
         try {
