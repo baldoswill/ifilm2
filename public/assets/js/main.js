@@ -729,8 +729,10 @@ $(document).ready(function () {
                     let data = response.data;
                     const commentsElementCount = $('.comments').length;
 
-                    const months = {1: 'January', 2: 'February', 3:'March', 4: 'April', 5: 'May', 6: 'June', 
-                    7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'};
+                    const months = {
+                        1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June',
+                        7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'
+                    };
 
                     const createdDate = new Date(data.createdDate);
 
@@ -763,13 +765,13 @@ $(document).ready(function () {
                     </div>
                 </div> `
 
-                let insertHtml;
+                    let insertHtml;
 
 
-                if(commentsElementCount > 0){
-                    $('#main-content .comments .row').prepend(card);
-                }else{
-                    let commentsHtml = ` 
+                    if (commentsElementCount > 0) {
+                        $('#main-content .comments .row').prepend(card);
+                    } else {
+                        let commentsHtml = ` 
                                     <div class="col-md-12 ">
                                         <h4 class="float-right mb-4 comments-title">Comments</h2>
                                         <div class="comments">
@@ -786,8 +788,8 @@ $(document).ready(function () {
                                     </div>
                                `
 
-                    $('#main-content .comments-wrapper').prepend(commentsHtml);    
-                }                    
+                        $('#main-content .comments-wrapper').prepend(commentsHtml);
+                    }
 
                     Object.keys(validation.errors).forEach(key => {
                         let errorInput = $(`.${key}.error-input`);
@@ -826,7 +828,7 @@ $(document).ready(function () {
         }
     });
 
-    // ------------------------ User Rating ------------------------------------------
+    // ------------------------ Add User Rating ------------------------------------------
 
     // $('.movie-ratings-wrapper i').filter(function (e){
     //     let idx = $(this).index();
@@ -882,6 +884,37 @@ $(document).ready(function () {
 
     });
 
+    // let movieInputId = $('#movieId');
+    // let isMovieIdExists = movieInputId.length;
+
+    // if (isMovieIdExists > 0) {
+    
+    //     $.ajax({
+    //         url: `http://localhost:8000/api/v1/movies/${movieInputId.val()}`,
+    //         method: 'GET',           
+    //         error: function (xhr, status, error) {
+    //             $('form').loading('stop');
+    //             $('#btn-add-comment').attr("disabled", false);
+    //             Swal.fire({
+    //                 icon: 'error',
+    //                 title: 'Oops...',
+    //                 text: xhr.responseJSON.message,
+    //             });
+    //         },
+    //         success: function (response) {
+    //             let totalRating = response.data.totalRating;
+    //             $('.movie-ratings-wrapper .rate').index(totalRating);
+
+    //             let rateElements = $('.movie-ratings-wrapper .rate');
+
+    //             for (let index = 0; index < totalRating; index++) {
+    //                 $('.movie-ratings-wrapper .rate')[index].classList.add('active');
+    //             }
+    //         }
+    //     });
+    // }
+
+ 
 
 });
 

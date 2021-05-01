@@ -1,14 +1,31 @@
-html {
+
+html, body {
     scroll-behavior: smooth !important;
-    box-sizing: border-box !important;
-    -moz-box-sizing:border-box !important;
-    -webkit-box-sizing:border-box !important;   
-}
+    height: 100% !important;
+  }  
 
 * {
     box-sizing: border-box !important;
     -moz-box-sizing:border-box !important;
     -webkit-box-sizing:border-box !important;    
+}
+
+a{
+    text-decoration: none !important;
+}
+
+.fill-height{
+    min-height: 100% !important;
+    height: 100vh !important;
+     
+}
+
+.table td.fit, 
+.table th.fit {
+    white-space: nowrap !important;
+    width: 1% !important;
+    padding: 1rem .3rem !important; 
+    text-align: center;   
 }
 
 #main-content .error-input {

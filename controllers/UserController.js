@@ -40,44 +40,57 @@ const createSendToken = (user, statusCode, resp) => {
 
 }
 
-exports.protect = catchAsync(async (req, resp, next) => {    
-    let token;    
-
-    if(!req.headers.authorization && !req.cookies['userToken']){
-        return next(new AppError('Please login to your account', 401));
-    }
-
-    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
-        token = req.headers.authorization.split(' ')[2] || req.headers.authorization.split(' ')[1];          
-    }else if(req.cookies['userToken'] && req.cookies['userToken'] !== ''){
-        token = req.cookies['userToken'];
-    }    
-        
-    if(!token || token === ''){
-        return next(new AppError('Please login to your account', 401));
-    }
-
-     const decodedToken = await promisify(jwt.verify)(token, process.env.JWT_SECRET.trim());
-     const user = await User.findById(decodedToken.id);
-
-     if(!user){
-        return next(new AppError('Please login to your account', 401));
-    }
-
-    if(user.recentlyChangedPassword(decodedToken.iat)){
-        resp.cookie('userToken', '', {
-            maxAge: 0
-        });
-        return next(new AppError('Recently changed password. Please login back to your account', 401));
-    }
-
+exports.protect = catchAsync(async (req, resp, next) => {  
     
-    req.user = user;
-    resp.locals = user;
+    try {
 
+        let token;    
+ 
+ 
+        if(!req.headers.authorization && !req.cookies['userToken']){
+            return next(new AppError('Please login to your account', 401));
+        }
+    
+    
+    
+        if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+            token = req.headers.authorization.split(' ')[2] || req.headers.authorization.split(' ')[1];   
+                  
+        }else if(req.cookies['userToken'] && req.cookies['userToken'] !== ''){
+            token = req.cookies['userToken'];
+           
+        }    
+    
+        if(!token || token === ''){
+            return next(new AppError('Please login to your account', 401));
+        }
+    
+         const decodedToken = await promisify(jwt.verify)(token, process.env.JWT_SECRET.trim());
+         const user = await User.findById(decodedToken.id);
+     
+         if(!user){
+            return next(new AppError('Please login to your account', 401));
+        }
+    
+        if(user.recentlyChangedPassword(decodedToken.iat)){
+            resp.cookie('userToken', '', {
+                maxAge: 0
+            });
+            return next(new AppError('Recently changed password. Please login back to your account', 401));
+        }
+     
+        req.user = user;
+        resp.locals = user;
+      
+        
+    } catch (error) {
+        console.log(error)
+    }
+   
     next();
 
 });
+ 
 
 // --------------------------------- SIGN UP -------------------------------------//
 
@@ -349,13 +362,22 @@ exports.postUpdatePassword = catchAsync(async (req, resp, next) => {
 // --------------------------------- Roles -------------------------------------//
 
 exports.restrictTo = (...roles) => {    
+
+    console.log('-----------------------------------------RESTRICTING');
     return (req, resp,next) => {
-        if(!req.user){
-            return next(new AppError('You are not allowed to do this action', 403));
+
+        try {
+            if(!req.user){
+
+                return next(new AppError('You are not allowed to do this action', 403));
+            }
+            else if(!roles.includes(req.user.roles)){
+                return next(new AppError('You are not allowed to do this action', 403));
+            }
+        } catch (error) {
+            console.log(error)
         }
-        else if(!roles.includes(req.user.roles)){
-            return next(new AppError('You are not allowed to do this action', 403));
-        }
+       
 
         next();
     }

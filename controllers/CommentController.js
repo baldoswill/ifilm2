@@ -51,11 +51,25 @@ exports.getComments = catchAsync(async (req, resp, next) => {
     const movieId = req.params.movieId;
     const comments = await Comment.find({ movie: movieId });
 
-    return resp.status(201).json({
+    return resp.status(200).json({
         status: 'success',
         data: comments
     });
 });
+
+exports.getCommentByUserIdAndMovieId = catchAsync(async (req, resp, next) => {
+
+    const movieId = req.params.movieId;
+    const userId = req.params.userId;
+    
+    const comment = await Comment.findOne({ movie: movieId, user:userId });
+
+    return resp.status(200).json({
+        status: 'success',
+        data: comment
+    });
+});
+
 
 exports.createRating = catchAsync(async (req, resp, next) => {
 

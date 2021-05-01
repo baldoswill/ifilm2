@@ -27,6 +27,7 @@ exports.getCreateMovie = catchAsync(async (req, resp, next) => {
 });
 
 exports.getAllMovies = catchAsync(async (req, resp, next) => {
+    let redirectPage = 'main.html';
 
     req.query.limit = 5;
     const currentPage = req.query.page * 1 || 1
@@ -41,13 +42,19 @@ exports.getAllMovies = catchAsync(async (req, resp, next) => {
     const numberOfPages = Math.ceil(totalRows / req.query.limit);
     const movies = await features.query;
 
-    return resp.render('main.html', { movies, numberOfPages, currentPage });
+
+    if (req.user && req.user.roles === 'admin') {
+        redirectPage = '../dashboard/movie-list.html';
+    }
+ 
+
+    return resp.render(redirectPage, { movies, numberOfPages, currentPage });
 });
 
 exports.getMovieBySlug = catchAsync(async (req, resp, next) => {
 
     const movie = await Movie.findOne({ titleSlug: req.params.titleSlug }).populate('comments').lean();
-    
+
     movie.comments.forEach(comment => {
         comment.createdDate = moment(comment.createdDate).format('lll');
     });
@@ -59,10 +66,10 @@ exports.getMovieBySlug = catchAsync(async (req, resp, next) => {
     return resp.render('movie-details.html', { movie });
 });
 
-exports.getMovieById= catchAsync(async (req, resp, next) => {
+exports.getMovieById = catchAsync(async (req, resp, next) => {
 
     const movie = await Movie.findById(req.params.id).populate('comments').lean();
-    
+
     movie.comments.forEach(comment => {
         comment.createdDate = moment(comment.createdDate).format('lll');
     });
@@ -73,7 +80,7 @@ exports.getMovieById= catchAsync(async (req, resp, next) => {
 
     return resp.status(200).json({
         status: 200,
-        data:movie
+        data: movie
     });
 
 });

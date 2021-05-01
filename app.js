@@ -16,6 +16,7 @@ const movieRoutes = require('./routes/MovieRoutes');
 const movieUiRoutes = require('./routes/MovieUiROute');
 const categoryRoutes = require('./routes/CategoryRoute');
 const categoryUiRoutes = require('./routes/CategoryUiRoutes');
+const adminUiRoutes = require('./routes/AdminUiRoutes');
 const homeUiRoutes = require('./routes/HomeUiRoutes');
 const userUiRoutes = require('./routes/UserUiRoutes');
 const userRoutes = require('./routes/UserRoutes');
@@ -61,6 +62,7 @@ app.use('/', homeUiRoutes);
 app.use('/movies', movieUiRoutes);
 app.use('/auth', userUiRoutes);
 app.use('/categories', categoryUiRoutes);
+app.use('/admin', adminUiRoutes);
 
 app.use('/api/v1/movies', movieRoutes);
 app.use('/api/v1/categories', categoryRoutes);
