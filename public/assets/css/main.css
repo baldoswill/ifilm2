@@ -1,14 +1,9 @@
 
 html, body {
-    scroll-behavior: smooth !important;
-    height: 100% !important;
+    scroll-behavior: smooth !important;     
   }  
 
-* {
-    box-sizing: border-box !important;
-    -moz-box-sizing:border-box !important;
-    -webkit-box-sizing:border-box !important;    
-}
+
 
 a{
     text-decoration: none !important;
@@ -24,8 +19,13 @@ a{
 .table th.fit {
     white-space: nowrap !important;
     width: 1% !important;
-    padding: 1rem .3rem !important; 
-    text-align: center;   
+    padding: 1rem .7rem !important; 
+    text-align: center;  
+    word-break: break-all; 
+}
+
+.table{
+    width: 60% !important;
 }
 
 #main-content .error-input {
@@ -318,6 +318,28 @@ a{
 }
 
 
+/* Dashboard */
+
+#dashboard-content .general-lists .actions i{
+    padding: .3rem;
+    background-color: #444444;
+    color: #fff;
+    margin-right: .2rem;
+    transition: .3s ease-in-out all;
+    box-sizing: border-box;
+}
+
+
+#dashboard-content .general-lists .actions i:hover{
+    cursor: pointer;
+    opacity: .7;
+}
+
+ 
+
+
+
+
 @media(max-width: 768px) {
     #main-content .movie-list .movie-image {
         height: 600px;
@@ -339,3 +361,4 @@ a{
 
 
 }
+

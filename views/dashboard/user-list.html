@@ -1,0 +1,35 @@
+{% extends "layout-dashboard.html" %}
+
+{% block title %} User List {% endblock %}
+
+{% block content %}
+<h3>User List</h3>
+<table class="table table-hover my-4 general-lists">
+    <thead class="bg-primary text-white">
+        <tr>
+            <th scope="col" class="fit">FirstName</th>           
+            <th scope="col" class="fit">LastName</th>           
+            <th scope="col" class="fit">Email</th>           
+            <th scope="col" class="fit">Date of Birth</th>           
+            <th scope="col" class="fit">Role</th>           
+            <th scope="col" class="fit">Actions</th>           
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr class="table-secondary">
+            <td class="fit">{{user.firstName}}</td>            
+            <td class="fit">{{user.lastName}}</td>            
+            <td class="fit">{{user.email}}</td>            
+            <td class="fit">{{user.dob}}</td>            
+            <td class="fit">{{user.roles}}</td>            
+            <td class="fit actions">
+                <i class="fas fa-plus bg-info add"></i>
+                <i class="fas fa-pencil-alt bg-warning edit"></i>
+                <i class="fas fa-times bg-danger delete"></i>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock%}

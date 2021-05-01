@@ -11,6 +11,14 @@ exports.createCategory = catchAsync(async(req, resp,next) => {
     });
 });
 
+exports.getCategories = catchAsync(async(req, resp,next) => {
+    
+    const categories = await Category.find();
+    
+
+    return resp.render('category-list.html', {categories});
+});
+
 
 exports.getCreateCategory = catchAsync(async(req, resp,next) => {
     return resp.render('add-category.html');

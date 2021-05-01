@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css"
+        integrity="sha512-vebUliqxrVkBy3gucMhClmyQP9On/HAWQdKDXRaAlb/FKuTbxkjPKUyqVOxAcGwFDka79eTF+YXwfke1h3/wfg=="
+        crossorigin="anonymous" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/font-awesome-line-awesome/css/all.min.css"
+        integrity="sha512-dC0G5HMA6hLr/E1TM623RN6qK+sL8sz5vB+Uc68J7cBon68bMfKcvbkg6OqlfGHo1nMmcCxO5AinnRTDhWbWsA=="
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
     <title>Dashboard</title>
 </head>
 <body>
@@ -17,29 +25,25 @@
                         <div class="navbar-inner">
                             <div class="container ">
                                 <h5 class="text-white my-2">Admin Dashboard</h5>
-                                <ul class="nav navbar-nav my-3">
-                                    <li class=" nav-item"><a href="# " class="nav-link text-secondary">Add New Movie</a>
+                                <ul class="nav navbar-nav my-3">                                   
+                                    <li class=" nav-item"><a href="/admin" class="nav-link text-secondary">Movie
+                                            List</a>
+                                    </li>                                    
+                                    <li class=" nav-item"><a href="/admin/categories" class="nav-link text-secondary">Category
+                                            List</a></li>                                 
+                                    <li class=" nav-item"><a href="/admin/users" class="nav-link text-secondary">User
+                                            List</a>
                                     </li>
-                                    <li class=" nav-item"><a href="#" class="nav-link text-secondary">Show Movie
-                                            Lists</a>
-                                    </li>
-                                    <li class=" nav-item"><a href="#" class="nav-link text-secondary">Add New
-                                            Category</a>
-                                    </li>
-                                    <li class=" nav-item"><a href="#" class="nav-link text-secondary">Show Category
-                                            Lists</a></li>
-                                    <li class=" nav-item"><a href="#" class="nav-link text-secondary">Add New User</a>
-                                    </li>
-                                    <li class=" nav-item"><a href="#" class="nav-link text-secondary">Show User
-                                            Lists</a>
-                                    </li>
+                                    <li class=" nav-item"><a href="/admin/logout" class="nav-link text-secondary">
+                                        Logout</a>
+                                </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-9 my-5">
+            <div class="col-md-9 my-5 " id = "dashboard-content">
                 <div class="container">
                     {% block content %}
                     {% endblock %}

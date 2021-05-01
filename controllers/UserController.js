@@ -1,9 +1,12 @@
-const {promisify} = require('util')
+const {promisify} = require('util');
 const jwt = require('jsonwebtoken');
+const moment = require('moment');
 const User = require('../models/User');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
+const ApiFeatures = require('../utils/ApiFeatures');
 const emailer = require('../utils/emailer');
+
 
 // --------------------------------- Create Jwt Token -------------------------------------//
 
@@ -398,6 +401,28 @@ exports.getAllUsers = catchAsync(async (req, resp, next) => {
         status: 'success',
         data: users
     })
+});
+
+exports.getUsers = catchAsync(async (req, resp, next) => {
+
+    req.query.limit = 5;
+    const currentPage = req.query.page * 1 || 1
+
+    const features = new ApiFeatures(User.find(), req.query)
+        .filter()
+        .sort()
+        .limitFields()
+        .paginate();
+
+        const totalRows = await User.count();
+        const numberOfPages = Math.ceil(totalRows / req.query.limit);
+        const users = await features.query.lean();
+
+        users.forEach(user => {
+            user.dob = moment(user.dob).format('ll');
+        });
+   
+    resp.render('user-list.html', {users});
 });
 
 exports.logout = catchAsync(async (req, resp, next) => {

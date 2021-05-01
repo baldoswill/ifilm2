@@ -4,29 +4,30 @@
 
 {% block content %}
 <h3>Movie Lists</h3>
-<table class="table table-hover my-4 ">
+<table class="table table-hover my-4 general-lists">
     <thead class="bg-primary text-white">
         <tr>
-            
             <th scope="col" class="fit">Title</th>
             <th scope="col" class="fit">Major Cast</th>
             <th scope="col" class="fit">Release Year</th>
             <th scope="col" class="fit">Total Rating</th>
             <th scope="col" class="fit">Category</th>
-           
+            <th scope="col" class="fit">Actions</th>
         </tr>
     </thead>
     <tbody>
- 
         {% for movie in movies %}
         <tr class="table-secondary">
-   
             <td class="fit">{{movie.title}}</td>
             <td class="fit">{{movie.cast}}</td>
             <td class="fit">{{movie.releaseYear}}</td>
             <td class="fit">{{movie.totalRating}}</td>
             <td class="fit">{{movie.category}}</td>
-        
+            <td class="fit actions">
+                <i class="fas fa-plus bg-info add"></i>
+                <i class="fas fa-pencil-alt bg-warning edit"></i>
+                <i class="fas fa-times bg-danger delete"></i>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
