@@ -729,7 +729,20 @@ $(document).ready(function () {
                     let data = response.data;
                     const commentsElementCount = $('.comments').length;
 
-                    
+                    const months = {1: 'January', 2: 'February', 3:'March', 4: 'April', 5: 'May', 6: 'June', 
+                    7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'};
+
+                    const createdDate = new Date(data.createdDate);
+
+                    const month = months[createdDate.getMonth() + 1];
+                    const date = createdDate.getDate();
+                    const year = createdDate.getFullYear();
+                    // const minutes = data.createdDate.getMinutes()
+                    // const hour = ((data.createdDate.getHours()) + 24 % 12) || 12; 
+                    const time = createdDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+                    const dateAndTime = `${month} ${date}, ${year} ${time}`;
+
 
                     let card = `<div class="col-md-12">
                     <div class="card">
@@ -744,7 +757,7 @@ $(document).ready(function () {
                                     <span data-commentid = ${data._id}>${data.rating} </span><span class="text-muted"> / 5</span>
                                 </div>
                             </div>                                                                            
-                            <h6 class="card-subtitle mb-2 text-muted">${data.createdDate}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">${dateAndTime}</h6>
                             <p class="card-text">${data.commentBody}</p>                                       
                         </div>
                     </div>
