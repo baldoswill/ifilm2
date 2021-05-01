@@ -45,6 +45,7 @@ exports.getAllMovies = catchAsync(async (req, resp, next) => {
     if (req.user && req.user.roles === 'admin') {
         redirectPage = 'movie-list.html';
     }
+   
  
     return resp.render(redirectPage, { movies, numberOfPages, currentPage });
 });
