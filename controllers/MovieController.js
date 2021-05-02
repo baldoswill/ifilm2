@@ -27,6 +27,7 @@ exports.getCreateMovie = catchAsync(async (req, resp, next) => {
 });
 
 exports.getAllMovies = catchAsync(async (req, resp, next) => {
+    
     let redirectPage = 'main.html';
 
     req.query.limit = 5;
@@ -44,8 +45,7 @@ exports.getAllMovies = catchAsync(async (req, resp, next) => {
  
     if (req.user && req.user.roles === 'admin') {
         redirectPage = 'movie-list.html';
-    }
-   
+    }   
  
     return resp.render(redirectPage, { movies, numberOfPages, currentPage });
 });

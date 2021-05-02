@@ -422,7 +422,7 @@ exports.getUsers = catchAsync(async (req, resp, next) => {
             user.dob = moment(user.dob).format('ll');
         });
    
-    resp.render('user-list.html', {users});
+    resp.render('user-list.html', {users, currentPage, numberOfPages});
 });
 
 exports.logout = catchAsync(async (req, resp, next) => {

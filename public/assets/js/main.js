@@ -884,6 +884,11 @@ $(document).ready(function () {
 
     });
 
+    $('#paginator').click(function(e){
+        console.log(window.location.href);
+        
+    });
+
     // let movieInputId = $('#movieId');
     // let isMovieIdExists = movieInputId.length;
 

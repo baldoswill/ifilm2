@@ -20,6 +20,7 @@ exports.createComment = catchAsync(async (req, resp, next) => {
     const userId = req.user.id;
 
     const commentResult = await Comment.findOne({ movie: movieId, user: userId});
+    
 
     let commentDb;
 

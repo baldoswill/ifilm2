@@ -32,4 +32,23 @@
         {% endfor %}
     </tbody>
 </table>
+<div class="general-list-paging">
+    <ul class="pagination float-right">
+        {% if numberOfPages > 1%}
+        <li class="page-item {{ ' ' if (currentPage > 1)  else ' disabled' }}">
+            <a class="page-link" href="/admin/users?page={{currentPage-1}}">&laquo;</a>
+        </li>
+
+        {% for item in range(0, numberOfPages) %}
+        <li class="page-item {{ ' active' if (item + 1) == currentPage else ' ' }}">
+            <a class='page-link' href="/admin/users?page={{item+1}}">{{item + 1}}</a>
+        </li>
+        {% endfor %}
+
+        <li class="page-item {{ ' ' if (currentPage < numberOfPages) else ' disabled' }}">
+            <a class="page-link" href="/admin/users?page={{currentPage+1}}">&raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
 {% endblock%}
