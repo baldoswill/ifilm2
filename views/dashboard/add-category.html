@@ -1,0 +1,22 @@
+{% extends "layout-dashboard.html" %}
+
+{% block title %} Add New Category {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="mb-4">Add New Category</h3>
+            <form>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input class="form-control mr-sm-2 w-100" type="text" id = "name" name="name">
+                    <div class = 'error-input'></div>
+                </div>
+                <button class="btn btn-primary mt-4 float-right" type="button" id = 'btn-add-category'>ADD CATEGORY</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

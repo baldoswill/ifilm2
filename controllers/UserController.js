@@ -405,7 +405,7 @@ exports.getAllUsers = catchAsync(async (req, resp, next) => {
 
 exports.getUsers = catchAsync(async (req, resp, next) => {
 
-    req.query.limit = 5;
+    req.query.limit = 8;
     const currentPage = req.query.page * 1 || 1
 
     const features = new ApiFeatures(User.find(), req.query)
@@ -426,15 +426,25 @@ exports.getUsers = catchAsync(async (req, resp, next) => {
 });
 
 exports.logout = catchAsync(async (req, resp, next) => {
+
+    console.log('LOGOUT')
     
     resp.cookie('userToken', '', {
         maxAge: 0
     });
 
-    req.user = undefined;
-    req.locals.user = undefined;
-    req.headers.authorization = undefined;
+    if(req.user){
+        req.user = undefined;
+    }
 
+    if(req.locals.user){
+        req.locals.user = undefined;
+    }
+
+    if(req.headers.authorization){
+        req.headers.authorization = undefined;
+    }
+     
     resp.status(200).json({
         status: 'success'       
     })

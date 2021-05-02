@@ -26,11 +26,18 @@ exports.getCreateMovie = catchAsync(async (req, resp, next) => {
     return resp.render('add-movie.html', { categories });
 });
 
+exports.getEditMovie = catchAsync(async (req, resp, next) => {
+
+    const categories = await Category.find();
+    const movie = await Movie.findById(req.params.id);
+    return resp.render('edit-movie.html', { categories, movie });
+});
+
 exports.getAllMovies = catchAsync(async (req, resp, next) => {
     
     let redirectPage = 'main.html';
 
-    req.query.limit = 5;
+    req.query.limit = 8;
     const currentPage = req.query.page * 1 || 1
 
     const features = new ApiFeatures(Movie.find(), req.query)
@@ -84,4 +91,30 @@ exports.getMovieById = catchAsync(async (req, resp, next) => {
 
 });
 
+exports.deleteMovie = catchAsync(async (req, resp, next) => {
+     
+
+    await Movie.findByIdAndDelete(req.params.id);
+    return resp.status(204).json({
+        status: 'success'
+    });
+
+}); 
+
+exports.updateMovie = catchAsync(async (req, resp, next) => {
+    if (typeof (req.file) === "undefined" || typeof (req.body) === "undefined") {
+        return next(new AppError('All fields are required'));
+    }
+
+    req.body.picture = req.file.filename;
+    const movie = await Movie.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+    });
+
+    return resp.status(200).json({
+        status: 'success',
+        data: movie
+    });
+}); 
 

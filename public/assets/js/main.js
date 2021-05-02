@@ -1,7 +1,5 @@
 import { checkValidity } from "./inputValidation.js";
 
-
-
 // ------------------------------ ADD CATEGORY ----------------------------------------------
 
 $(document).ready(function () {
@@ -884,16 +882,134 @@ $(document).ready(function () {
 
     });
 
-    $('#paginator').click(function(e){
-        console.log(window.location.href);
-        
+
+    // ------------------------- Log out------------------------
+
+    $('#btn-logout').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: `http://localhost:8000/api/v1/users/logout`,
+            method: 'GET',
+            error: function (xhr) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: xhr.responseJSON.message,
+                });
+            },
+            success: function (response) {
+
+            }
+        });
+
     });
+
+    // ---------------------- Movie List Crud Events -----------------------
+
+
+    $('.movie-list a.delete').click(function (e) {
+        e.preventDefault();
+        const id = $(this).data("id");
+        
+        Swal.fire({
+            title: 'Are you sure you want to delete this?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `http://localhost:8000/api/v1/movies/${id}`,
+                    method: 'DELETE',                    
+                    success: function (response) {
+                        window.location.href = '/admin/movies';
+                    }
+                });
+            }
+        })
+
+
+    });
+
+
+
+
+    // ---------------------- Category List Crud Events -----------------------
+
+
+    $('.category-list a.delete').click(function (e) {
+        e.preventDefault();
+        const id = $(this).data("id");
+ 
+        
+        Swal.fire({
+            title: 'Are you sure you want to delete this?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `http://localhost:8000/api/v1/categories/${id}`,
+                    method: 'DELETE',                    
+                    success: function (response) {
+                        window.location.href = '/admin/categories';
+                    }
+                });
+            }
+        })
+
+
+    });
+
+    $('#btn-edit-category').click(function (e) {
+        e.preventDefault();
+          
+        alert('EDIT')
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // let movieInputId = $('#movieId');
     // let isMovieIdExists = movieInputId.length;
 
     // if (isMovieIdExists > 0) {
-    
+
     //     $.ajax({
     //         url: `http://localhost:8000/api/v1/movies/${movieInputId.val()}`,
     //         method: 'GET',           
@@ -919,7 +1035,7 @@ $(document).ready(function () {
     //     });
     // }
 
- 
+
 
 });
 

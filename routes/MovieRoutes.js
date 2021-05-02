@@ -14,8 +14,9 @@ router.use('/:movieId/ratings', RatingRoutes);
 router.route('/:id').get(MovieController.getMovieById);
 
 router.use(UserController.restrictTo('admin'));
- 
+router.route('/:id').delete(MovieController.deleteMovie);
 router.route('/').post(uploader.single('picture'), imageValidation, MovieController.createMovie);
+
 
 module.exports = router;
 

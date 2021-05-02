@@ -1,0 +1,51 @@
+{% extends "layout-dashboard.html" %}
+
+{% block title %} EDIT Movie {% endblock %}
+
+{% block content %}
+ <div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="mb-4">EDIT MOVIE</h3>
+            <form>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input class="form-control mr-sm-2 w-100" type="text" id = "title" name="title" value = {{movie.title}}>
+                    <div class = 'title error-input' id = 'errorTitle'></div>
+                </div>
+                <div class="form-group">
+                    <label for="releaseYear">Release Year</label>
+                    <input class="form-control mr-sm-2 w-100" type="number" id = "releaseYear" name="releaseYear" value = {{movie.releaseYear}}>
+                    <div class = 'releaseYear error-input'></div>
+                </div>
+                <div class="form-group">
+                    <label for="cast">Major Cast</label>
+                    <input class="form-control mr-sm-2 w-100" type="text" id = "cast" name="cast"  value = {{movie.cast}}>
+                    <div class = 'cast error-input'></div>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select name="category" id="category" class="form-control">
+                        <option value="">Select A Category</option>
+                        {% for item in categories %}
+                            <option value="{{item.name}}" {{ " selected" if (item.name == movie.category)  else " " }}>{{item.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class = 'category error-input'></div>
+                </div>
+                <div class="form-group">
+                    <label for="releaseYear">Picture</label>
+                    <input class="form-control mr-sm-2 w-100" type="file" id = "picture" name="picture" accept="image/*" >
+                    <div class = 'picture error-input'></div>
+                </div>
+                <div class="form-group">
+                    <label for="storyLine">Story Line</label>
+                    <textarea class="form-control mr-sm-2 w-100" id = "storyLine" name="storyLine" rows="5"> {{movie.storyLine}}</textarea>
+                    <div class = 'storyLine error-input'></div>
+                </div>
+                <button class="btn btn-primary mt-4 float-right" id = 'btn-edit-movie' type="button">UPDATE MOVIE</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock%}

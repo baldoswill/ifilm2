@@ -25,25 +25,30 @@
                         <div class="navbar-inner">
                             <div class="container ">
                                 <h5 class="text-white my-2">Admin Dashboard</h5>
-                                <ul class="nav navbar-nav my-3">                                   
-                                    <li class=" nav-item"><a href="/admin" class="nav-link text-secondary">Movie
-                                            List</a>
-                                    </li>                                    
-                                    <li class=" nav-item"><a href="/admin/categories" class="nav-link text-secondary">Category
-                                            List</a></li>                                 
-                                    <li class=" nav-item"><a href="/admin/users" class="nav-link text-secondary">User
-                                            List</a>
+                                <ul class="nav navbar-nav my-3">
+                                    <li class=" nav-item"><a href="/" class="nav-link text-secondary">Home
+                                        </a>
                                     </li>
-                                    <li class=" nav-item"><a href="/admin/logout" class="nav-link text-secondary">
-                                        Logout</a>
-                                </li>
+                                    <li class=" nav-item"><a href="/admin" class="nav-link text-secondary">Movies
+                                        </a>
+                                    </li>
+                                    <li class=" nav-item"><a href="/admin/categories"
+                                            class="nav-link text-secondary">Categories
+                                        </a></li>
+                                    <li class=" nav-item"><a href="/admin/users" class="nav-link text-secondary">Users
+                                        </a>
+                                    </li>
+                                    <li class="nav-item"><a href="/admin/logout" class="nav-link text-secondary"
+                                            id="btn-logout">
+                                            Logout</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-9 my-5 " id = "dashboard-content">
+            <div class="col-md-9 my-5 " id="dashboard-content">
                 <div class="container">
                     {% block content %}
                     {% endblock %}
@@ -51,5 +56,12 @@
             </div>
         </div>
     </div>
+    <script src='/assets/js/jquery.min.js'></script>
+    <script src='/assets/js/bootstrap.min.js'></script>
+    <script src='/assets/js/sweetalert2.all.min.js'></script>
+    <script src="/assets/js/jquery-loading.min.js"></script>
+
+    <script type='module' src='/assets/js/inputValidation.js'></script>
+    <script type="module" src='/assets/js/main.js'></script>
 </body>
 </html>

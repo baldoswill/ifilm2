@@ -28,7 +28,7 @@ a{
     width: 100% !important;
 }
 
-#main-content .error-input {
+ .error-input {
     color     : #FF0D18;
     font-size : .7rem;
     margin-top: .8rem;
@@ -320,7 +320,7 @@ a{
 
 /* Dashboard */
 
-#dashboard-content .general-lists .actions i{
+#dashboard-content .general-lists .actions a{
     padding: .3rem;
     background-color: #444444;
     color: #fff;
@@ -330,7 +330,7 @@ a{
 }
 
 
-#dashboard-content .general-lists .actions i:hover{
+#dashboard-content .general-lists .actions a:hover{
     cursor: pointer;
     opacity: .7;
 }
