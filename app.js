@@ -38,7 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-nunjucks.configure(['views/dashboard', 'views'], {
+nunjucks.configure(['views/dashboard', 'views', 'views/userDashboard'], {
     autoescape: true,
     express: app
 });

@@ -1,12 +1,12 @@
-{% extends "layout-dashboard.html" %}
+{% extends "layout.html" %}
 
-{% block title %} Edit User {% endblock %}
+{% block title %} Edit Account {% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h3 class="mb-4">Edit User </h3>
+            <h3 class="mb-4">Edit Account </h3>
 
             <div class="form-update-account clearfix mb-5">
                 <form>
@@ -32,17 +32,10 @@
                         <label for="dob">Date of Birth</label>
                         <input class="form-control mr-sm-2 w-100" type="date" id="dob" name="dob" value="{{user.dob}}">
                         <div class='dob error-input'></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="roles">Roles</label>
-                        <select name="roles" id="roles" class="form-control">                        
-                            {% for role in roles %}
-                                <option value="{{role}}" {{ " selected" if (user.roles == role)  else " " }}>{{role.toUpperCase()}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
+                    </div>                    
                     <input type="hidden" name="userId" id = "userId" value = {{user._id}}>
-                    <button class="btn btn-primary mt-4 float-right " type="button" id='btn-update-user'>Update
+                    <input type="hidden" name="roles" id = "roles" value="{{user.roles}}">
+                    <button class="btn btn-primary mt-4 float-right " type="button" id='btn-update-myAccount'>Update
                         User</button>
                 </form>
             </div>
@@ -59,7 +52,7 @@
                             name="confirmPassword">
                         <div class='confirmPassword error-input'></div>
                     </div>
-                    <button class="btn btn-primary mt-4 float-right" type="button" id='btn-update-password'>Update
+                    <button class="btn btn-primary mt-4 float-right" type="button" id='btn-update-myPassword'>Update
                         Password</button>
                 </form>
             </div>

@@ -490,8 +490,9 @@ exports.postCreateUser = catchAsync(async (req, resp, next) => {
 });
 
 exports.patchUpdateUser = catchAsync(async (req, resp, next) => {
-    const { firstName, lastName, dob, email, roles } = req.body;
 
+    console.log('UPDATINGGGGG');
+    const { firstName, lastName, dob, email, roles } = req.body;
     const user = await User.findByIdAndUpdate(req.params.id, { firstName, lastName, dob, email, roles}, 
         {
             new:true,
@@ -518,9 +519,7 @@ exports.patchUpdatePassword = catchAsync(async (req, resp, next) => {
     if(typeof(req.body.password) === "undefined" || req.body.password === ''){
         return next(new AppError('Password is required', 400));
     }
-
-    
-
+ 
     if(typeof(req.body.confirmPassword) === "undefined" || req.body.confirmPassword === ''){
         return next(new AppError('Confirm Password is required', 400));
     }
@@ -553,7 +552,16 @@ exports.patchUpdatePassword = catchAsync(async (req, resp, next) => {
 });
 
 
+exports.getMyUpdateAccount = catchAsync(async (req, resp, next) => {     
+    const id = req.user.id;
+    const user  = await User.findById(id).lean();
+    
 
+    user.dob = moment(user.dob).format('YYYY-MM-DD');
+    console.log(user);
+
+    resp.render('edit-account.html', {user});
+});
 
 
 

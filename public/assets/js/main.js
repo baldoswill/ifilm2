@@ -728,7 +728,7 @@ $(document).ready(function () {
                 });
             },
             success: function (response) {
-
+                window.location.href = '/';
             }
         });
 
@@ -1383,7 +1383,7 @@ $(document).ready(function () {
                 method: 'PATCH',
                 data: { firstName, lastName, dob, email, roles },
                 beforeSend: function () {
-                    $('form').loading({
+                    $('.form-update-account form').loading({
                         message: 'Saving data. Please wait...'
                     });
                     $('#btn-update-user').attr("disabled", true);
@@ -1492,7 +1492,7 @@ $(document).ready(function () {
 
                 },
                 success: function (data) {
-                    $('form :input').val('');
+                    $('.form-update-password form :input').val('');
                     $('.error-input').text('');
                     $('form').loading('stop');
                     $('#btn-update-password').attr("disabled", false);
@@ -1544,11 +1544,214 @@ $(document).ready(function () {
     });
 
 
+    // ------------------------- Update My Account
 
 
+    $('#btn-update-myAccount').click(function (e) {
+        e.preventDefault();
+ 
+        let id = $('#userId').val();
+        let firstName = $('#firstName').val();
+        let lastName = $('#lastName').val();
+        let dob = $('#dob').val();
+        let email = $('#email').val();
+        let roles = $('#roles').val();
+
+        let values = {
+            firstName: {
+                val: firstName,
+                valueName: 'First Name',
+                max: 30,
+                min: 3,
+                pattern: { customPattern: '^[a-zA-Z ]*$', customMessage: '' }
+            },
+            lastName: {
+                val: lastName,
+                valueName: 'Last Name',
+                max: 30,
+                min: 3,
+                pattern: { customPattern: '^[a-zA-Z ]*$', customMessage: '' }
+            },            
+            email: {
+                val: email,
+                valueName: 'Email',
+                max: 50,
+                min: 4,
+                pattern: {
+                    customPattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    customMessage: ''
+                }
+            },
+
+        }
+
+        let validation = checkValidity(values)
+        let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
+
+        if (!haveError) {
+
+            $.ajax({
+                url: `http://localhost:8000/api/v1/users/patchUpdateMyAccount/${id}`,
+                method: 'PATCH',
+                data: { firstName, lastName, dob, email,roles },
+                beforeSend: function () {
+                    $('.form-update-account form').loading({
+                        message: 'Saving data. Please wait...'
+                    });
+                    $('#btn-update-myAccount').attr("disabled", true);
+
+                },
+                success: function (data) {
+                    $('form :input').val('');
+                    $('.error-input').text('');
+                    $('form').loading('stop');
+                    $('#btn-update-myAccount').attr("disabled", false);
+
+                    Object.keys(validation.errors).forEach(key => {
+                        let errorInput = $(`.${key}.error-input`);
+                        errorInput.text('');
+                    });
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'You Successfully Updated Your Account',
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+
+                    setTimeout(function(){
+                        window.location.href = '/';
+                    }, 3000);
+                },
+                error: function (xhr, status, error) {
+                    $('form').loading('stop');
+                    $('#btn-update-myAccount').attr("disabled", false);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: xhr.responseJSON.message,
+                    });
+
+                }
+            });
+
+        } else {
+            Object.keys(validation.errors).forEach(key => {
+                let errorInput = $(`.${key}.error-input`);
+                errorInput.text(validation.errors[key]);
+            });
+
+            setTimeout(function () {
+                Object.keys(validation.errors).forEach(key => {
+                    let errorInput = $(`.${key}.error-input`);
+                    errorInput.text('');
+                });
+            }, 7000)
+        }
 
 
+    });
 
+
+    // ------------------- Update My Password -------------------
+
+    $('#btn-update-myPassword').click(function (e) {
+        e.preventDefault();
+ 
+        let password = $('#password').val();
+        let confirmPassword = $('#confirmPassword').val();
+        let id = $('#userId').val();
+
+        let values = {
+            password: {
+                val: password,
+                valueName: 'Password',
+                max: 50,
+                min: 8,
+                pattern: {
+                    customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
+                    , customMessage: 'Password must have at least one number. Uppercase and special characters are optional'
+                }
+            },
+            confirmPassword: {
+                val: confirmPassword,
+                valueName: 'Confirm Password',
+                max: 50,
+                min: 8,
+                pattern: {
+                    customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
+                    , customMessage: 'Confirm Password must have at least one number. Uppercase and special characters are optional'
+                }
+            },
+        }
+
+        let validation = checkValidity(values)
+        let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
+
+        if (!haveError) {
+
+            $.ajax({
+                url: `http://localhost:8000/api/v1/users/patchUpdateMyPassword/${id}`,
+                method: 'PATCH',
+                data: { password, confirmPassword },
+                beforeSend: function () {
+                    $('form').loading({
+                        message: 'Saving data. Please wait...'
+                    });
+                    $('#btn-update-myPassword').attr("disabled", true);
+
+                },
+                success: function (data) {
+                    $('form :input').val('');
+                    $('.error-input').text('');
+                    $('form').loading('stop');
+                    $('#btn-update-myPassword').attr("disabled", false);
+
+                    Object.keys(validation.errors).forEach(key => {
+                        let errorInput = $(`.${key}.error-input`);
+                        errorInput.text('');
+                    });
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'You Successfully Updated Your Password',
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+
+                    setTimeout(function(){
+                        window.location.href = '/';
+                    }, 3000);
+                    
+                },
+                error: function (xhr, status, error) {
+                    $('.form-update-password form').loading('stop');
+                    $('#btn-update-myPassword').attr("disabled", false);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: xhr.responseJSON.message,
+                    });
+
+                }
+            });
+
+        } else {
+            Object.keys(validation.errors).forEach(key => {
+                let errorInput = $(`.${key}.error-input`);
+                errorInput.text(validation.errors[key]);
+            });
+
+            setTimeout(function () {
+                Object.keys(validation.errors).forEach(key => {
+                    let errorInput = $(`.${key}.error-input`);
+                    errorInput.text('');
+                });
+            }, 7000)
+        }
+
+
+    });
 
 
 

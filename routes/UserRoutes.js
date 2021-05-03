@@ -12,8 +12,9 @@ router.route('/resetPassword/:passwordToken').patch(UserController.postResetPass
 
 router.use(UserController.protect);
 router.route('/logout').get(UserController.logout);
-router.route('/postUpdatePassword/').patch(UserController.postUpdatePassword);
 router.route('/').get(UserController.getAllUsers);
+router.route('/patchUpdateMyAccount/:id').patch(UserController.patchUpdateUser); 
+router.route('/patchUpdateMyPassword/:id').patch(UserController.postUpdatePassword);
 
 router.use(UserController.restrictTo('admin'));
 router.route('/:id').delete(UserController.deleteUser);

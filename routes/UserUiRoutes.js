@@ -8,6 +8,10 @@ router.route('/verifyAccount/:verifyToken').get(UserController.verifyAccount);
 router.route('/forgot-password/').get(UserController.getForgotPassword);
 router.route('/reset-password/:passwordToken').get(UserController.getResetPassword);
 
+router.use(UserController.protect);
+router.route('/account/edit-account').get(UserController.getMyUpdateAccount);
+
+
 module.exports = router;
 
 
