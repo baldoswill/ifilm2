@@ -59,12 +59,11 @@ exports.deleteCategory = catchAsync(async (req, resp, next) => {
 }); 
 
 exports.updateCategory = catchAsync(async (req, resp, next) => {
-   
-
     await Category.findByIdAndUpdate(req.params.id, {name: req.body.name}, 
         {new: true, runValidators: true});
     return resp.status(200).json({
-        status: 'success'
+        status: 'success',
+        message: 'Updated category successfully'
     });
 
 }); 

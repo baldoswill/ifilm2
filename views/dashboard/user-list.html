@@ -4,7 +4,7 @@
 
 {% block content %}
 <h3>Users</h3>
-<table class="table table-hover my-4 general-lists">
+<table class="table table-hover my-4 general-lists user-list">
     <thead class="bg-primary text-white">
         <tr>
             <th scope="col" class="fit">FirstName</th>           
@@ -24,15 +24,15 @@
             <td class="fit">{{user.dob}}</td>            
             <td class="fit">{{user.roles}}</td>            
             <td class="fit actions">
-                <i class="fas fa-plus bg-info add"></i>
-                <i class="fas fa-pencil-alt bg-warning edit"></i>
-                <i class="fas fa-times bg-danger delete"></i>
+                <a class="fas fa-pencil-alt bg-warning edit" href = '/admin/users/edit-user/{{user._id}}'></a>
+                <a class="fas fa-times bg-danger delete" data-id= {{user._id}}></a>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 <div class="general-list-paging">
+    <a class="btn btn-info" href = '/admin/users/add-user'>Add New User</a>
     <ul class="pagination float-right">
         {% if numberOfPages > 1%}
         <li class="page-item {{ ' ' if (currentPage > 1)  else ' disabled' }}">

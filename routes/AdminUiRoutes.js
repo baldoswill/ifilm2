@@ -14,6 +14,8 @@ router.route('/').get(MovieController.getAllMovies);
 
 
 router.route('/users').get(UserController.getUsers);
+router.route('/users/add-user').get(UserController.getCreateUser);
+router.route('/users/edit-user/:id').get(UserController.getEditUser);
 
 router.route('/movies').get(MovieController.getAllMovies);
 router.route('/movies/add-movie').get(MovieController.getCreateMovie);

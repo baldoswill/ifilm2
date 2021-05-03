@@ -74,6 +74,10 @@ exports.getCommentByUserIdAndMovieId = catchAsync(async (req, resp, next) => {
 
 exports.createRating = catchAsync(async (req, resp, next) => {
 
+    if(!req.user){
+        return next(new AppError('You must be login to do this action', 401));
+    }
+
     const { rating } = req.body;
     const movieId = req.params.movieId
     const userId = req.user.id;

@@ -11,6 +11,7 @@
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input class="form-control mr-sm-2 w-100" type="text" id = "name" name="name" value="{{category.name}}">
+                    <input type="hidden" name="categoryId" value="{{category._id}}" id = "categoryId">
                     <div class = 'error-input'></div>
                 </div>
                 <button class="btn btn-primary mt-4 float-right" type="button" id = 'btn-edit-category'>UPDATE CATEGORY</button>

@@ -312,17 +312,17 @@ exports.postResetPassword = catchAsync(async (req, resp, next) => {
 
     const {password, confirmPassword} = req.body;
 
+    if(password !== confirmPassword){
+        return next(new AppError('Password and confirm password doesnt match. Please try again', 400));
+    }
+ 
     const passwordResetToken = await User.createToken(req.params.passwordToken);     
     const user = await User.findOne({passwordResetToken, passwordResetTokenExpirationTimeStamp : {$gt: Date.now()}});
     
     if(!user){
         return next(new AppError('Password Reset has expired. Please try again', 400));
     }
-
-    if(password !== confirmPassword){
-        return next(new AppError('Password and confirm password doesnt match. Please try again', 400));
-    }
-
+ 
     user.password = password;    
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpirationTimeStamp = undefined;
@@ -449,6 +449,109 @@ exports.logout = catchAsync(async (req, resp, next) => {
         status: 'success'       
     })
 });
+
+exports.getCreateUser = catchAsync(async (req, resp, next) => {
+    const roles = User.schema.path('roles').enumValues
+    resp.render('add-user.html', {roles});
+});
+
+exports.getEditUser = catchAsync(async (req, resp, next) => {
+
+    const user = await User.findById(req.params.id);
+    const roles = User.schema.path('roles').enumValues
+    console.log(roles);
+    resp.render('edit-user.html', {user,roles});
+});
+
+
+exports.deleteUser = catchAsync(async (req, resp, next) => {
+    await User.findByIdAndDelete(req.params.id);
+    resp.status(204).json({
+        status: 'success'
+    })
+});
+
+exports.postCreateUser = catchAsync(async (req, resp, next) => {
+    const { firstName, lastName, email, dob, password, confirmPassword,roles } = req.body;
+    const user = await User.create({ firstName, lastName, email, dob, password, confirmPassword, isActive: true, roles });
+
+    if (!user) {
+        return next(new AppError('Registration unsuccessful. Please try again'));
+    }
+
+    
+    resp.status(201).json({
+        status: 'success',
+        message: 'Successfully added user'
+    })
+});
+
+exports.patchUpdateUser = catchAsync(async (req, resp, next) => {
+    const { firstName, lastName, dob, email, roles } = req.body;
+
+    const user = await User.findByIdAndUpdate(req.params.id, { firstName, lastName, dob, email, roles}, 
+        {
+            new:true,
+            runValidators: true
+        }
+
+        );
+
+    if (!user) {
+        return next(new AppError('Update unsuccessful. Please try again'));
+    }
+
+    // DocumentModel.schema.path('facts').schema.path('type').enumValues?
+    
+    resp.status(200).json({
+        status: 'success',
+        message: 'Successfully updated user'
+    })
+});
+
+exports.patchUpdatePassword = catchAsync(async (req, resp, next) => {
+   
+
+    if(typeof(req.body.password) === "undefined" || req.body.password === ''){
+        return next(new AppError('Password is required', 400));
+    }
+
+    
+
+    if(typeof(req.body.confirmPassword) === "undefined" || req.body.confirmPassword === ''){
+        return next(new AppError('Confirm Password is required', 400));
+    }
+ 
+    const {password, confirmPassword} = req.body;
+
+    if(password !== confirmPassword){
+        return next(new AppError('Password and confirm password doesnt match. Please try again', 400));
+    }
+
+    if(password !== confirmPassword){
+        return next(new AppError('Password and Confirm Password should match', 400));
+    }
+
+    const user = await User.findById(req.params.id);
+ 
+    if (!user) {
+        return next(new AppError('Update unsuccessful. Please try again'));
+    }
+
+    user.password = password;
+    await user.save({validateBeforeSave: false});
+
+    // DocumentModel.schema.path('facts').schema.path('type').enumValues?
+    
+    resp.status(200).json({
+        status: 'success',
+        message: 'Successfully updated password'
+    })
+});
+
+
+
+
 
 
 

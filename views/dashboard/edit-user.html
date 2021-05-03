@@ -1,0 +1,70 @@
+{% extends "layout-dashboard.html" %}
+
+{% block title %} Edit User {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="mb-4">Edit User </h3>
+
+            <div class="form-update-profile clearfix mb-5">
+                <form>
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input class="form-control mr-sm-2 w-100" type="text" id="firstName" name="firstName"
+                            value={{user.firstName}}>
+                        <div class='firstName error-input'></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input class="form-control mr-sm-2 w-100" type="text" id="lastName" name="lastName"
+                            value={{user.lastName}}>
+                        <div class='lastName error-input'></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input class="form-control mr-sm-2 w-100" type="text" id="email" name="email"
+                            value={{user.email}}>
+                        <div class='email error-input'></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Date of Birth</label>
+                        <input class="form-control mr-sm-2 w-100" type="date" id="dob" name="dob" value="{{user.dob}}">
+                        <div class='dob error-input'></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="roles">Roles</label>
+                        <select name="roles" id="roles" class="form-control">                        
+                            {% for role in roles %}
+                                <option value="{{role}}" {{ " selected" if (user.roles == role)  else " " }}>{{role.toUpperCase()}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <input type="hidden" name="userId" id = "userId" value = {{user._id}}>
+                    <button class="btn btn-primary mt-4 float-right " type="button" id='btn-update-user'>Update
+                        User</button>
+                </form>
+            </div>
+            <div class="form-update-password">
+                <form>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input class="form-control mr-sm-2 w-100" type="password" id="password" name="password">
+                        <div class='password error-input'></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input class="form-control mr-sm-2 w-100" type="password" id="confirmPassword"
+                            name="confirmPassword">
+                        <div class='confirmPassword error-input'></div>
+                    </div>
+                    <button class="btn btn-primary mt-4 float-right" type="button" id='btn-update-password'>Update
+                        Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

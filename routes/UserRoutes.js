@@ -15,6 +15,12 @@ router.route('/logout').get(UserController.logout);
 router.route('/postUpdatePassword/').patch(UserController.postUpdatePassword);
 router.route('/').get(UserController.getAllUsers);
 
+router.use(UserController.restrictTo('admin'));
+router.route('/:id').delete(UserController.deleteUser);
+router.route('/').post(UserController.postCreateUser);
+router.route('/:id').patch(UserController.patchUpdateUser);
+router.route('/passwordChange/:id').patch(UserController.patchUpdatePassword);
+
 
 
 module.exports = router;

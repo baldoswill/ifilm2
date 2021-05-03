@@ -846,12 +846,7 @@ $(document).ready(function () {
         const rating = $('.movie-ratings-wrapper .rate').index(e.target) + 1;
         let movieId = $('#movieId').val();
 
-        let action = 'add';
-        let x = 0;
-        for (const i of $('.movie-ratings-wrapper').children()) {
-            i.classList[action]('active');
-            if (i === e.target) action = 'remove';
-        }
+
 
         $.ajax({
             url: `http://localhost:8000/api/v1/movies/${movieId}/comments/rating`,
@@ -871,6 +866,14 @@ $(document).ready(function () {
                     url: `http://localhost:8000/api/v1/movies/${movieId}`,
                     method: 'GET',
                     success: function (resp) {
+
+                        let action = 'add';
+                        let x = 0;
+                        for (const i of $('.movie-ratings-wrapper').children()) {
+                            i.classList[action]('active');
+                            if (i === e.target) action = 'remove';
+                        }
+
                         let totalRating = resp.data.totalRating;
                         $('.totalRating').text(totalRating);
                         console.log(rating)
@@ -911,7 +914,7 @@ $(document).ready(function () {
     $('.movie-list a.delete').click(function (e) {
         e.preventDefault();
         const id = $(this).data("id");
-        
+
         Swal.fire({
             title: 'Are you sure you want to delete this?',
             text: "You won't be able to revert this!",
@@ -924,7 +927,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     url: `http://localhost:8000/api/v1/movies/${id}`,
-                    method: 'DELETE',                    
+                    method: 'DELETE',
                     success: function (response) {
                         window.location.href = '/admin/movies';
                     }
@@ -944,8 +947,8 @@ $(document).ready(function () {
     $('.category-list a.delete').click(function (e) {
         e.preventDefault();
         const id = $(this).data("id");
- 
-        
+
+
         Swal.fire({
             title: 'Are you sure you want to delete this?',
             text: "You won't be able to revert this!",
@@ -958,7 +961,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     url: `http://localhost:8000/api/v1/categories/${id}`,
-                    method: 'DELETE',                    
+                    method: 'DELETE',
                     success: function (response) {
                         window.location.href = '/admin/categories';
                     }
@@ -970,11 +973,428 @@ $(document).ready(function () {
     });
 
     $('#btn-edit-category').click(function (e) {
-        e.preventDefault();
-          
-        alert('EDIT')
+        let name = $('#name').val();
+        let id = $('#categoryId').val();
+
+        let values = {
+            name: {}
+        }
+
+        values['name'].val = name;
+        values['name'].valueName = 'Category Name';
+        values['name'].max = 30;
+        values['name'].min = 3;
+        values['name'].pattern = { customPattern: '^[a-zA-Z0-9 ]+$', customMessage: '' };
+
+        let validation = checkValidity(values)
+
+        let haveError = Object.values(validation).some(error => error.name !== '');
+
+        if (!haveError) {
+            let formData = { name };
+            $.ajax({
+                url: `http://localhost:8000/api/v1/categories/${id}`,
+                method: 'PATCH',
+                data: formData,
+                success: function (data) {
+                    $('form :input').val('');
+                    $('.error-input').text('');
+                    validation = '';
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Successfully Updated Category',
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+
+                    window.location.href = '/admin/categories';
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: xhr.responseJSON.message,
+                    });
+                }
+            });
+        } else {
+            $('.error-input').text(validation.errors['name']);
+        }
+
+        setTimeout(function () {
+            $('.error-input').text('');
+        }, 10000)
+         
 
     });
+
+
+    // ---------------------- User List Crud Events -----------------------
+
+
+    $('.user-list a.delete').click(function (e) {
+        e.preventDefault();
+        const id = $(this).data("id");
+ 
+        Swal.fire({
+            title: 'Are you sure you want to delete this?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `http://localhost:8000/api/v1/users/${id}`,
+                    method: 'DELETE',
+                    success: function (response) {
+                        window.location.href = '/admin/users';
+                    }
+                });
+            }
+        })
+
+
+    });
+
+
+    $('#btn-add-user').click(function (e) {
+        e.preventDefault();
+ 
+        let firstName = $('#firstName').val();
+        let lastName = $('#lastName').val();
+        let dob = $('#dob').val();
+        let password = $('#password').val();
+        let confirmPassword = $('#confirmPassword').val();
+        let email = $('#email').val();
+        let roles = $('#roles').val();
+
+        let values = {
+            firstName: {
+                val: firstName,
+                valueName: 'First Name',
+                max: 30,
+                min: 3,
+                pattern: { customPattern: '^[a-zA-Z ]*$', customMessage: '' }
+            },
+            lastName: {
+                val: lastName,
+                valueName: 'Last Name',
+                max: 30,
+                min: 3,
+                pattern: { customPattern: '^[a-zA-Z ]*$', customMessage: '' }
+            },
+            password: {
+                val: password,
+                valueName: 'Password',
+                max: 50,
+                min: 8,
+                pattern: {
+                    customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
+                    , customMessage: 'Password must have at least one number. Uppercase and special characters are optional'
+                }
+            },
+            confirmPassword: {
+                val: confirmPassword,
+                valueName: 'Confirm Password',
+                max: 50,
+                min: 8,
+                pattern: {
+                    customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
+                    , customMessage: 'Confirm Password must have at least one number. Uppercase and special characters are optional'
+                }
+            },
+            email: {
+                val: email,
+                valueName: 'Email',
+                max: 50,
+                min: 4,
+                pattern: {
+                    customPattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    customMessage: ''
+                }
+            },
+
+        }
+
+        let validation = checkValidity(values)
+        let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
+
+        if (!haveError) {
+
+            $.ajax({
+                url: 'http://localhost:8000/api/v1/users/',
+                method: 'POST',
+                data: { firstName, lastName, dob, password, confirmPassword, email, roles },
+                beforeSend: function () {
+                    $('form').loading({
+                        message: 'Saving data. Please wait...'
+                    });
+                    $('#btn-add-user').attr("disabled", true);
+
+                },
+                success: function (data) {
+                    $('form :input').val('');
+                    $('.error-input').text('');
+                    $('form').loading('stop');
+                    $('#btn-add-user').attr("disabled", false);
+
+                    Object.keys(validation.errors).forEach(key => {
+                        let errorInput = $(`.${key}.error-input`);
+                        errorInput.text('');
+                    });
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Successfully Added User',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                },
+                error: function (xhr, status, error) {
+                    $('form').loading('stop');
+                    $('#btn-add-user').attr("disabled", false);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: xhr.responseJSON.message,
+                    });
+
+                }
+            });
+
+        } else {
+            Object.keys(validation.errors).forEach(key => {
+                let errorInput = $(`.${key}.error-input`);
+                errorInput.text(validation.errors[key]);
+            });
+
+            setTimeout(function () {
+                Object.keys(validation.errors).forEach(key => {
+                    let errorInput = $(`.${key}.error-input`);
+                    errorInput.text('');
+                });
+            }, 7000)
+        }
+
+
+    });
+
+
+
+    $('#btn-update-user').click(function (e) {
+        e.preventDefault();
+ 
+        let id = $('#userId').val();
+        let firstName = $('#firstName').val();
+        let lastName = $('#lastName').val();
+        let dob = $('#dob').val();
+        let roles = $('#roles').val();
+       
+        let email = $('#email').val();
+
+        let values = {
+            firstName: {
+                val: firstName,
+                valueName: 'First Name',
+                max: 30,
+                min: 3,
+                pattern: { customPattern: '^[a-zA-Z ]*$', customMessage: '' }
+            },
+            lastName: {
+                val: lastName,
+                valueName: 'Last Name',
+                max: 30,
+                min: 3,
+                pattern: { customPattern: '^[a-zA-Z ]*$', customMessage: '' }
+            },            
+            email: {
+                val: email,
+                valueName: 'Email',
+                max: 50,
+                min: 4,
+                pattern: {
+                    customPattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    customMessage: ''
+                }
+            },
+
+        }
+
+        let validation = checkValidity(values)
+        let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
+
+        if (!haveError) {
+
+            $.ajax({
+                url: `http://localhost:8000/api/v1/users/${id}`,
+                method: 'PATCH',
+                data: { firstName, lastName, dob, email, roles },
+                beforeSend: function () {
+                    $('form').loading({
+                        message: 'Saving data. Please wait...'
+                    });
+                    $('#btn-update-user').attr("disabled", true);
+
+                },
+                success: function (data) {
+                    $('form :input').val('');
+                    $('.error-input').text('');
+                    $('form').loading('stop');
+                    $('#btn-update-user').attr("disabled", false);
+
+                    Object.keys(validation.errors).forEach(key => {
+                        let errorInput = $(`.${key}.error-input`);
+                        errorInput.text('');
+                    });
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Successfully Updated User',
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+
+                    window.location.href = '/admin/users';
+                },
+                error: function (xhr, status, error) {
+                    $('form').loading('stop');
+                    $('#btn-update-user').attr("disabled", false);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: xhr.responseJSON.message,
+                    });
+
+                }
+            });
+
+        } else {
+            Object.keys(validation.errors).forEach(key => {
+                let errorInput = $(`.${key}.error-input`);
+                errorInput.text(validation.errors[key]);
+            });
+
+            setTimeout(function () {
+                Object.keys(validation.errors).forEach(key => {
+                    let errorInput = $(`.${key}.error-input`);
+                    errorInput.text('');
+                });
+            }, 7000)
+        }
+
+
+    });
+
+
+
+    // -------------------------------- UPDATE PASSWORD --------------------------------
+
+
+    $('#btn-update-password').click(function (e) {
+        e.preventDefault();
+ 
+        let password = $('#password').val();
+        let confirmPassword = $('#confirmPassword').val();
+        let id = $('#userId').val();
+
+        let values = {
+            password: {
+                val: password,
+                valueName: 'Password',
+                max: 50,
+                min: 8,
+                pattern: {
+                    customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
+                    , customMessage: 'Password must have at least one number. Uppercase and special characters are optional'
+                }
+            },
+            confirmPassword: {
+                val: confirmPassword,
+                valueName: 'Confirm Password',
+                max: 50,
+                min: 8,
+                pattern: {
+                    customPattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$'
+                    , customMessage: 'Confirm Password must have at least one number. Uppercase and special characters are optional'
+                }
+            },
+        }
+
+        let validation = checkValidity(values)
+        let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
+
+        if (!haveError) {
+
+            $.ajax({
+                url: `http://localhost:8000/api/v1/users/passwordChange/${id}`,
+                method: 'PATCH',
+                data: { password, confirmPassword },
+                beforeSend: function () {
+                    $('form').loading({
+                        message: 'Saving data. Please wait...'
+                    });
+                    $('#btn-update-password').attr("disabled", true);
+
+                },
+                success: function (data) {
+                    $('form :input').val('');
+                    $('.error-input').text('');
+                    $('form').loading('stop');
+                    $('#btn-update-password').attr("disabled", false);
+
+                    Object.keys(validation.errors).forEach(key => {
+                        let errorInput = $(`.${key}.error-input`);
+                        errorInput.text('');
+                    });
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Successfully Updated Password',
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+
+                    window.location.href = '/admin/users';
+                },
+                error: function (xhr, status, error) {
+                    $('form').loading('stop');
+                    $('#btn-update-password').attr("disabled", false);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: xhr.responseJSON.message,
+                    });
+
+                }
+            });
+
+        } else {
+            Object.keys(validation.errors).forEach(key => {
+                let errorInput = $(`.${key}.error-input`);
+                errorInput.text(validation.errors[key]);
+            });
+
+            setTimeout(function () {
+                Object.keys(validation.errors).forEach(key => {
+                    let errorInput = $(`.${key}.error-input`);
+                    errorInput.text('');
+                });
+            }, 7000)
+        }
+
+
+    });
+
+
+
+
+
+
+
+
 
 
 
