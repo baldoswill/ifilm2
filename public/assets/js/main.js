@@ -556,22 +556,18 @@ $(document).ready(function () {
 
                     let data = response.data;
                     const commentsElementCount = $('.comments').length;
-
-                    const months = {
-                        1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June',
-                        7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'
-                    };
-
                     const createdDate = new Date(data.createdDate);
-
-                    const month = months[createdDate.getMonth() + 1];
-                    const date = createdDate.getDate();
-                    const year = createdDate.getFullYear();
-                    // const minutes = data.createdDate.getMinutes()
-                    // const hour = ((data.createdDate.getHours()) + 24 % 12) || 12; 
-                    const time = createdDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-
-                    const dateAndTime = `${month} ${date}, ${year} ${time}`;
+                    // const hour = ((data.createdDate.getHours()) + 24 % 12) || 12;                     
+                    // const time = createdDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+              
+                    const dateAndTime = createdDate.toLocaleString('en-US', {                       
+                        month: 'long', // numeric, 2-digit, long, short, narrow
+                        day: 'numeric', // numeric, 2-digit
+                        year: 'numeric', // numeric, 2-digit                        
+                        hour: 'numeric', // numeric, 2-digit
+                        minute: 'numeric', // numeric, 2-digit    
+                        hour12: true                     
+                    });
 
 
                     let card = `<div class="col-md-12">
