@@ -15,6 +15,8 @@ exports.createMovie = catchAsync(async (req, resp, next) => {
     req.body.picture = req.file.filename;
     const movie = await Movie.create(req.body);
 
+    console.log(req.body)
+
     return resp.status(201).json({
         status: 'success',
         data: movie
@@ -30,6 +32,7 @@ exports.getEditMovie = catchAsync(async (req, resp, next) => {
 
     const categories = await Category.find();
     const movie = await Movie.findById(req.params.id);
+    
     return resp.render('edit-movie.html', { categories, movie });
 });
 
@@ -102,11 +105,10 @@ exports.deleteMovie = catchAsync(async (req, resp, next) => {
 }); 
 
 exports.updateMovie = catchAsync(async (req, resp, next) => {
-    if (typeof (req.file) === "undefined" || typeof (req.body) === "undefined") {
-        return next(new AppError('All fields are required'));
-    }
+   
+    console.log('UPDATE MOVIE')
 
-    req.body.picture = req.file.filename;
+    console.log(req.body);
     const movie = await Movie.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true

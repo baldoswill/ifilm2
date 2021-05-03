@@ -15,7 +15,7 @@ const checkCharacterLength = (fieldName, value, valueName, max, min) => {
     }
 
     if (typeof (value) === "number" && errors[fieldName] === '') {
-        console.log('THIS IS A NUMBER', value)
+        
         if (value > max || value < min) {
             errors[fieldName] = `${valueName} should not be greater than ${max} and be lesser than ${min}`;
         }

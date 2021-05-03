@@ -419,7 +419,7 @@ exports.getUsers = catchAsync(async (req, resp, next) => {
         const users = await features.query.lean();
 
         users.forEach(user => {
-            user.dob = moment(user.dob).format('ll');
+            user.dob = moment(user.dob).format('l');
         });
    
     resp.render('user-list.html', {users, currentPage, numberOfPages});
@@ -457,9 +457,12 @@ exports.getCreateUser = catchAsync(async (req, resp, next) => {
 
 exports.getEditUser = catchAsync(async (req, resp, next) => {
 
-    const user = await User.findById(req.params.id);
-    const roles = User.schema.path('roles').enumValues
-    console.log(roles);
+    const user = await User.findById(req.params.id).lean();
+    const roles = User.schema.path('roles').enumValues;
+
+    user.dob = moment(user.dob).format('YYYY-MM-DD');
+
+    
     resp.render('edit-user.html', {user,roles});
 });
 
