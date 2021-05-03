@@ -32,12 +32,12 @@ exports.getEditMovie = catchAsync(async (req, resp, next) => {
 
     const categories = await Category.find();
     const movie = await Movie.findById(req.params.id);
-    
+
     return resp.render('edit-movie.html', { categories, movie });
 });
 
 exports.getAllMovies = catchAsync(async (req, resp, next) => {
-    
+
     let redirectPage = 'main.html';
 
     req.query.limit = 8;
@@ -52,11 +52,11 @@ exports.getAllMovies = catchAsync(async (req, resp, next) => {
     const totalRows = await Movie.count();
     const numberOfPages = Math.ceil(totalRows / req.query.limit);
     const movies = await features.query;
- 
+
     if (req.user && req.user.roles === 'admin') {
         redirectPage = 'movie-list.html';
-    }   
- 
+    }
+
     return resp.render(redirectPage, { movies, numberOfPages, currentPage });
 });
 
@@ -65,7 +65,17 @@ exports.getMovieBySlug = catchAsync(async (req, resp, next) => {
     const movie = await Movie.findOne({ titleSlug: req.params.titleSlug }).populate('comments').lean();
 
     movie.comments.forEach(comment => {
-        comment.createdDate = moment(comment.createdDate).format('lll');
+        let createdDate = new Date(comment.createdDate);
+        let dateAndTime = createdDate.toLocaleString('en-US', {
+            month: 'long', // numeric, 2-digit, long, short, narrow
+            day: 'numeric', // numeric, 2-digit
+            year: 'numeric', // numeric, 2-digit                        
+            hour: 'numeric', // numeric, 2-digit
+            minute: 'numeric', // numeric, 2-digit    
+            hour12: true
+        });
+
+        comment.createdDate = dateAndTime;
     });
 
     if (!movie) {
@@ -80,7 +90,17 @@ exports.getMovieById = catchAsync(async (req, resp, next) => {
     const movie = await Movie.findById(req.params.id).populate('comments').lean();
 
     movie.comments.forEach(comment => {
-        comment.createdDate = moment(comment.createdDate).format('lll');
+        let createdDate = new Date(comment.createdDate);
+        let dateAndTime = createdDate.toLocaleString('en-US', {
+            month: 'long', // numeric, 2-digit, long, short, narrow
+            day: 'numeric', // numeric, 2-digit
+            year: 'numeric', // numeric, 2-digit                        
+            hour: 'numeric', // numeric, 2-digit
+            minute: 'numeric', // numeric, 2-digit    
+            hour12: true
+        });
+
+        comment.createdDate = dateAndTime;
     });
 
     if (!movie) {
@@ -95,17 +115,17 @@ exports.getMovieById = catchAsync(async (req, resp, next) => {
 });
 
 exports.deleteMovie = catchAsync(async (req, resp, next) => {
-     
+
 
     await Movie.findByIdAndDelete(req.params.id);
     return resp.status(204).json({
         status: 'success'
     });
 
-}); 
+});
 
 exports.updateMovie = catchAsync(async (req, resp, next) => {
-   
+
     console.log('UPDATE MOVIE')
 
     console.log(req.body);
@@ -118,5 +138,5 @@ exports.updateMovie = catchAsync(async (req, resp, next) => {
         status: 'success',
         data: movie
     });
-}); 
+});
 

@@ -569,7 +569,6 @@ $(document).ready(function () {
                         hour12: true                     
                     });
 
-
                     let card = `<div class="col-md-12">
                     <div class="card">
                         <div class="card-body">    
@@ -671,9 +670,7 @@ $(document).ready(function () {
     $('.movie-ratings-wrapper .rate').click(function (e) {
         const rating = $('.movie-ratings-wrapper .rate').index(e.target) + 1;
         let movieId = $('#movieId').val();
-
-
-
+       
         $.ajax({
             url: `http://localhost:8000/api/v1/movies/${movieId}/comments/rating`,
             method: 'PATCH',
@@ -688,6 +685,7 @@ $(document).ready(function () {
                 });
             },
             success: function (response) {
+                console.log('TESTING');
                 $.ajax({
                     url: `http://localhost:8000/api/v1/movies/${movieId}`,
                     method: 'GET',
@@ -720,17 +718,9 @@ $(document).ready(function () {
         $.ajax({
             url: `http://localhost:8000/api/v1/users/logout`,
             method: 'GET',
-            error: function (xhr) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: xhr.responseJSON.message,
-                });
-            },
-            success: function (response) {
-                window.location.href = '/';
-            }
         });
+
+        window.location.href = '/';
 
     });
 

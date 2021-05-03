@@ -83,16 +83,17 @@ exports.createRating = catchAsync(async (req, resp, next) => {
     const userId = req.user.id;
 
     const commentResult = await Comment.findOne({ movie: movieId, user: userId });
+    
 
     let rate;
-
+    
     if (commentResult) {
-        rate = await Comment.findOneAndUpdate({ movie: movieId, user: userId }, { rating }, { new: true });
+        rate = await Comment.findOneAndUpdate({ movie: movieId, user: userId }, { rating }, { new: true, validateBeforeSave: false });
     } else {
         rate = await Comment.create({ movie: movieId, user: userId, rating });
     }
 
-    return resp.status(201).json({
+    return resp.status(200).json({
         status: 'success',
         data: rate
     });
