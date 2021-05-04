@@ -10,16 +10,8 @@
                 <a class="nav-link" href="/">Home
                     <span class="sr-only">(current)</span>
                 </a>
-            </li>             
-            <li class="nav-item">
-                <a class="nav-link" href="/">All Movies</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/about">About</a>
-            </li>
-             
-        </ul>
-        <!-- TODO: Check If user is logged in -->
+            </li>                                     
+        </ul>        
         <ul class="navbar-nav  ">  
             {% if userLoggedIn|length > 0 %}           
                 <li class="nav-item dropdown">                           
@@ -28,7 +20,10 @@
                     <i class="fas fa-user"></i> {{userLoggedIn.firstName}}
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/auth/account/edit-account">Edit Account</a>
+                        {% if userLoggedIn.roles == 'admin' %}
+                        <a class="dropdown-item" href="/admin">Admin Dashboard</a>
+                        {% endif %}
+                        <a class="dropdown-item" href="/account/edit-account">Edit Account</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/auth/logout" id = "btn-logout">Logout</a>
                     </div>
@@ -40,9 +35,9 @@
                    <i class="fas fa-user"></i> Guest
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/auth/login">Login</a>
-                    <a class="dropdown-item" href="/auth/signup">Signup</a>
-                    <a class="dropdown-item" href="/auth/forgot-password">Forgot Password</a>                    
+                    <a class="dropdown-item" href="/login">Login</a>
+                    <a class="dropdown-item" href="/signup">Signup</a>
+                    <a class="dropdown-item" href="/forgot-password">Forgot Password</a>                    
                 </div>
             </li>
 

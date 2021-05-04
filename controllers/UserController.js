@@ -103,7 +103,7 @@ exports.getSignUp = catchAsync(async (req, resp, next) => {
         return resp.redirect('/');
     }
 
-    return resp.render(signup.html);
+    return resp.render('signup.html');
 });
 
 exports.postSignUp = catchAsync(async (req, resp, next) => {
@@ -118,7 +118,7 @@ exports.postSignUp = catchAsync(async (req, resp, next) => {
     }
 
     try {
-        const verifyUrl = `${req.protocol}://${req.get('host')}/auth/verifyAccount/${randomString}`
+        const verifyUrl = `${req.protocol}://${req.get('host')}/verifyAccount/${randomString}`
         let message = `Please verify your account by clicking on this link ${verifyUrl}`;
 
         await emailer({
@@ -132,7 +132,15 @@ exports.postSignUp = catchAsync(async (req, resp, next) => {
         console.log(error);
     }
 
-    createSendToken(user, 201, resp);
+    user.password = undefined;
+    user.confirmPassword = undefined;
+    user.passwordResetToken = undefined;
+    user.passwordResetTokenExpirationTimeStamp = undefined;
+
+    resp.status(201).json({
+        status: 'success',
+        message: 'Successfully Signed Up'
+    });
 });
 
 
@@ -225,7 +233,7 @@ exports.sendVerificationEmail = catchAsync(async (req, resp, next) => {
             user.validationToken = await User.createToken(randomString);
             await user.save({ validateBeforeSave: false });
 
-            const verifyUrl = `${req.protocol}://${req.get('host')}/auth/verifyAccount/${randomString}`
+            const verifyUrl = `${req.protocol}://${req.get('host')}/verifyAccount/${randomString}`
             let message = `Please verify your account by clicking on this link ${verifyUrl}`;
             await emailer({
                 subject: 'Validate Your Account',
@@ -274,7 +282,7 @@ exports.postForgotPassword = catchAsync(async (req, resp, next) => {
 
         await user.save({ validateBeforeSave: false });
 
-        const verifyUrl = `${req.protocol}://${req.get('host')}/auth/reset-password/${randomString}`
+        const verifyUrl = `${req.protocol}://${req.get('host')}/reset-password/${randomString}`
         let message = `You can reset your password by clicking on this link ${verifyUrl}`;
         await emailer({
             subject: 'Reset Password',
@@ -327,6 +335,7 @@ exports.postResetPassword = catchAsync(async (req, resp, next) => {
     }
 
     const passwordResetToken = await User.createToken(req.params.passwordToken);
+    console.log(passwordResetToken)
     const user = await User.findOne({ passwordResetToken, passwordResetTokenExpirationTimeStamp: { $gt: Date.now() } });
 
     if (!user) {
@@ -339,7 +348,10 @@ exports.postResetPassword = catchAsync(async (req, resp, next) => {
 
     user.save({ validateBeforeSave: false });
 
-    createSendToken(user, 200, resp);
+    resp.status(200).json({
+        status: 'success',
+        message: 'Successfully Reset Password'
+    });
 });
 
 
@@ -435,9 +447,9 @@ exports.getUsers = catchAsync(async (req, resp, next) => {
     resp.render('user-list.html', { users, currentPage, numberOfPages });
 });
 
-exports.logout = catchAsync(async (req, resp, next) => {
 
-   
+
+exports.logout = catchAsync(async (req, resp, next) => {
 
     resp.cookie('userToken', '', {
         maxAge: 0
@@ -575,7 +587,6 @@ exports.isLoggedIn = catchAsync(async (req, resp, next) => {
 
     try {
 
-        console.log('IS IT LOGGED IN ')
         let token;
 
         if (req.cookies['userToken'] && req.cookies['userToken'] !== '') {
@@ -601,11 +612,10 @@ exports.isLoggedIn = catchAsync(async (req, resp, next) => {
             req.user = user;
             resp.locals.user = user;
         }
-
-
     } catch (error) {
         console.log(error)
     }
 
+   
     next();
 });

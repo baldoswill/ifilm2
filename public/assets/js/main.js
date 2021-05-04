@@ -142,7 +142,7 @@ $(document).ready(function () {
                     });
 
                     setTimeout(function(){
-                        window.location.href = '/auth/login';
+                        window.location.href = '/login';
                     }, 3000);
                 },
                 error: function (xhr, status, error) {
@@ -392,7 +392,7 @@ $(document).ready(function () {
                     });
                     Swal.fire({
                         icon: 'success',
-                        title: 'Successfully sent the reset password link to your email.',
+                        title: 'Successfully sent the reset password link to your email',
                         showConfirmButton: false,
                         timer: 2500
                     })
@@ -460,7 +460,8 @@ $(document).ready(function () {
 
 
         if (!haveError) {
-            const passwordToken = location.pathname.split('/')[3];
+            const passwordToken = location.pathname.split('/')[2];
+            
             $.ajax({
                 url: `http://localhost:8000/api/v1/users/resetPassword/${passwordToken}`,
                 method: 'PATCH',
@@ -487,6 +488,11 @@ $(document).ready(function () {
                         showConfirmButton: false,
                         timer: 2500
                     });
+
+                    setTimeout(function(){
+                        window.location.href = '/login';
+                    }, 3000);
+                    
                 },
                 error: function (xhr, status, error) {
                     $('form').loading('stop');
@@ -763,7 +769,7 @@ $(document).ready(function () {
                 valueName: 'Story Line',
                 max: 1000,
                 min: 3,
-                pattern: { customPattern: '^[a-zA-Z0-9\\s.,!:?\'-]*$', customMessage: '' }
+                pattern: { customPattern: '^[a-zA-Z0-9\\s.,!:?/\'-]*$', customMessage: '' }
             },
             'category': {
                 val: category,
@@ -890,7 +896,7 @@ $(document).ready(function () {
                 valueName: 'Story Line',
                 max: 1000,
                 min: 3,
-                pattern: { customPattern: '^[a-zA-Z0-9\\s.,!:?\'-]*$', customMessage: '' }
+                pattern: { customPattern: '^[a-zA-Z0-9\\s.,!:?/\'-]*$', customMessage: '' }
             },
             'category': {
                 val: category,

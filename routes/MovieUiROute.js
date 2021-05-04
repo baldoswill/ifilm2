@@ -6,8 +6,7 @@ const UserController = require('../controllers/UserController');
 router.use(UserController.isLoggedIn);
 router.route('/').get(MovieController.getAllMoviesByAllUser);
 router.route('/:titleSlug').get(MovieController.getMovieBySlug);
- 
- 
+
 
 module.exports = router;
 
