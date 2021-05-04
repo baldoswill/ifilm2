@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const MovieController = require('../controllers/MovieController');
+const UserController = require('../controllers/UserController');
 
-router.route('/add-movie').get(MovieController.getCreateMovie);
-router.route('/').get(MovieController.getAllMovies);
+router.use(UserController.isLoggedIn);
+router.route('/').get(MovieController.getAllMoviesByAllUser);
 router.route('/:titleSlug').get(MovieController.getMovieBySlug);
  
  

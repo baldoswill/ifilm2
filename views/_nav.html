@@ -20,8 +20,21 @@
              
         </ul>
         <!-- TODO: Check If user is logged in -->
-        <ul class="navbar-nav  ">             
-            <li class="nav-item dropdown">                
+        <ul class="navbar-nav  ">  
+            {% if userLoggedIn|length > 0 %}           
+                <li class="nav-item dropdown">                           
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="fas fa-user"></i> {{userLoggedIn.firstName}}
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/auth/account/edit-account">Edit Account</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/auth/logout" id = "btn-logout">Logout</a>
+                    </div>
+                </li>
+            {% else %}
+            <li class="nav-item dropdown">                           
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                    aria-expanded="false">
                    <i class="fas fa-user"></i> Guest
@@ -29,11 +42,11 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="/auth/login">Login</a>
                     <a class="dropdown-item" href="/auth/signup">Signup</a>
-                    <a class="dropdown-item" href="/auth/forgot-password">Forgot Password</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/auth/logout">Logout</a>
+                    <a class="dropdown-item" href="/auth/forgot-password">Forgot Password</a>                    
                 </div>
             </li>
+
+            {% endif %}
         </ul>
     </div>
 </nav>

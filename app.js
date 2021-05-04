@@ -58,7 +58,7 @@ app.use(limiter);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
-app.use('/', homeUiRoutes);
+app.use('/', movieUiRoutes);
 app.use('/movies', movieUiRoutes);
 app.use('/auth', userUiRoutes);
 app.use('/categories', categoryUiRoutes);

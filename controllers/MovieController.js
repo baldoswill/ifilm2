@@ -34,9 +34,9 @@ exports.getEditMovie = catchAsync(async (req, resp, next) => {
     return resp.render('edit-movie.html', { categories, movie });
 });
 
-exports.getAllMovies = catchAsync(async (req, resp, next) => {
+exports.getAllMoviesByAdmin = catchAsync(async (req, resp, next) => {
 
-    let redirectPage = 'main.html';
+    console.log('ALL MOVIES BY ADMIN')
 
     req.query.limit = 8;
     const currentPage = req.query.page * 1 || 1
@@ -51,11 +51,26 @@ exports.getAllMovies = catchAsync(async (req, resp, next) => {
     const numberOfPages = Math.ceil(totalRows / req.query.limit);
     const movies = await features.query;
 
-    if (req.user && req.user.roles === 'admin') {
-        redirectPage = 'movie-list.html';
-    }
+    return resp.render('movie-list.html', { movies, numberOfPages, currentPage, userLoggedIn: resp.locals?.user });
+});
 
-    return resp.render(redirectPage, { movies, numberOfPages, currentPage });
+
+exports.getAllMoviesByAllUser = catchAsync(async (req, resp, next) => {
+
+    req.query.limit = 8;
+    const currentPage = req.query.page * 1 || 1
+
+    const features = new ApiFeatures(Movie.find(), req.query)
+        .filter()
+        .sort()
+        .limitFields()
+        .paginate()
+
+    const totalRows = await Movie.count();
+    const numberOfPages = Math.ceil(totalRows / req.query.limit);
+    const movies = await features.query;
+
+    return resp.render('main.html', { movies, numberOfPages, currentPage, userLoggedIn: resp.locals?.user });
 });
 
 exports.getMovieBySlug = catchAsync(async (req, resp, next) => {
@@ -80,7 +95,7 @@ exports.getMovieBySlug = catchAsync(async (req, resp, next) => {
         return resp.render('error.html');
     }
 
-    return resp.render('movie-details.html', { movie });
+    return resp.render('movie-details.html', { movie, userLoggedIn: resp.locals?.user });
 });
 
 exports.getMovieById = catchAsync(async (req, resp, next) => {
