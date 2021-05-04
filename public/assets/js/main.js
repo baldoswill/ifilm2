@@ -771,11 +771,7 @@ $(document).ready(function () {
                 max: 30,
                 min: 3,
                 pattern: { customPattern: '^[a-zA-Z0-9\\s.,\'-]*$', customMessage: '' }
-            },
-            'picture': {
-                val: picture,
-                valueName: 'Picture',
-            },
+            } 
         }
 
 
@@ -905,22 +901,20 @@ $(document).ready(function () {
             }
         }
 
-        console.log('TESTING UPDATING', category, title);
+      
 
 
         let validation = checkValidity(values)
         let haveError = Object.keys(validation.errors).some(key => validation.errors[key] !== '');
 
         if (!haveError) {
-            let formData = new FormData();
-            formData.append('_method', 'PATCH');
+            let formData = new FormData();            
             formData.append('title', title);
             formData.append('releaseYear', parseInt(releaseYear, 10));
             formData.append('cast', cast);
             formData.append('storyLine', storyLine);
             formData.append('picture', picture);
-            formData.append('category', category);
-            
+            formData.append('category', category);            
 
             $.ajax({
                 url: `http://localhost:8000/api/v1/movies/${id}`,
@@ -954,9 +948,9 @@ $(document).ready(function () {
                         timer: 2000
                     });
 
-                    // setTimeout(function(){
-                    //     window.location.href = '/admin/movies';
-                    // }, 3000);
+                    setTimeout(function(){
+                        window.location.href = '/admin/movies';
+                    }, 3000);
                 },
                 error: function (xhr, status, error) {
                     $('form').loading('stop');

@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 const slug = require('slug');
  
-
-
-
 const movieSchema = mongoose.Schema({
     title: {
         type: String,
@@ -19,7 +16,8 @@ const movieSchema = mongoose.Schema({
         min: [1910, 'Release Year should not be lesser than 1910`;'],
     },
     picture: {
-        type: String
+        type: String,
+        default: 'default.jpeg'
     },
     cast: {
         type: String,

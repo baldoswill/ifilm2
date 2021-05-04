@@ -17,7 +17,7 @@ router.route('/:id').get(MovieController.getMovieById);
 router.use(UserController.restrictTo('admin'));
 router.route('/:id').delete(MovieController.deleteMovie);
 router.route('/').post(uploader.single('picture'), imageValidation, MovieController.createMovie);
-router.route('/:id').patch( MovieController.updateMovie);
+router.route('/:id').patch( uploader.single('picture'), imageValidation,MovieController.updateMovie);
 
 
 module.exports = router;

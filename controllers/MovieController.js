@@ -8,14 +8,12 @@ const AppError = require('../utils/AppError');
 
 exports.createMovie = catchAsync(async (req, resp, next) => {
 
-    if (typeof (req.file) === "undefined" || typeof (req.body) === "undefined") {
+    if (typeof (req.body) === "undefined") {
         return next(new AppError('All fields are required'));
     }
 
-    req.body.picture = req.file.filename;
+    req.body.picture = req.file?.filename;
     const movie = await Movie.create(req.body);
-
-    console.log(req.body)
 
     return resp.status(201).json({
         status: 'success',
@@ -126,9 +124,13 @@ exports.deleteMovie = catchAsync(async (req, resp, next) => {
 
 exports.updateMovie = catchAsync(async (req, resp, next) => {
 
-    console.log('UPDATE MOVIE')
-
-    console.log(req.body);
+    if(req.file && req.file.filename && req.file.filename !== ''){
+        req.body.picture = req.file?.filename;        
+    }else{
+        delete req.body.picture;        
+    }
+    
+    
     const movie = await Movie.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true
