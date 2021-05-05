@@ -35,8 +35,7 @@ exports.getEditMovie = catchAsync(async (req, resp, next) => {
 });
 
 exports.getAllMoviesByAdmin = catchAsync(async (req, resp, next) => {
-
-    console.log('ALL MOVIES BY ADMIN')
+ 
 
     req.query.limit = 8;
     const currentPage = req.query.page * 1 || 1
@@ -56,7 +55,18 @@ exports.getAllMoviesByAdmin = catchAsync(async (req, resp, next) => {
 
 
 exports.getAllMoviesByAllUser = catchAsync(async (req, resp, next) => {
+     
+     if(req.query.title){
+         let title = req.query.title;
+         delete req.query.title
 
+         req.query.title = {
+             regex : title
+         } 
+     }
+     
+   
+ 
     req.query.limit = 8;
     const currentPage = req.query.page * 1 || 1
 
