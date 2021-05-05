@@ -459,8 +459,8 @@ exports.logout = catchAsync(async (req, resp, next) => {
         req.user = undefined;
     }
 
-    if (req.locals.user) {
-        req.locals.user = undefined;
+    if (resp.locals.user) {
+        resp.locals.user = undefined;
     }
 
     if (req.headers.authorization) {
@@ -470,6 +470,28 @@ exports.logout = catchAsync(async (req, resp, next) => {
     resp.status(200).json({
         status: 'success'
     })
+});
+
+exports.logoutPage = catchAsync(async (req, resp, next) => {
+
+    console.log('logout page')
+
+    resp.cookie('userToken', '', {
+        maxAge: 0
+    });
+
+    if (req.user) {
+        console.log('user')
+        req.user = undefined;
+    }
+
+    if (resp.locals.user) {
+        console.log('locals')
+        resp.locals.user = undefined;
+    }
+ 
+
+    return resp.redirect('/');
 });
 
 exports.getCreateUser = catchAsync(async (req, resp, next) => {

@@ -725,8 +725,11 @@ $(document).ready(function () {
             url: `http://localhost:8000/api/v1/users/logout`,
             method: 'GET',
         });
+         
+
 
         window.location.href = '/';
+       
 
     });
 

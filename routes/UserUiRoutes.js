@@ -10,6 +10,7 @@ router.route('/verifyAccount/:verifyToken').get(UserController.verifyAccount);
 router.route('/forgot-password/').get(UserController.getForgotPassword);
 router.route('/reset-password/:passwordToken').get(UserController.getResetPassword);
 router.route('/account/edit-account').get(UserController.getMyUpdateAccount);
+router.route('/logout').get(UserController.logoutPage);
 
 
 module.exports = router;
