@@ -85,8 +85,6 @@ exports.getAllMoviesByAllUser = catchAsync(async (req, resp, next) => {
 
 exports.getMovieBySlug = catchAsync(async (req, resp, next) => {
 
-    console.log('Movie slug')
-
     const movie = await Movie.findOne({ titleSlug: req.params.titleSlug }).populate('comments').lean();
 
     movie.comments.forEach(comment => {

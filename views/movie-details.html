@@ -66,11 +66,10 @@
                             <input type="hidden" id='movieId' value="{{movie._id}}" name="movieId">
                         </div>
                 </div>
-            </div>   
-                      <!-- TODO: Prevent showing comments Title when there is no comments -->
-                      
+            </div>                                               
                 <div class="row comments-wrapper">
-                    {% if movie.comments|length > 0 %}   
+                    {% if movie.comments|length > 0 %}                      
+                    {% if movie.comments[0].commentBody.length > 0 %} 
                     <div class="col-md-12 ">
                         <h4 class="float-right mb-4 comments-title">Comments</h2>
                         <div class="comments">
@@ -106,6 +105,7 @@
                             </p>
                         </div>                       
                     </div>
+                {% endif %}
                 {% endif %}
                 </div>
                 

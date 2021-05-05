@@ -472,25 +472,20 @@ exports.logout = catchAsync(async (req, resp, next) => {
     })
 });
 
-exports.logoutPage = catchAsync(async (req, resp, next) => {
-
-    console.log('logout page')
+exports.logoutPage = catchAsync(async (req, resp, next) => {   
 
     resp.cookie('userToken', '', {
         maxAge: 0
     });
 
-    if (req.user) {
-        console.log('user')
+    if (req.user) {       
         req.user = undefined;
     }
 
-    if (resp.locals.user) {
-        console.log('locals')
+    if (resp.locals.user) {        
         resp.locals.user = undefined;
     }
  
-
     return resp.redirect('/');
 });
 
