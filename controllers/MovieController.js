@@ -85,7 +85,7 @@ exports.getAllMoviesByAllUser = catchAsync(async (req, resp, next) => {
 
 exports.getMovieBySlug = catchAsync(async (req, resp, next) => {
 
-    const movie = await Movie.findOne({ titleSlug: req.params.titleSlug }).populate('comments').lean();
+    const movie = await Movie.findOne({ titleSlug: req.params.titleSlug }).populate({path:'comments'}).lean();
 
     movie.comments.forEach(comment => {
         let createdDate = new Date(comment.createdDate);

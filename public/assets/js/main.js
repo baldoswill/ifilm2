@@ -1763,49 +1763,16 @@ $(document).ready(function () {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // let movieInputId = $('#movieId');
-    // let isMovieIdExists = movieInputId.length;
-
-    // if (isMovieIdExists > 0) {
-
-    //     $.ajax({
-    //         url: `http://localhost:8000/api/v1/movies/${movieInputId.val()}`,
-    //         method: 'GET',           
-    //         error: function (xhr, status, error) {
-    //             $('form').loading('stop');
-    //             $('#btn-add-comment').attr("disabled", false);
-    //             Swal.fire({
-    //                 icon: 'error',
-    //                 title: 'Oops...',
-    //                 text: xhr.responseJSON.message,
-    //             });
-    //         },
-    //         success: function (response) {
-    //             let totalRating = response.data.totalRating;
-    //             $('.movie-ratings-wrapper .rate').index(totalRating);
-
-    //             let rateElements = $('.movie-ratings-wrapper .rate');
-
-    //             for (let index = 0; index < totalRating; index++) {
-    //                 $('.movie-ratings-wrapper .rate')[index].classList.add('active');
-    //             }
-    //         }
-    //     });
-    // }
-
+    let userRating = $('#userRating').val();
+    console.log(userRating)
+    
+    let itemIndex = 0;
+    $('.movie-ratings-wrapper .rate').each((index, item) => {
+        if(index < userRating){
+            $(item).addClass('active');
+        }        
+    });
+     
 
 
 });

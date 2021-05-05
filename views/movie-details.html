@@ -3,6 +3,7 @@
 {% block title %} Movie Details {% endblock %}
 
 {% block content %}
+
 <div class="container">
     <div class="row">
         <div class="col-12" id="#top">
@@ -14,6 +15,7 @@
                     <div class="movie-title mb-5">
                         <h2>{{movie.title}}</h2>
                         <h5 class="category-text font-weight-bold">{{movie.category}}</h5>
+                        <h1>{{userRating}}</h1>
                         <div class="movie-ratings-wrapper">
                             <i class="fas fa-star rate"></i>
                             <i class="fas fa-star rate"></i>
@@ -66,16 +68,20 @@
                             <input type="hidden" id='movieId' value="{{movie._id}}" name="movieId">
                         </div>
                 </div>
-            </div>                                               
+            </div>          
+                {% set userRating = 0 %}                                     
                 <div class="row comments-wrapper">
                     {% if movie.comments|length > 0 %}                      
-                    {% if movie.comments[0].commentBody.length > 0 %} 
+                   
                     <div class="col-md-12 ">
                         <h4 class="float-right mb-4 comments-title">Comments</h2>
                         <div class="comments">
                             <div class="row">                               
                                 {% for comment in movie.comments%}
-                                    {% if comment.commentBody %}
+                                    {% if userLoggedIn.id == comment.user %}
+                                        {% set userRating = comment.rating %}
+                                    {%endif%}
+                                    {% if comment.commentBody %}                                       
                                         <div class="col-md-12 comment-box">
                                             <div class="card">
                                                 <div class="card-body">
@@ -106,9 +112,9 @@
                         </div>                       
                     </div>
                 {% endif %}
-                {% endif %}
+             
                 </div>
-                
+                <input type="hidden" name="userRating" id = "userRating" value = "{{userRating}}">
         </div>
     </div>
 </div>

@@ -53,6 +53,7 @@ movieSchema.virtual('comments', {
     foreignField: 'movie',
     localField: '_id',
     options: { sort: { createdDate: -1 }}
+
 });
 
 movieSchema.pre('save', function(next){
