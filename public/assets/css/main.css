@@ -1,34 +1,35 @@
+html,
+body {
+    scroll-behavior: smooth !important;
+    height         : 100% !important;
+}
 
-html, body {
-    scroll-behavior: smooth !important;     
-  }  
 
 
-
-a{
+a {
     text-decoration: none !important;
 }
 
-.fill-height{
+.fill-height {
     min-height: 100% !important;
-    height: 100vh !important;
-     
+    height    : 100vh !important;
+
 }
 
-.table td.fit, 
+.table td.fit,
 .table th.fit {
     white-space: nowrap !important;
-    width: 1% !important;
-    padding: 1rem .7rem !important; 
-    text-align: center;  
-    word-break: break-all; 
+    width      : 1% !important;
+    padding    : 1rem .7rem !important;
+    text-align : center;
+    word-break : break-all;
 }
 
-.table{
+.table {
     width: 100% !important;
 }
 
- .error-input {
+.error-input {
     color     : #FF0D18;
     font-size : .7rem;
     margin-top: .8rem;
@@ -120,18 +121,18 @@ a{
 
 }
 
-#main-content .rating-wrapper .rating {   
-    background : rgba(37, 37, 37, 0.8);
-    color      : #FCF11D;
-    font-weight: bolder !important;
-    overflow: auto;        
-    display: inline-block;
-    max-width: 190px;
-    width: 45px !important;
-    height: 45px !important;  
-    display: flex;
+#main-content .rating-wrapper .rating {
+    background     : rgba(37, 37, 37, 0.8);
+    color          : #FCF11D;
+    font-weight    : bolder !important;
+    overflow       : auto;
+    display        : inline-block;
+    max-width      : 190px;
+    width          : 45px !important;
+    height         : 45px !important;
+    display        : flex;
     justify-content: center;
-    align-items: center; 
+    align-items    : center;
 }
 
 #main-content .movie-list .movie-link {
@@ -320,22 +321,36 @@ a{
 
 /* Dashboard */
 
-#dashboard-content .general-lists .actions a{
-    padding: .3rem;
+#dashboard {
+    display: flex;
+}
+
+.main-wrapper {
+    flex: 1;
+}
+
+.sidenav {
+    height: 100% !important;
+
+
+}
+
+#dashboard-content .general-lists .actions a {
+    padding         : .3rem;
     background-color: #444444;
-    color: #fff;
-    margin-right: .2rem;
-    transition: .3s ease-in-out all;
-    box-sizing: border-box;
+    color           : #fff;
+    margin-right    : .2rem;
+    transition      : .3s ease-in-out all;
+    box-sizing      : border-box;
 }
 
 
-#dashboard-content .general-lists .actions a:hover{
-    cursor: pointer;
+#dashboard-content .general-lists .actions a:hover {
+    cursor : pointer;
     opacity: .7;
 }
 
- 
+
 
 
 
@@ -361,4 +376,3 @@ a{
 
 
 }
-
