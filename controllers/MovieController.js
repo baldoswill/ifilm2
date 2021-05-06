@@ -69,9 +69,7 @@ exports.getAllMoviesByAllUser = catchAsync(async (req, resp, next) => {
    
     // req.query.sort = 'title';
     req.query.limit = 8;
-    const currentPage = req.query.page * 1 || 1
-
-    console.log(req.query)
+    const currentPage = req.query.page * 1 || 1;
 
     const features = new ApiFeatures(Movie.find(), req.query)
         .filter()
