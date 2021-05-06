@@ -614,7 +614,7 @@ exports.isLoggedIn = catchAsync(async (req, resp, next) => {
             }
 
             const decodedToken = await promisify(jwt.verify)(token, process.env.JWT_SECRET.trim());
-            const user = await User.findById(decodedToken.id).select('passwordChangedAt firstName lastName dob email');
+            const user = await User.findById(decodedToken.id).select('passwordChangedAt firstName lastName dob email roles');
 
             if (!user) {
                 return next();

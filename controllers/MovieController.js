@@ -38,6 +38,7 @@ exports.getAllMoviesByAdmin = catchAsync(async (req, resp, next) => {
  
 
     req.query.limit = 8;
+    req.query.sort = '-createdDate';
     const currentPage = req.query.page * 1 || 1
 
     const features = new ApiFeatures(Movie.find(), req.query)
@@ -66,9 +67,11 @@ exports.getAllMoviesByAllUser = catchAsync(async (req, resp, next) => {
      }
      
    
-    req.query.sort = '-createdDate';
+    // req.query.sort = 'title';
     req.query.limit = 8;
     const currentPage = req.query.page * 1 || 1
+
+    console.log(req.query)
 
     const features = new ApiFeatures(Movie.find(), req.query)
         .filter()

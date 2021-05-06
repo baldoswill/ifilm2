@@ -35,6 +35,11 @@ a {
     margin-top: .8rem;
 }
 
+#sortBy{
+    display: inline-block !important;
+    width: 30%;
+}
+
 #main-content .totop {
     display: block;
 }

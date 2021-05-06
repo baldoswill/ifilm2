@@ -15,6 +15,16 @@
             </div>
         </div>
     </div>
+    <div>
+        <strong>Sort Movies <i class="fas fa-sort"></i></strong>
+        <select name="sortBy" id="sortBy" class="form-control">
+            <option value="-createdDate">DESC: Created Date</option>
+            <option value="createdDate">ASC: Created Date</option>
+            <option value="-title">DESC: Title</option>
+            <option value="title">ASC: Title</option>
+        </select>
+    </div>
+    
     <div class="my-5 row row-eq-height movie-list">
         {% if movies|length > 0 %}
         {% for item in movies%}
@@ -57,7 +67,7 @@
 
                     {% for item in range(0, numberOfPages) %}
                     <li class="page-item {{ ' active' if (item + 1) == currentPage else ' ' }}">
-                        <a class='page-link' href="/?page={{item+1}}">{{item + 1}}</a>
+                        <a class='page-link page-link-number' href="/?page={{item+1}}&sort=%SORTREPLACE%" id = "page-linkNum-{{item+1}}">{{item + 1}}</a>
                     </li>
                     {% endfor %}
 

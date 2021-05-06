@@ -1774,12 +1774,50 @@ $(document).ready(function () {
     });
 
     $('.burger-menu').click(function(e){
+        e.preventDefault();
         $(this).toggleClass('active');
         $('.sidenav-wrapper').toggleClass('unhide');
     });
+
+    $('#sortBy').on('change', function()
+    {
+        
+        localStorage.setItem('sortBy', $(this).val());
+        console.log($(this).val())
+
+        let href = '';
+
+        $('[id^=page-linkNum]').each(function(index, el){
+            href = $(el).attr('href');
+            href = href.replace('%SORTREPLACE%', $(this).val());
+            $(el).attr('href', href);  
+        });
+
+        location.href = `?page=1&sort=${$(this).val()}`;
+
+    });
+
      
+    if(localStorage.getItem('sortBy') && localStorage.getItem('sortBy') !== ''){
+        
+        let sortBy = localStorage.getItem('sortBy');
 
-
+        $('[id^=page-linkNum]').each(function(index, el){
+            let href = $(el).attr('href');
+            href = href.replace('%SORTREPLACE%', sortBy);
+            $(el).attr('href', href);  
+        });
+       
+        $("#sortBy").val(sortBy);
+    }else{
+        $('[id^=page-linkNum]').each(function(index, el){
+            let href = $(el).attr('href');
+            href = href.replace('%SORTREPLACE%', sortBy);
+            $(el).attr('href', href);  
+        });
+    }
+    
+    
 });
 
 
