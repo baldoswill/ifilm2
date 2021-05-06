@@ -41,6 +41,10 @@ const movieSchema = mongoose.Schema({
     totalRating: {
         type: Number,
         default: 0
+    },
+    createdDate: {
+        type: Date,
+        default: Date.now()
     }
 });
 
