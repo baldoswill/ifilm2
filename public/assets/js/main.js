@@ -1783,38 +1783,64 @@ $(document).ready(function () {
     {
         
         localStorage.setItem('sortBy', $(this).val());
-        console.log($(this).val())
+       
 
-        let href = '';
+        // let href = '';
 
-        $('[id^=page-linkNum]').each(function(index, el){
-            href = $(el).attr('href');
-            href = href.replace('%SORTREPLACE%', $(this).val());
-            $(el).attr('href', href);  
-        });
+        // $('[id^=page-linkNum]').each(function(index, el){
+        //     href = $(el).attr('href');
+        //     href = href.replace('%SORTREPLACE%', $(this).val());
+        //     $(el).attr('href', href);  
+        // });
+
+        // let hrefIncrease = $('#page-link-increase').href('href');
+        // hrefIncrease = hrefIncrease.replace('%SORTREPLACE%', $(this).val());
+        // $('#page-link-increase').attr('href', hrefIncrease);  
+
+
+        // let hrefDecrease = $('#page-link-decrease').href('href');
+        // hrefDecrease = hrefDecrease.replace('%SORTREPLACE%', $(this).val());
+        // $('#page-link-decrease').attr('href', hrefDecrease);  
 
         location.href = `?page=1&sort=${$(this).val()}`;
+    
 
     });
+
+    const sorting = (sortByValue) => {
+        $("#sortBy").val(sortByValue);        
+
+        if($('#page-link-increase') && $('#page-link-decrease')){
+
+            $('[id^=page-linkNum]').each(function(index, el){
+                let href = $(el).attr('href');
+                href = href.replace('%SORTREPLACE%', sortByValue);
+                $(el).attr('href', href);  
+            });
+
+            let hrefIncrease = $('#page-link-increase').href('href');
+            hrefIncrease = hrefIncrease.replace('%SORTREPLACE%', sortByValue);
+            $('#page-link-increase').attr('href', hrefIncrease);  
+    
+    
+            let hrefDecrease = $('#page-link-decrease').href('href');
+            hrefDecrease = hrefDecrease.replace('%SORTREPLACE%', sortByValue);
+            $('#page-link-decrease').attr('href', hrefDecrease);  
+        }
+       
+    }
 
      
     if(localStorage.getItem('sortBy') && localStorage.getItem('sortBy') !== ''){
         
         let sortBy = localStorage.getItem('sortBy');
-
-        $('[id^=page-linkNum]').each(function(index, el){
-            let href = $(el).attr('href');
-            href = href.replace('%SORTREPLACE%', sortBy);
-            $(el).attr('href', href);  
-        });
+        sorting(sortBy);
        
-        $("#sortBy").val(sortBy);
+        
     }else{
-        $('[id^=page-linkNum]').each(function(index, el){
-            let href = $(el).attr('href');
-            href = href.replace('%SORTREPLACE%', sortBy);
-            $(el).attr('href', href);  
-        });
+
+        sorting($('#sortBy').val());
+       
     }
     
     

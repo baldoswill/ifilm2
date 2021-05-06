@@ -62,7 +62,7 @@
                 <ul class="pagination">
                     {% if numberOfPages > 1%}
                     <li class="page-item {{ ' ' if (currentPage > 1)  else ' disabled' }}">
-                        <a class="page-link" href="/?page={{currentPage-1}}">&laquo;</a>
+                        <a class="page-link" href="/?page={{currentPage-1}}&sort=%SORTREPLACE%" id = "page-link-decrease">&laquo;</a>
                     </li>
 
                     {% for item in range(0, numberOfPages) %}
@@ -72,7 +72,7 @@
                     {% endfor %}
 
                     <li class="page-item {{ ' ' if (currentPage < numberOfPages) else ' disabled' }}">
-                        <a class="page-link" href="/?page={{currentPage+1}}">&raquo;</a>
+                        <a class="page-link" href="/?page={{currentPage+1}}&sort=%SORTREPLACE%" id = "page-link-increase">&raquo;</a>
                     </li>
                     {% endif %}
                 </ul>
