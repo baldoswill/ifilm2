@@ -66,7 +66,7 @@ exports.getAllMoviesByAllUser = catchAsync(async (req, resp, next) => {
      }
      
    
- 
+    req.query.sort = '-createdDate';
     req.query.limit = 8;
     const currentPage = req.query.page * 1 || 1
 
