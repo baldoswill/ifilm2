@@ -19,7 +19,7 @@
 <body>
     <div id = 'dashboard'>
         <div class="row main-wrapper">
-            <div class="col-md-3 bg-primary fill-height">
+            <div class="col-md-3 fill-height sidenav-wrapper bg-primary">
                 <div class="sidenav ">
                     <div class="navbar navbar-default">
                         <div class="navbar-inner">
@@ -52,6 +52,14 @@
                 </div>
             </div>
             <div class="col-md-9 my-5 " id="dashboard-content">
+                <div class="burger-menu-wrapper">
+                    <div class="burger-menu">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                     </div>
+                </div>
+                 
                 <div class="container">
                     {% block content %}
                     {% endblock %}

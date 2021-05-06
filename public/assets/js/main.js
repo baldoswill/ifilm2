@@ -1772,6 +1772,11 @@ $(document).ready(function () {
             $(item).addClass('active');
         }        
     });
+
+    $('.burger-menu').click(function(e){
+        $(this).toggleClass('active');
+        $('.sidenav-wrapper').toggleClass('unhide');
+    });
      
 
 
