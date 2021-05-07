@@ -6,7 +6,7 @@ dotenv.config({path: './config.env'});
 let port = process.env.PORT || 5000;
 // const DB_LOCAL ='mongodb://localhost:27017/ifilm';
 
-mongoose.connect(process.env.DB_LOCAL, {
+mongoose.connect(process.env.DB_ATLAS, {
     useNewUrlParser: true,
     useFindAndModify: false,
     useUnifiedTopology: true,
