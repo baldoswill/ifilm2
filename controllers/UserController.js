@@ -209,6 +209,7 @@ exports.verifyAccount = catchAsync(async (req, resp, next) => {
             user.isActive = true;
             user.validationToken = undefined;
             await user.save({ validateBeforeSave: false });
+            return resp.redirect('/login');
         }
         isVerified = true;
     }
