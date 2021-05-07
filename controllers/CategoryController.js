@@ -26,7 +26,7 @@ exports.getCategories = catchAsync(async(req, resp,next) => {
 
 
 exports.getCreateCategory = catchAsync(async(req, resp,next) => {
-    console.log('CREATE CATEGORY');
+    
     return resp.render('add-category.html');
 });
 

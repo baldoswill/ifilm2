@@ -691,7 +691,7 @@ $(document).ready(function () {
                 });
             },
             success: function (response) {
-                console.log('TESTING');
+                
                 $.ajax({
                     url: `http://localhost:8000/api/v1/movies/${movieId}`,
                     method: 'GET',
@@ -706,7 +706,7 @@ $(document).ready(function () {
 
                         let totalRating = resp.data.totalRating;
                         $('.totalRating').text(totalRating);
-                        console.log(rating)
+                       
                         $(`[data-commentid="${response.data._id}"]`).text(rating);
                     }
                 });
@@ -845,8 +845,7 @@ $(document).ready(function () {
 
             Object.keys(validation.errors).forEach(key => {
                 let errorInput = $(`.${key}.error-input`);
-                console.log(key);
-                console.log(validation.errors[key])
+              
                 errorInput.text(validation.errors[key]);
             })
         }
@@ -976,8 +975,7 @@ $(document).ready(function () {
 
             Object.keys(validation.errors).forEach(key => {
                 let errorInput = $(`.${key}.error-input`);
-                console.log(key);
-                console.log(validation.errors[key])
+              
                 errorInput.text(validation.errors[key]);
             })
         }
@@ -1746,25 +1744,11 @@ $(document).ready(function () {
 
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
     let userRating = $('#userRating').val();
-    console.log(userRating)
+ 
     
     let itemIndex = 0;
     $('.movie-ratings-wrapper .rate').each((index, item) => {

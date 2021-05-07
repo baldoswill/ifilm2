@@ -335,7 +335,7 @@ exports.postResetPassword = catchAsync(async (req, resp, next) => {
     }
 
     const passwordResetToken = await User.createToken(req.params.passwordToken);
-    console.log(passwordResetToken)
+    
     const user = await User.findOne({ passwordResetToken, passwordResetTokenExpirationTimeStamp: { $gt: Date.now() } });
 
     if (!user) {
@@ -530,7 +530,7 @@ exports.postCreateUser = catchAsync(async (req, resp, next) => {
 
 exports.patchUpdateUser = catchAsync(async (req, resp, next) => {
 
-    console.log('UPDATINGGGGG');
+    
     const { firstName, lastName, dob, email, roles } = req.body;
     const user = await User.findByIdAndUpdate(req.params.id, { firstName, lastName, dob, email, roles },
         {
