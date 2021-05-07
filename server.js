@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 dotenv.config({path: './config.env'});
-
+let port = process.env.PORT || 5000;
 // const DB_LOCAL ='mongodb://localhost:27017/ifilm';
 
 mongoose.connect(process.env.DB_LOCAL, {
@@ -13,6 +13,6 @@ mongoose.connect(process.env.DB_LOCAL, {
     useCreateIndex: true
 }).then().catch(error => console.log(error));
 
-app.listen(8000, () => {
-    console.log(`running on 8000 `);
+app.listen(port, () => {
+    console.log(`running on ${port} `);
 });
