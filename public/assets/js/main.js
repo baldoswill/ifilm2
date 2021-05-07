@@ -1,4 +1,5 @@
 import { checkValidity } from "./inputValidation.js";
+const URL = 'https://ifilmpro.herokuapp.com';
 
 // ------------------------------ ADD CATEGORY ----------------------------------------------
 
@@ -113,7 +114,7 @@ $(document).ready(function () {
         if (!haveError) {
 
             $.ajax({
-                url: 'http://localhost:8000/api/v1/users/signup',
+                url: `${URL}/api/v1/users/signup`,
                 method: 'POST',
                 data: { firstName, lastName, dob, password, confirmPassword, email },
                 beforeSend: function () {
@@ -213,7 +214,7 @@ $(document).ready(function () {
         if (!haveError) {
 
             $.ajax({
-                url: 'http://localhost:8000/api/v1/users/login',
+                url: `${URL}/api/v1/users/login`,
                 method: 'POST',
                 data: { password, email },
                 success: function (data) {
@@ -291,7 +292,7 @@ $(document).ready(function () {
 
         if (!haveError) {
             $.ajax({
-                url: 'http://localhost:8000/api/v1/users/sendVerificationEmail',
+                url: `${URL}/api/v1/users/sendVerificationEmail`,
                 method: 'POST',
                 data: { email },
                 beforeSend: function () {
@@ -371,7 +372,7 @@ $(document).ready(function () {
         if (!haveError) {
 
             $.ajax({
-                url: 'http://localhost:8000/api/v1/users/forgotPassword',
+                url: `${URL}/api/v1/users/forgotPassword`,
                 method: 'POST',
                 data: { email },
                 beforeSend: function () {
@@ -463,7 +464,7 @@ $(document).ready(function () {
             const passwordToken = location.pathname.split('/')[2];
             
             $.ajax({
-                url: `http://localhost:8000/api/v1/users/resetPassword/${passwordToken}`,
+                url: `${URL}/api/v1/users/resetPassword/${passwordToken}`,
                 method: 'PATCH',
                 data: { password, confirmPassword },
                 beforeSend: function () {
@@ -545,7 +546,7 @@ $(document).ready(function () {
         if (!haveError) {
 
             $.ajax({
-                url: `http://localhost:8000/api/v1/movies/${movieId}/comments`,
+                url: `${URL}/api/v1/movies/${movieId}/comments`,
                 method: 'POST',
                 data: { commentBody },
                 beforeSend: function () {
@@ -678,7 +679,7 @@ $(document).ready(function () {
         let movieId = $('#movieId').val();
        
         $.ajax({
-            url: `http://localhost:8000/api/v1/movies/${movieId}/comments/rating`,
+            url: `${URL}/api/v1/movies/${movieId}/comments/rating`,
             method: 'PATCH',
             data: { rating },
             error: function (xhr, status, error) {
@@ -693,7 +694,7 @@ $(document).ready(function () {
             success: function (response) {
                 
                 $.ajax({
-                    url: `http://localhost:8000/api/v1/movies/${movieId}`,
+                    url: `${URL}/api/v1/movies/${movieId}`,
                     method: 'GET',
                     success: function (resp) {
 
@@ -722,7 +723,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         $.ajax({
-            url: `http://localhost:8000/api/v1/users/logout`,
+            url: `${URL}/api/v1/users/logout`,
             method: 'GET',
         });
          
@@ -799,7 +800,7 @@ $(document).ready(function () {
             formData.append('category', category);
 
             $.ajax({
-                url: 'http://localhost:8000/api/v1/movies',
+                url: `${URL}/api/v1/movies`,
                 enctype: 'multipart/form-data',
                 method: 'POST',
                 data: formData,
@@ -925,7 +926,7 @@ $(document).ready(function () {
             formData.append('category', category);            
 
             $.ajax({
-                url: `http://localhost:8000/api/v1/movies/${id}`,
+                url: `${URL}/api/v1/movies/${id}`,
                 enctype: 'multipart/form-data',
                 method: 'PATCH',
                 data: formData,
@@ -1006,7 +1007,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: `http://localhost:8000/api/v1/movies/${id}`,
+                    url: `${URL}/api/v1/movies/${id}`,
                     method: 'DELETE',
                     success: function (response) {
                         window.location.href = '/admin/movies';
@@ -1046,7 +1047,7 @@ $(document).ready(function () {
         if (!haveError) {
             let formData = { name };
             $.ajax({
-                url: 'http://localhost:8000/api/v1/categories',
+                url: `${URL}/api/v1/categories`,
                 method: 'POST',
                 data: formData,
                 success: function (data) {
@@ -1099,7 +1100,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: `http://localhost:8000/api/v1/categories/${id}`,
+                    url: `${URL}/api/v1/categories/${id}`,
                     method: 'DELETE',
                     success: function (response) {
                         window.location.href = '/admin/categories';
@@ -1132,7 +1133,7 @@ $(document).ready(function () {
         if (!haveError) {
             let formData = { name };
             $.ajax({
-                url: `http://localhost:8000/api/v1/categories/${id}`,
+                url: `${URL}/api/v1/categories/${id}`,
                 method: 'PATCH',
                 data: formData,
                 success: function (data) {
@@ -1188,7 +1189,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: `http://localhost:8000/api/v1/users/${id}`,
+                    url: `${URL}/api/v1/users/${id}`,
                     method: 'DELETE',
                     success: function (response) {
                         window.location.href = '/admin/users';
@@ -1266,7 +1267,7 @@ $(document).ready(function () {
         if (!haveError) {
 
             $.ajax({
-                url: 'http://localhost:8000/api/v1/users/',
+                url: `${URL}/api/v1/users/`,
                 method: 'POST',
                 data: { firstName, lastName, dob, password, confirmPassword, email, roles },
                 beforeSend: function () {
@@ -1370,7 +1371,7 @@ $(document).ready(function () {
         if (!haveError) {
 
             $.ajax({
-                url: `http://localhost:8000/api/v1/users/${id}`,
+                url: `${URL}/api/v1/users/${id}`,
                 method: 'PATCH',
                 data: { firstName, lastName, dob, email, roles },
                 beforeSend: function () {
@@ -1472,7 +1473,7 @@ $(document).ready(function () {
         if (!haveError) {
 
             $.ajax({
-                url: `http://localhost:8000/api/v1/users/passwordChange/${id}`,
+                url: `${URL}/api/v1/users/passwordChange/${id}`,
                 method: 'PATCH',
                 data: { password, confirmPassword },
                 beforeSend: function () {
@@ -1582,7 +1583,7 @@ $(document).ready(function () {
         if (!haveError) {
 
             $.ajax({
-                url: `http://localhost:8000/api/v1/users/patchUpdateMyAccount/${id}`,
+                url: `${URL}/api/v1/users/patchUpdateMyAccount/${id}`,
                 method: 'PATCH',
                 data: { firstName, lastName, dob, email,roles },
                 beforeSend: function () {
@@ -1682,7 +1683,7 @@ $(document).ready(function () {
         if (!haveError) {
 
             $.ajax({
-                url: `http://localhost:8000/api/v1/users/patchUpdateMyPassword/${id}`,
+                url: `${URL}/api/v1/users/patchUpdateMyPassword/${id}`,
                 method: 'PATCH',
                 data: { password, confirmPassword },
                 beforeSend: function () {
