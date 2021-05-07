@@ -1794,7 +1794,8 @@ $(document).ready(function () {
     const sorting = (sortByValue) => {
         $("#sortBy").val(sortByValue);        
 
-        if($('#page-link-increase') && $('#page-link-decrease')){
+        if($('#page-link-increase').length > 0 && $('#page-link-decrease').length > 0){
+            
 
             $('[id^=page-linkNum]').each(function(index, el){
                 let href = $(el).attr('href');
