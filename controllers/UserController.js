@@ -107,15 +107,14 @@ exports.getSignUp = catchAsync(async (req, resp, next) => {
 });
 
 exports.postSignUp = catchAsync(async (req, resp, next) => {
+
+    console.log('--------------------------ENTERED SIGN UP----------------------------')
+
     const { firstName, lastName, email, dob, password, confirmPassword } = req.body;
 
     const randomString = await User.createRandomString();
     const validationToken = await User.createToken(randomString);
-    const user = await User.create({ firstName, lastName, email, dob, password, validationToken, confirmPassword });
-
-    if (!user) {
-        return next(new AppError('Registration unsuccessful. Please try again'));
-    }
+   
 
     try {
         const verifyUrl = `${req.protocol}://${req.get('host')}/verifyAccount/${randomString}`
@@ -127,15 +126,21 @@ exports.postSignUp = catchAsync(async (req, resp, next) => {
             email
         });
 
+        console.log('Not able to send the email')
+
+        const user = await User.create({ firstName, lastName, email, dob, password, validationToken, confirmPassword });
+        user.password = undefined;
+        user.confirmPassword = undefined;
+        user.passwordResetToken = undefined;
+        user.passwordResetTokenExpirationTimeStamp = undefined;
+       
+
     } catch (error) {
         // TODO: Logger is needed
+        console.log('[POST SIGN UP ERROR]', error);
         console.log(error);
+        return next(new AppError('Registration unsuccessful. Please try again'));
     }
-
-    user.password = undefined;
-    user.confirmPassword = undefined;
-    user.passwordResetToken = undefined;
-    user.passwordResetTokenExpirationTimeStamp = undefined;
 
     resp.status(201).json({
         status: 'success',

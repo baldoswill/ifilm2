@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 
 async function emailer(options) {
+
     return new Promise((resolve, reject) => {
         const transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST.trim(),
@@ -20,6 +21,7 @@ async function emailer(options) {
 
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
+                console.log(error)
                 reject(false);
             }
             else {

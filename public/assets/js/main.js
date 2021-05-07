@@ -1,5 +1,6 @@
 import { checkValidity } from "./inputValidation.js";
-const URL = 'https://ifilmpro.herokuapp.com';
+// const URL = 'https://ifilmpro.herokuapp.com';
+const URL = 'http://localhost:8000';
 
 // ------------------------------ ADD CATEGORY ----------------------------------------------
 
