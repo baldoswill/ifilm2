@@ -20,9 +20,8 @@ async function emailer(options) {
         }
 
         transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error)
-                reject(false);
+            if (error) {                 
+                reject(error);
             }
             else {
                 resolve(true);

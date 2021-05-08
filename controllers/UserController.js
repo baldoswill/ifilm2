@@ -6,6 +6,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const ApiFeatures = require('../utils/ApiFeatures');
 const emailer = require('../utils/emailer');
+const logger = require('../utils/logger');
 
 
 // --------------------------------- Create Jwt Token -------------------------------------//
@@ -87,7 +88,7 @@ exports.protect = catchAsync(async (req, resp, next) => {
 
 
     } catch (error) {
-        console.log(error)
+        logger.error(error.message);
     }
 
     next();
@@ -108,8 +109,6 @@ exports.getSignUp = catchAsync(async (req, resp, next) => {
 
 exports.postSignUp = catchAsync(async (req, resp, next) => {
 
-    console.log('--------------------------ENTERED SIGN UP----------------------------')
-
     const { firstName, lastName, email, dob, password, confirmPassword } = req.body;
 
     const randomString = await User.createRandomString();
@@ -126,8 +125,6 @@ exports.postSignUp = catchAsync(async (req, resp, next) => {
             email
         });
 
-        console.log('Not able to send the email')
-
         const user = await User.create({ firstName, lastName, email, dob, password, validationToken, confirmPassword });
         user.password = undefined;
         user.confirmPassword = undefined;
@@ -135,10 +132,8 @@ exports.postSignUp = catchAsync(async (req, resp, next) => {
         user.passwordResetTokenExpirationTimeStamp = undefined;
        
 
-    } catch (error) {
-        // TODO: Logger is needed
-        console.log('[POST SIGN UP ERROR]', error);
-        console.log(error);
+    } catch (error) {        
+        logger.error(error.message);
         return next(new AppError('Registration unsuccessful. Please try again'));
     }
 
@@ -248,7 +243,7 @@ exports.sendVerificationEmail = catchAsync(async (req, resp, next) => {
         }
 
     } catch (error) {
-        console.log(error);
+        logger.error(error.message);
     }
 
     return resp.status(200).json({
@@ -295,8 +290,7 @@ exports.postForgotPassword = catchAsync(async (req, resp, next) => {
             email
         });
     } catch (error) {
-        // TODO: Logger is needed
-        console.log(error);
+        logger.error(error.message);
     }
 
 
@@ -392,11 +386,8 @@ exports.postUpdatePassword = catchAsync(async (req, resp, next) => {
 // --------------------------------- Roles -------------------------------------//
 
 exports.restrictTo = (...roles) => {
-
-
     return (req, resp, next) => {
 
-        try {
             if (!req.user) {
 
                 return next(new AppError('You are not allowed to do this action', 403));
@@ -404,11 +395,7 @@ exports.restrictTo = (...roles) => {
             else if (!roles.includes(req.user.roles)) {
                 return next(new AppError('You are not allowed to do this action', 403));
             }
-        } catch (error) {
-            console.log(error)
-        }
-
-
+        
         next();
     }
 };
@@ -635,7 +622,7 @@ exports.isLoggedIn = catchAsync(async (req, resp, next) => {
             resp.locals.user = user;
         }
     } catch (error) {
-        console.log(error)
+        logger.error(error.message);
     }
 
    

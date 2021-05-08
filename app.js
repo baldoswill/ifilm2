@@ -1,6 +1,8 @@
 const path = require('path');
-const nunjucksDate = require("nunjucks-date");
+const dotenv = require('dotenv');
+dotenv.config({path: './config.env'});
 
+const nunjucksDate = require("nunjucks-date");
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const nunjucks = require('nunjucks');

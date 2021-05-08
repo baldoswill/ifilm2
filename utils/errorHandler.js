@@ -1,4 +1,5 @@
 const AppError = require('./AppError');
+const logger = require('./logger')
 
 
 const handleCastErrorDB = err => {
@@ -48,27 +49,22 @@ const sendErrorProd = (err,req, res) => {
                 status: err.status,
                 message: err.message
             });
-
-            // Programming or other unknown error: don't leak error details
-        } else {
-            // 1) Log error
-            // console.error('ERROR 💥', err);
-
-            // 2) Send generic message
-            return res.status(502).json({
+           
+        } else { 
+            logger.error(err.message);
+            return res.status(500).json({
                 status: 'error',
-                message: err.message
+                message: 'Something went wrong. We will look into this problem...'
             });
         }
     }
 
+    logger.error(err.message);
     return res.status(500).render('error.html');
 };
 
 module.exports = (err, req, res, next) => {
-    // console.log(err.stack);
-
-
+   
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
 
@@ -79,8 +75,6 @@ module.exports = (err, req, res, next) => {
     }
     else if (trimmedENV === 'production') {
         let error;
-
-       
 
         if (err.name === 'CastError') error = handleCastErrorDB(err);
 
