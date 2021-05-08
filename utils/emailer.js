@@ -4,6 +4,7 @@ async function emailer(options) {
 
     return new Promise((resolve, reject) => {
         const transporter = nodemailer.createTransport({
+            service: process.env.EMAIL_SERVICE.trim(),
             host: process.env.EMAIL_HOST.trim(),
             port: process.env.EMAIL_PORT.trim(),
             auth: {
